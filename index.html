@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RustWiki &mdash; Items, Stats & Servers for Rust</title>
+<meta name="description" content="Comprehensive Rust wiki — items, crafting recipes, weapon stats, raiding costs, and live server data for Facepunch's Rust.">
+<link rel="stylesheet" href="css/style.css">
+<style>
+  .quick-nav{display:flex;gap:16px;justify-content:center;margin-top:28px;flex-wrap:wrap}
+  .quick-nav a{font-family:var(--font-heading);font-weight:600;font-size:15px;letter-spacing:1.5px;text-transform:uppercase;padding:12px 32px;border-radius:6px;border:1px solid var(--border);color:var(--text-primary);background:var(--bg-card);transition:all .25s;display:flex;align-items:center;gap:8px}
+  .quick-nav a:hover{border-color:var(--accent);background:var(--accent-glow);color:var(--accent)}
+  .quick-nav .icon{font-size:18px}
+
+  .live-bar{background:var(--bg-secondary);border-bottom:1px solid var(--border);padding:16px 24px;overflow:hidden}
+  .live-bar-inner{max-width:1200px;margin:0 auto;display:flex;gap:40px;align-items:center;justify-content:center;flex-wrap:wrap;font-family:var(--font-condensed);font-size:14px;color:var(--text-muted);text-transform:uppercase;letter-spacing:1px}
+  .live-bar em{font-style:normal;color:var(--accent);font-weight:600;font-size:18px}
+  .live-dot{width:8px;height:8px;background:#4a4;border-radius:50%;display:inline-block;margin-right:6px;box-shadow:0 0 6px rgba(68,170,68,.5);animation:pulse 2s infinite}
+  @keyframes pulse{0%,100%{opacity:1}50%{opacity:.5}}
+
+  .top-servers{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:16px}
+  .top-server-card{background:var(--bg-card);border:1px solid var(--border);border-radius:8px;padding:16px 20px;display:flex;align-items:center;justify-content:space-between;gap:12px;transition:all .2s;text-decoration:none;color:inherit}
+  .top-server-card:hover{border-color:var(--border-hover);background:var(--bg-card-hover)}
+  .top-server-name{font-family:var(--font-heading);font-weight:600;font-size:15px;color:var(--text-primary);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:240px}
+  .top-server-sub{font-size:12px;color:var(--text-muted);margin-top:2px}
+  .top-server-players{font-family:var(--font-heading);font-weight:700;font-size:20px;color:var(--accent);white-space:nowrap}
+  .top-server-players span{font-size:13px;color:var(--text-muted);font-weight:400}
+  .top-server-bar{width:80px;height:5px;background:var(--bg-secondary);border-radius:3px;overflow:hidden;margin-top:4px}
+  .top-server-fill{height:100%;border-radius:3px}
+  .fill-low{background:#6aab6a}.fill-med{background:var(--rust-yellow)}.fill-high{background:var(--rust-orange)}.fill-full{background:var(--accent)}
+
+  .divider{height:1px;background:var(--border);margin:0}
+
+  .two-col{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+  @media(max-width:860px){.two-col{grid-template-columns:1fr}.top-servers{grid-template-columns:1fr}}
+
+  .skeleton{background:linear-gradient(90deg,var(--bg-card) 25%,var(--bg-card-hover) 50%,var(--bg-card) 75%);background-size:200% 100%;animation:shimmer 1.5s infinite;border-radius:6px;height:20px;margin-bottom:8px}
+  .skeleton.wide{width:100%;height:72px;border-radius:8px}
+  @keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
+</style>
+</head>
+<body>
+
+<header class="top-bar">
+  <a href="index.html" class="logo"><div class="logo-icon">R</div>RUST<em>WIKI</em></a>
+  <nav class="top-nav" id="nav">
+    <a href="index.html" class="active">Home</a>
+    <a href="items.html">Items</a>
+    <a href="servers.html">Servers</a>
+  </nav>
+  <button class="mobile-toggle" onclick="document.getElementById('nav').classList.toggle('open')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
+  </button>
+</header>
+
+<!-- ─── HERO ─── -->
+<div class="page">
+  <div class="hero">
+    <h1>The <em>Rust</em> Wiki</h1>
+    <p>Your comprehensive guide to surviving, building, and raiding in Facepunch's Rust.</p>
+    <div class="search-wrap">
+      <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      <input type="text" placeholder="Search items by name..." id="heroSearch" autocomplete="off">
+      <div id="searchDropdown" style="position:absolute;top:100%;left:0;right:0;margin-top:4px;background:var(--bg-card);border:1px solid var(--border);border-radius:6px;max-height:320px;overflow-y:auto;display:none;z-index:50;"></div>
+    </div>
+    <div class="quick-nav">
+      <a href="items.html"><span class="icon">📦</span> Browse Items</a>
+      <a href="servers.html"><span class="icon">🖥️</span> Live Servers</a>
+    </div>
+  </div>
+
+  <!-- ─── LIVE SERVER TICKER ─── -->
+  <div class="live-bar">
+    <div class="live-bar-inner" id="liveTicker">
+      <span><span class="live-dot"></span>Live</span>
+      <span>Servers online: <em id="tickServers">—</em></span>
+      <span>Players online: <em id="tickPlayers">—</em></span>
+      <span>Avg per server: <em id="tickAvg">—</em></span>
+      <span style="border-left:1px solid var(--border);padding-left:20px;">Updated: <em id="tickUpdated">—</em></span>
+      <span>Next refresh: <em id="tickCountdown">—</em></span>
+    </div>
+  </div>
+
+  <!-- ─── GAME STATS ─── -->
+  <div class="section">
+    <div class="section-header">
+      <h2 class="section-title">Game <em>Statistics</em></h2>
+    </div>
+
+    <div class="stat-grid" style="margin-bottom:32px;">
+      <div class="stat-card"><h3>Total Items</h3><div class="stat-value">324</div><div class="stat-sub">Across 13 categories</div></div>
+      <div class="stat-card"><h3>Weapons</h3><div class="stat-value">41</div><div class="stat-sub">Ranged, melee & explosives</div></div>
+      <div class="stat-card"><h3>Buildables</h3><div class="stat-value">44</div><div class="stat-sub">Construction items</div></div>
+      <div class="stat-card"><h3>Electrical</h3><div class="stat-value">37</div><div class="stat-sub">Circuit components</div></div>
+    </div>
+
+    <div class="two-col">
+      <!-- Weapon Damage -->
+      <div>
+        <h3 class="section-title" style="font-size:17px;margin-bottom:14px;">Weapon <em>Damage</em></h3>
+        <div class="data-table-wrap"><table class="data-table">
+          <thead><tr><th>Weapon</th><th>DMG</th><th>RPM</th><th>Range</th></tr></thead>
+          <tbody>
+            <tr><td class="item-name-cell"><img src="https://rustlabs.com/img/items180/rifle.ak.png" style="width:22px;height:22px;display:inline-block;vertical-align:middle;margin-right:6px">AK-47</td><td>40</td><td>450</td><td>Long</td></tr>
+            <tr><td class="item-name-cell"><img src="https://rustlabs.com/img/items180/rifle.bolt.png" style="width:22px;height:22px;display:inline-block;vertical-align:middle;margin-right:6px">Bolt Action</td><td>80</td><td>~30</td><td>V. Long</td></tr>
+            <tr><td class="item-name-cell"><img src="https://rustlabs.com/img/items180/rifle.lr300.png" style="width:22px;height:22px;display:inline-block;vertical-align:middle;margin-right:6px">LR-300</td><td>40</td><td>500</td><td>Long</td></tr>
+            <tr><td class="item-name-cell"><img src="https://rustlabs.com/img/items180/smg.thompson.png" style="width:22px;height:22px;display:inline-block;vertical-align:middle;margin-right:6px">Thompson</td><td>37</td><td>462</td><td>Med</td></tr>
+            <tr><td class="item-name-cell"><img src="https://rustlabs.com/img/items180/smg.mp5.png" style="width:22px;height:22px;display:inline-block;vertical-align:middle;margin-right:6px">MP5A4</td><td>35</td><td>600</td><td>Med</td></tr>
+            <tr><td class="item-name-cell"><img src="https://rustlabs.com/img/items180/pistol.python.png" style="width:22px;height:22px;display:inline-block;vertical-align:middle;margin-right:6px">Python</td><td>55</td><td>400</td><td>Med</td></tr>
+            <tr><td class="item-name-cell"><img src="https://rustlabs.com/img/items180/shotgun.pump.png" style="width:22px;height:22px;display:inline-block;vertical-align:middle;margin-right:6px">Pump Shotgun</td><td>180</td><td>~60</td><td>Short</td></tr>
+            <tr><td class="item-name-cell"><img src="https://rustlabs.com/img/items180/lmg.m249.png" style="width:22px;height:22px;display:inline-block;vertical-align:middle;margin-right:6px">M249</td><td>65</td><td>500</td><td>Long</td></tr>
+            <tr><td class="item-name-cell"><img src="https://rustlabs.com/img/items180/rifle.l96.png" style="width:22px;height:22px;display:inline-block;vertical-align:middle;margin-right:6px">L96</td><td>80</td><td>~25</td><td>V. Long</td></tr>
+          </tbody>
+        </table></div>
+        <p style="font-size:11px;color:var(--text-muted);margin-top:8px;">Base damage — varies with armor, distance & hit zone.</p>
+      </div>
+
+      <!-- Raiding Costs -->
+      <div>
+        <h3 class="section-title" style="font-size:17px;margin-bottom:14px;">Raiding <em>Costs</em></h3>
+        <div class="data-table-wrap"><table class="data-table">
+          <thead><tr><th>Target</th><th>C4</th><th>Rockets</th><th>Satchels</th><th>Explo</th></tr></thead>
+          <tbody>
+            <tr><td class="item-name-cell">Wooden Door</td><td>1</td><td>1</td><td>2</td><td>~45</td></tr>
+            <tr><td class="item-name-cell">Sheet Metal Door</td><td>1</td><td>2</td><td>4</td><td>~63</td></tr>
+            <tr><td class="item-name-cell">Armored Door</td><td>2</td><td>4</td><td>12</td><td>~200</td></tr>
+            <tr><td class="item-name-cell">Garage Door</td><td>2</td><td>3</td><td>9</td><td>~150</td></tr>
+            <tr><td class="item-name-cell">Stone Wall</td><td>2</td><td>4</td><td>10</td><td>~185</td></tr>
+            <tr><td class="item-name-cell">Metal Wall</td><td>3</td><td>4</td><td>23</td><td>~400</td></tr>
+            <tr><td class="item-name-cell">Armored Wall</td><td>8</td><td>15</td><td>46</td><td>~800</td></tr>
+          </tbody>
+        </table></div>
+        <p style="font-size:11px;color:var(--text-muted);margin-top:8px;">Approximate values — verify with current patch.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- ─── TOP SERVERS (Live) ─── -->
+  <div class="section">
+    <div class="section-header">
+      <h2 class="section-title"><span class="live-dot"></span> Top <em>Servers</em> Right Now</h2>
+      <a href="servers.html" class="section-link">View all servers &rarr;</a>
+    </div>
+    <div class="top-servers" id="topServers">
+      <div class="skeleton wide"></div>
+      <div class="skeleton wide"></div>
+      <div class="skeleton wide"></div>
+      <div class="skeleton wide"></div>
+      <div class="skeleton wide"></div>
+      <div class="skeleton wide"></div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-copy">&copy; 2026 RustWiki &mdash; Not affiliated with Facepunch Studios &bull; Server data from <a href="https://www.battlemetrics.com" target="_blank" rel="noopener">BattleMetrics</a></div>
+    <div class="footer-links">
+      <a href="index.html">Home</a>
+      <a href="items.html">Items</a>
+      <a href="servers.html">Servers</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function() {
+
+  // ─── SEARCH with dropdown ───
+  const searchInput = document.getElementById('heroSearch');
+  const dropdown = document.getElementById('searchDropdown');
+  const IMG = 'https://rustlabs.com/img/items180';
+
+  searchInput.addEventListener('input', function() {
+    const q = this.value.toLowerCase().trim();
+    if (q.length < 2) { dropdown.style.display = 'none'; return; }
+    const matches = ITEMS.filter(i => i.n.toLowerCase().includes(q)).slice(0, 12);
+    if (!matches.length) {
+      dropdown.innerHTML = '<div style="padding:14px 16px;color:var(--text-muted);font-size:14px;">No items found</div>';
+      dropdown.style.display = '';
+      return;
+    }
+    dropdown.innerHTML = matches.map(i =>
+      '<a href="items/' + i.c + '.html" style="display:flex;align-items:center;gap:10px;padding:8px 14px;color:var(--text-primary);text-decoration:none;border-bottom:1px solid var(--border);transition:background .15s;" onmouseover="this.style.background=\'var(--bg-card-hover)\'" onmouseout="this.style.background=\'transparent\'">' +
+      '<img src="' + IMG + '/' + i.s + '.png" style="width:32px;height:32px;object-fit:contain;flex-shrink:0;" onerror="this.style.display=\'none\'">' +
+      '<div><div style="font-size:14px;font-weight:500;">' + esc(i.n) + '</div>' +
+      '<div style="font-size:11px;color:var(--text-muted);">' + i.c + ' &bull; ' + i.s + '</div></div></a>'
+    ).join('');
+    dropdown.style.display = '';
+  });
+
+  searchInput.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') dropdown.style.display = 'none';
+  });
+  document.addEventListener('click', function(e) {
+    if (!searchInput.contains(e.target) && !dropdown.contains(e.target)) dropdown.style.display = 'none';
+  });
+
+  function esc(s) { const d = document.createElement('span'); d.textContent = s; return d.innerHTML; }
+
+  // ─── LIVE SERVER DATA (auto-refresh) ───
+  const API = 'https://api.battlemetrics.com/servers';
+  const REFRESH_SEC = 60;  // pull every 60s — well under 60 req/min limit
+  const STALE_SEC = 10;    // if tab was hidden >10s, refresh immediately on return
+
+  let countdown = 0;
+  let countdownTimer = null;
+  let lastFetchTime = 0;
+  let isFetching = false;
+
+  function fmtTime(d) { return d.toLocaleTimeString([], {hour:'2-digit',minute:'2-digit',second:'2-digit'}); }
+  function fmtNext(s) { return s <= 0 ? 'now' : s + 's'; }
+
+  function tickCountdown() {
+    countdown--;
+    document.getElementById('tickCountdown').textContent = fmtNext(countdown);
+    if (countdown <= 0) { clearInterval(countdownTimer); loadLiveData(); }
+  }
+
+  function startCountdown() {
+    countdown = REFRESH_SEC;
+    document.getElementById('tickCountdown').textContent = fmtNext(countdown);
+    clearInterval(countdownTimer);
+    countdownTimer = setInterval(tickCountdown, 1000);
+  }
+
+  function renderTopServer(sv) {
+    const a = sv.attributes, d = a.details || {};
+    const pct = a.maxPlayers ? (a.players / a.maxPlayers) * 100 : 0;
+    const fc = pct >= 95 ? 'fill-full' : pct >= 70 ? 'fill-high' : pct >= 40 ? 'fill-med' : 'fill-low';
+    const rt = (d.rust_type || '').toLowerCase();
+    let type = 'Community';
+    if (rt.includes('official')) type = 'Official';
+    else if (rt.includes('modded') || d.rust_modded) type = 'Modded';
+    const country = a.country || '';
+    const rank = a.rank ? '#' + a.rank : '';
+    const href = 'https://www.battlemetrics.com/servers/rust/' + sv.id;
+    return '<a href="'+href+'" target="_blank" rel="noopener" class="top-server-card">' +
+      '<div><div class="top-server-name">'+esc(a.name)+'</div>' +
+      '<div class="top-server-sub">'+type+' &bull; '+esc(country)+(rank?' &bull; '+rank:'')+'</div></div>' +
+      '<div style="text-align:right;flex-shrink:0;">' +
+      '<div class="top-server-players">'+a.players+'<span>/'+a.maxPlayers+'</span></div>' +
+      '<div class="top-server-bar"><div class="top-server-fill '+fc+'" style="width:'+Math.min(pct,100)+'%"></div></div>' +
+      '</div></a>';
+  }
+
+  async function loadLiveData() {
+    if (isFetching) return;
+    isFetching = true;
+
+    try {
+      const params = new URLSearchParams({
+        'filter[game]': 'rust',
+        'filter[status]': 'online',
+        'fields[server]': 'name,players,maxPlayers,status,details,country,rank',
+        'sort': '-players',
+        'page[size]': '100'
+      });
+
+      const r = await fetch(API + '?' + params.toString());
+      if (!r.ok) throw new Error('HTTP ' + r.status);
+      const j = await r.json();
+      const servers = j.data || [];
+
+      // Record fetch time
+      lastFetchTime = Date.now();
+      const now = new Date();
+
+      // ── Ticker stats ──
+      const totalPlayers = servers.reduce((s, v) => s + (v.attributes.players || 0), 0);
+      document.getElementById('tickServers').textContent = servers.length.toLocaleString() + '+';
+      document.getElementById('tickPlayers').textContent = totalPlayers.toLocaleString() + '+';
+      document.getElementById('tickAvg').textContent = servers.length ? Math.round(totalPlayers / servers.length) : '—';
+      document.getElementById('tickUpdated').textContent = fmtTime(now);
+
+      // ── Top 6 servers ──
+      document.getElementById('topServers').innerHTML = servers.slice(0, 6).map(renderTopServer).join('');
+
+    } catch (e) {
+      console.error('BattleMetrics:', e);
+      // Only show error if we never loaded successfully
+      if (!lastFetchTime) {
+        document.getElementById('topServers').innerHTML =
+          '<div style="text-align:center;padding:40px;color:var(--text-muted);">Could not load live server data. <a href="servers.html">View servers page &rarr;</a></div>';
+      }
+    }
+
+    isFetching = false;
+    startCountdown();
+  }
+
+  // ── Tab visibility: refresh immediately when user returns if data is stale ──
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) {
+      // Pause the countdown while hidden — no wasted ticks
+      clearInterval(countdownTimer);
+    } else {
+      // Tab is visible again — how stale is our data?
+      const elapsed = (Date.now() - lastFetchTime) / 1000;
+      if (elapsed >= STALE_SEC) {
+        // Data is stale, fetch fresh immediately
+        clearInterval(countdownTimer);
+        loadLiveData();
+      } else {
+        // Data is still fresh, resume countdown with remaining time
+        countdown = Math.max(1, REFRESH_SEC - Math.floor(elapsed));
+        document.getElementById('tickCountdown').textContent = fmtNext(countdown);
+        countdownTimer = setInterval(tickCountdown, 1000);
+      }
+    }
+  });
+
+  // ── Initial load ──
+  loadLiveData();
+
+})();
+</script>
+</body>
+</html>

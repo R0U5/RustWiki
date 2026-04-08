@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Servers &mdash; RustWiki</title>
+<meta name="description" content="Browse live Rust servers with player counts, wipe info, and filters powered by BattleMetrics.">
+<link rel="stylesheet" href="css/style.css">
+<style>
+  .server-controls{display:flex;gap:12px;align-items:center;margin-bottom:20px}
+  .server-controls .filter-bar{margin-bottom:0}
+  .sort-select{background:var(--bg-secondary);border:1px solid var(--border);border-radius:4px;padding:6px 12px;font-family:var(--font-condensed);font-size:13px;font-weight:500;text-transform:uppercase;letter-spacing:1px;color:var(--text-secondary);cursor:pointer;outline:none;-webkit-appearance:none}
+  .sort-select:focus{border-color:var(--accent)}
+  .sort-select option{background:var(--bg-secondary);color:var(--text-primary)}
+  .server-card{display:grid;grid-template-columns:1fr auto;align-items:center;gap:16px}
+  .server-players-bar{width:100px;height:6px;background:var(--bg-secondary);border-radius:3px;overflow:hidden;margin-top:4px}
+  .server-players-fill{height:100%;border-radius:3px;transition:width .3s}
+  .fill-low{background:#6aab6a}.fill-med{background:var(--rust-yellow)}.fill-high{background:var(--rust-orange)}.fill-full{background:var(--accent)}
+  .server-map{font-size:12px;color:var(--text-muted);margin-top:2px}
+  .pagination{display:flex;gap:8px;justify-content:center;margin-top:28px}
+  .pagination button{font-family:var(--font-condensed);font-size:13px;font-weight:500;text-transform:uppercase;letter-spacing:1px;padding:8px 20px;border-radius:4px;border:1px solid var(--border);background:transparent;color:var(--text-secondary);cursor:pointer;transition:all .2s}
+  .pagination button:hover:not(:disabled){border-color:var(--accent);color:var(--accent)}
+  .pagination button:disabled{opacity:.3;cursor:default}
+  .page-info{font-size:13px;color:var(--text-muted);display:flex;align-items:center}
+  .loading-spinner{text-align:center;padding:60px 0;color:var(--text-muted)}
+  .spinner{width:32px;height:32px;border:3px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:spin .8s linear infinite;margin:0 auto 16px}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  .server-status-dot{width:8px;height:8px;border-radius:50%;display:inline-block;margin-right:6px;flex-shrink:0}
+  .status-online{background:#4a4;box-shadow:0 0 6px rgba(68,170,68,.5)}
+  .status-offline{background:#a44;box-shadow:0 0 6px rgba(170,68,68,.5)}
+  .total-stats{display:flex;gap:24px;flex-wrap:wrap;margin-bottom:24px;font-family:var(--font-condensed);font-size:13px;color:var(--text-muted);text-transform:uppercase;letter-spacing:1px}
+  .total-stats em{font-style:normal;color:var(--accent);font-weight:600}
+  .error-state{text-align:center;padding:60px 24px;color:var(--text-muted)}
+  .error-state .icon{font-size:48px;margin-bottom:16px}
+  .retry-btn{font-family:var(--font-condensed);font-size:13px;font-weight:500;text-transform:uppercase;letter-spacing:1px;padding:8px 24px;border-radius:4px;border:1px solid var(--accent);background:transparent;color:var(--accent);cursor:pointer;transition:all .2s}
+  .retry-btn:hover{background:var(--accent);color:#fff}
+  @media(max-width:768px){.server-card{grid-template-columns:1fr;gap:8px}.server-meta{justify-content:flex-start;gap:12px}.server-players-bar{width:80px}.server-controls{flex-direction:column;align-items:stretch}}
+</style>
+</head>
+<body>
+
+<header class="top-bar">
+  <a href="index.html" class="logo"><div class="logo-icon">R</div>RUST<em>WIKI</em></a>
+  <nav class="top-nav" id="nav">
+    <a href="index.html">Home</a>
+    <a href="items.html">Items</a>
+    
+    <a href="servers.html" class="active">Servers</a>
+  </nav>
+  <button class="mobile-toggle" onclick="document.getElementById('nav').classList.toggle('open')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
+  </button>
+</header>
+
+<div class="page">
+  <div class="breadcrumb"><a href="index.html">Home</a><span class="sep">/</span><span>Servers</span></div>
+
+  <div class="hero" style="padding:36px 24px 28px;">
+    <h1>Rust <em>Servers</em></h1>
+    <p>Live server data powered by <a href="https://www.battlemetrics.com" target="_blank" rel="noopener">BattleMetrics</a>. Search, filter, and sort all online Rust servers in real time.</p>
+    <div class="search-wrap">
+      <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      <input type="text" placeholder="Search servers by name..." id="serverSearch">
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="total-stats" id="totalStats"></div>
+
+    <div class="server-controls">
+      <div class="filter-bar" id="filterBar">
+        <button class="filter-btn active" data-filter="all">All</button>
+        <button class="filter-btn" data-filter="official">Official</button>
+        <button class="filter-btn" data-filter="community">Community</button>
+        <button class="filter-btn" data-filter="modded">Modded</button>
+      </div>
+      <select class="sort-select" id="sortSelect">
+        <option value="-players">Most Players</option>
+        <option value="players">Fewest Players</option>
+        <option value="rank">Top Ranked</option>
+        <option value="-rank">Lowest Ranked</option>
+        <option value="name">Name A–Z</option>
+        <option value="-name">Name Z–A</option>
+      </select>
+    </div>
+
+    <div id="serverList"></div>
+    <div id="loadingState" class="loading-spinner" style="display:none;">
+      <div class="spinner"></div>
+      <p>Loading live servers from BattleMetrics...</p>
+    </div>
+    <div id="errorState" class="error-state" style="display:none;">
+      <div class="icon">⚠️</div>
+      <p>Failed to load servers from BattleMetrics.</p>
+      <p style="font-size:13px;margin-bottom:12px;">This may be a rate limit or connectivity issue. Try again in a moment.</p>
+      <button class="retry-btn" onclick="window._fetchServers()">Retry</button>
+    </div>
+    <div id="emptyState" class="empty-state" style="display:none;">
+      <div class="icon">🔍</div>
+      <p>No servers match your search or filter.</p>
+    </div>
+
+    <div class="pagination" id="pagination" style="display:none;">
+      <button id="prevBtn" disabled>&larr; Previous</button>
+      <span class="page-info" id="pageInfo">Page 1</span>
+      <button id="nextBtn">Next &rarr;</button>
+    </div>
+  </div>
+</div>
+
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-copy">&copy; 2026 RustWiki &mdash; Not affiliated with Facepunch Studios &bull; Server data from <a href="https://www.battlemetrics.com" target="_blank" rel="noopener">BattleMetrics</a></div>
+    <div class="footer-links">
+      <a href="index.html">Home</a>
+      <a href="items.html">Items</a>
+      
+      <a href="servers.html">Servers</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function() {
+  const API = 'https://api.battlemetrics.com/servers';
+  const SIZE = 25;
+  const FIELDS = 'name,players,maxPlayers,status,details,country,rank,ip,port';
+
+  // BattleMetrics feature UUIDs for Rust server types
+  const FEATURE_IDS = {
+    official:  'e42c3786-5bbd-11ea-a62a-4b370592cd78',
+    modded:    '7f5ae7fc-c4ba-11e9-b6a2-578d8342b56e',
+    community: 'bcb9b17e-45a1-11ea-ad1e-7b3ce4aa8c7d',
+  };
+
+  let page = 1, filter = 'all', sort = '-players', search = '', timer = null;
+  const $ = id => document.getElementById(id);
+
+  function esc(s) {
+    const d = document.createElement('span');
+    d.textContent = s || '';
+    return d.innerHTML;
+  }
+
+  function buildUrl() {
+    const p = new URLSearchParams();
+    p.set('filter[game]', 'rust');
+    p.set('filter[status]', 'online');
+    p.set('fields[server]', FIELDS);
+    p.set('page[size]', SIZE);
+    p.set('page[offset]', (page - 1) * SIZE);
+    p.set('sort', sort);
+    if (search.trim()) p.set('filter[search]', '"' + search.trim() + '"');
+    if (filter !== 'all' && FEATURE_IDS[filter]) {
+      p.set('filter[features][all][0]', FEATURE_IDS[filter]);
+    }
+    return API + '?' + p.toString();
+  }
+
+  function renderCard(sv) {
+    const a = sv.attributes, d = a.details || {};
+    const pct = a.maxPlayers ? (a.players / a.maxPlayers) * 100 : 0;
+    const fc = pct >= 95 ? 'fill-full' : pct >= 70 ? 'fill-high' : pct >= 40 ? 'fill-med' : 'fill-low';
+    const sc = a.status === 'online' ? 'status-online' : 'status-offline';
+
+    let type = 'Community';
+    const rt = (d.rust_type || '').toLowerCase();
+    if (rt.includes('official')) type = 'Official';
+    else if (rt.includes('modded') || d.rust_modded) type = 'Modded';
+
+    const map = d.map || 'Procedural Map';
+    const country = a.country || '??';
+    const rank = a.rank ? '#' + a.rank : '';
+    const href = 'https://www.battlemetrics.com/servers/rust/' + sv.id;
+
+    return '<a href="' + href + '" target="_blank" rel="noopener" class="server-card" style="text-decoration:none;color:inherit;">'
+      + '<div class="server-info">'
+      + '<h3><span class="server-status-dot ' + sc + '"></span>' + esc(a.name) + '</h3>'
+      + '<div class="server-map">' + esc(country) + ' &bull; ' + esc(map) + (rank ? ' &bull; ' + rank : '') + '</div>'
+      + '</div>'
+      + '<div class="server-meta" style="display:flex;gap:16px;align-items:center;flex-shrink:0;">'
+      + '<span class="server-tag">' + type + '</span>'
+      + '<div style="text-align:right;">'
+      + '<span class="server-players" style="font-family:var(--font-heading);font-weight:600;font-size:15px;color:var(--text-primary);"><em style="color:var(--accent);font-style:normal;">' + a.players + '</em>/' + a.maxPlayers + '</span>'
+      + '<div class="server-players-bar"><div class="server-players-fill ' + fc + '" style="width:' + Math.min(pct, 100) + '%"></div></div>'
+      + '</div></div></a>';
+  }
+
+  async function fetchServers() {
+    $('loadingState').style.display = '';
+    $('serverList').innerHTML = '';
+    $('errorState').style.display = 'none';
+    $('emptyState').style.display = 'none';
+    $('pagination').style.display = 'none';
+    $('totalStats').innerHTML = '';
+
+    try {
+      const r = await fetch(buildUrl());
+      if (!r.ok) throw new Error('HTTP ' + r.status);
+      const j = await r.json();
+      $('loadingState').style.display = 'none';
+
+      const servers = j.data || [];
+      if (!servers.length) {
+        $('emptyState').style.display = '';
+        return;
+      }
+
+      const tp = servers.reduce((s, v) => s + (v.attributes.players || 0), 0);
+      $('totalStats').innerHTML =
+        '<span>Showing <em>' + servers.length + '</em> servers</span>' +
+        '<span>Page <em>' + page + '</em></span>' +
+        '<span><em>' + tp.toLocaleString() + '</em> players on this page</span>';
+
+      $('serverList').innerHTML = servers.map(renderCard).join('');
+
+      $('pagination').style.display = 'flex';
+      $('prevBtn').disabled = page <= 1;
+      $('nextBtn').disabled = servers.length < SIZE;
+      $('pageInfo').textContent = 'Page ' + page;
+
+      window.scrollTo({ top: $('serverList').offsetTop - 80, behavior: 'smooth' });
+
+    } catch (e) {
+      console.error('BattleMetrics error:', e);
+      $('loadingState').style.display = 'none';
+      $('errorState').style.display = '';
+    }
+  }
+
+  window._fetchServers = fetchServers;
+
+  // Filters
+  document.querySelectorAll('.filter-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      this.classList.add('active');
+      filter = this.dataset.filter;
+      page = 1;
+      fetchServers();
+    });
+  });
+
+  // Sort
+  $('sortSelect').addEventListener('change', function() {
+    sort = this.value;
+    page = 1;
+    fetchServers();
+  });
+
+  // Search (debounced 600ms)
+  $('serverSearch').addEventListener('input', function() {
+    clearTimeout(timer);
+    timer = setTimeout(() => { search = this.value; page = 1; fetchServers(); }, 600);
+  });
+
+  // Pagination
+  $('prevBtn').addEventListener('click', () => { if (page > 1) { page--; fetchServers(); } });
+  $('nextBtn').addEventListener('click', () => { page++; fetchServers(); });
+
+  // Go
+  fetchServers();
+})();
+</script>
+</body>
+</html>
