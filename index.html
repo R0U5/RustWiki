@@ -179,49 +179,6 @@
 <script>
 (function() {
 
-  // ═══════════════════════════════════════
-  // ITEM DATABASE (for search)
-  // ═══════════════════════════════════════
-  const ITEMS = [
-    {n:"Assault Rifle",s:"rifle.ak",c:"weapons"},{n:"Bolt Action Rifle",s:"rifle.bolt",c:"weapons"},{n:"Semi-Automatic Rifle",s:"rifle.semiauto",c:"weapons"},{n:"LR-300 Assault Rifle",s:"rifle.lr300",c:"weapons"},{n:"L96 Rifle",s:"rifle.l96",c:"weapons"},{n:"M249",s:"lmg.m249",c:"weapons"},{n:"M39 Rifle",s:"rifle.m39",c:"weapons"},{n:"Thompson",s:"smg.thompson",c:"weapons"},{n:"MP5A4",s:"smg.mp5",c:"weapons"},{n:"Custom SMG",s:"smg.2",c:"weapons"},{n:"Semi-Automatic Pistol",s:"pistol.semiauto",c:"weapons"},{n:"Python Revolver",s:"pistol.python",c:"weapons"},{n:"M92 Pistol",s:"pistol.m92",c:"weapons"},{n:"Revolver",s:"pistol.revolver",c:"weapons"},{n:"Eoka Pistol",s:"pistol.eoka",c:"weapons"},{n:"Nailgun",s:"pistol.nailgun",c:"weapons"},{n:"Pump Shotgun",s:"shotgun.pump",c:"weapons"},{n:"Double Barrel Shotgun",s:"shotgun.double",c:"weapons"},{n:"Spas-12 Shotgun",s:"shotgun.spas12",c:"weapons"},{n:"Waterpipe Shotgun",s:"shotgun.waterpipe",c:"weapons"},{n:"Crossbow",s:"crossbow",c:"weapons"},{n:"Compound Bow",s:"bow.compound",c:"weapons"},{n:"Hunting Bow",s:"bow.hunting",c:"weapons"},{n:"Longsword",s:"longsword",c:"weapons"},{n:"Salvaged Sword",s:"salvaged.sword",c:"weapons"},{n:"Salvaged Cleaver",s:"salvaged.cleaver",c:"weapons"},{n:"Mace",s:"mace",c:"weapons"},{n:"Bone Club",s:"bone.club",c:"weapons"},{n:"Bone Knife",s:"knife.bone",c:"weapons"},{n:"Combat Knife",s:"knife.combat",c:"weapons"},{n:"Stone Spear",s:"spear.stone",c:"weapons"},{n:"Wooden Spear",s:"spear.wooden",c:"weapons"},{n:"Flame Thrower",s:"flamethrower",c:"weapons"},{n:"Rocket Launcher",s:"rocket.launcher",c:"weapons"},{n:"F1 Grenade",s:"grenade.f1",c:"weapons"},{n:"Satchel Charge",s:"explosive.satchel",c:"weapons"},{n:"Timed Explosive Charge",s:"explosive.timed",c:"weapons"},{n:"Minigun",s:"minigun",c:"weapons"},
-    {n:"Hazmat Suit",s:"hazmatsuit",c:"attire"},{n:"Metal Facemask",s:"metal.facemask",c:"attire"},{n:"Metal Chest Plate",s:"metal.plate.torso",c:"attire"},{n:"Road Sign Jacket",s:"roadsign.jacket",c:"attire"},{n:"Road Sign Kilt",s:"roadsign.kilt",c:"attire"},{n:"Coffee Can Helmet",s:"coffeecan.helmet",c:"attire"},{n:"Hoodie",s:"hoodie",c:"attire"},{n:"Pants",s:"pants",c:"attire"},{n:"Boots",s:"shoes.boots",c:"attire"},{n:"Snow Jacket",s:"jacket.snow",c:"attire"},{n:"Heavy Plate Helmet",s:"heavy.plate.helmet",c:"attire"},{n:"Heavy Plate Jacket",s:"heavy.plate.jacket",c:"attire"},
-    {n:"Rock",s:"rock",c:"tools"},{n:"Stone Pickaxe",s:"stone.pickaxe",c:"tools"},{n:"Stone Hatchet",s:"stonehatchet",c:"tools"},{n:"Metal Pickaxe",s:"pickaxe",c:"tools"},{n:"Metal Hatchet",s:"hatchet",c:"tools"},{n:"Salvaged Icepick",s:"icepick.salvaged",c:"tools"},{n:"Jackhammer",s:"jackhammer",c:"tools"},{n:"Chainsaw",s:"chainsaw",c:"tools"},
-    {n:"Wood",s:"wood",c:"resources"},{n:"Stone",s:"stones",c:"resources"},{n:"Metal Fragments",s:"metal.fragments",c:"resources"},{n:"High Quality Metal",s:"metal.refined",c:"resources"},{n:"Sulfur",s:"sulfur",c:"resources"},{n:"Cloth",s:"cloth",c:"resources"},{n:"Leather",s:"leather",c:"resources"},{n:"Scrap",s:"scrap",c:"resources"},{n:"Low Grade Fuel",s:"lowgradefuel",c:"resources"},{n:"Gunpowder",s:"gunpowder",c:"resources"},
-    {n:"Medical Syringe",s:"syringe.medical",c:"medical"},{n:"Bandage",s:"bandage",c:"medical"},{n:"Large Medkit",s:"largemedkit",c:"medical"},
-    {n:"Can of Beans",s:"can.beans",c:"food"},{n:"Can of Tuna",s:"can.tuna",c:"food"},{n:"Chocolate Bar",s:"chocolate",c:"food"},{n:"Cooked Pork",s:"meat.pork.cooked",c:"food"},{n:"Apple",s:"apple",c:"food"},{n:"Corn",s:"corn",c:"food"},{n:"Pumpkin",s:"pumpkin",c:"food"},
-    {n:"5.56 Rifle Ammo",s:"ammo.rifle",c:"ammo"},{n:"Pistol Bullet",s:"ammo.pistol",c:"ammo"},{n:"12 Gauge Buckshot",s:"ammo.shotgun",c:"ammo"},{n:"Rocket",s:"ammo.rocket.basic",c:"ammo"},{n:"Explosive 5.56",s:"ammo.rifle.explosive",c:"ammo"},
-    {n:"Auto Turret",s:"autoturret",c:"traps"},{n:"Flame Turret",s:"flameturret",c:"traps"},{n:"Shotgun Trap",s:"guntrap",c:"traps"},{n:"SAM Site",s:"samsite",c:"traps"},{n:"Snap Trap",s:"trap.bear",c:"traps"},{n:"Land Mine",s:"trap.landmine",c:"traps"},
-    {n:"Building Plan",s:"building.planner",c:"construction"},{n:"Tool Cupboard",s:"cupboard.tool",c:"construction"},{n:"Garage Door",s:"wall.frame.garagedoor",c:"construction"},{n:"Code Lock",s:"lock.code",c:"construction"},{n:"Workbench Level 3",s:"workbench3",c:"construction"},{n:"Large Furnace",s:"furnace.large",c:"construction"},{n:"Sleeping Bag",s:"sleepingbag",c:"construction"},
-    {n:"Gears",s:"gears",c:"components"},{n:"Metal Spring",s:"metalspring",c:"components"},{n:"Tech Trash",s:"techparts",c:"components"},{n:"Rifle Body",s:"riflebody",c:"components"},{n:"SMG Body",s:"smgbody",c:"components"},
-    {n:"Solar Panel",s:"electric.solarpanel.large",c:"electrical"},{n:"Wind Turbine",s:"generator.wind.scrap",c:"electrical"},{n:"Switch",s:"electric.switch",c:"electrical"},{n:"Computer Station",s:"computerstation",c:"electrical"},
-    {n:"Acoustic Guitar",s:"fun.guitar",c:"fun"},{n:"Boom Box",s:"boombox",c:"fun"},{n:"Drum Kit",s:"drumkit",c:"fun"},
-  ];
-
-  const CATEGORIES = [
-    {slug:"weapons",name:"Weapons",icon:"🔫",count:41},
-    {slug:"construction",name:"Construction",icon:"🏗️",count:44},
-    {slug:"resources",name:"Resources",icon:"🪨",count:19},
-    {slug:"attire",name:"Attire",icon:"🥽",count:36},
-    {slug:"tools",name:"Tools",icon:"⛏️",count:19},
-    {slug:"medical",name:"Medical",icon:"💊",count:13},
-    {slug:"food",name:"Food",icon:"🍖",count:26},
-    {slug:"ammo",name:"Ammo",icon:"🎯",count:22},
-    {slug:"traps",name:"Traps",icon:"💥",count:8},
-    {slug:"misc",name:"Misc",icon:"📦",count:17},
-    {slug:"components",name:"Components",icon:"⚙️",count:18},
-    {slug:"electrical",name:"Electrical",icon:"⚡",count:37},
-    {slug:"fun",name:"Fun",icon:"🎉",count:23},
-  ];
-
-  // ─── Render category grid ───
-  const catGrid = document.getElementById('catGrid');
-  catGrid.innerHTML = CATEGORIES.map(c =>
-    '<a href="items/' + c.slug + '.html" class="cat-card">' +
-    '<div class="cat-icon">' + c.icon + '</div>' +
-    '<div class="cat-name">' + c.name + '</div>' +
-    '<div class="cat-count">' + c.count + ' items</div></a>'
-  ).join('');
-
   // ─── SEARCH with dropdown ───
   const searchInput = document.getElementById('heroSearch');
   const dropdown = document.getElementById('searchDropdown');
