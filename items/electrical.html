@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Electrical &mdash; RustWiki</title>
+<meta name="description" content="Comprehensive Rust wiki with items, crafting, statistics, and servers.">
+<link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+<header class="top-bar">
+  <a href="../index.html" class="logo"><div class="logo-icon">R</div>RUST<em>WIKI</em></a>
+  <nav class="top-nav" id="nav">
+    <a href="../index.html">Home</a>
+    <a href="../items.html" class="active">Items</a>
+    
+    <a href="../servers.html">Servers</a>
+  </nav>
+  <button class="mobile-toggle" onclick="document.getElementById('nav').classList.toggle('open')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
+  </button>
+</header><div class="page">
+  <div class="breadcrumb">
+    <a href="../index.html">Home</a><span class="sep">/</span>
+    <a href="../items.html">Items</a><span class="sep">/</span>
+    <span>Electrical</span>
+  </div>
+  <div class="section">
+    <div class="section-header">
+      <h2 class="section-title">⚡ <em>Electrical</em></h2>
+      <span class="search-count" id="count">37 items</span>
+    </div>
+    <p style="color:var(--text-secondary);margin-bottom:24px;max-width:600px;">Switches, solar panels, batteries, and wiring.</p>
+    <div class="search-wrap" style="max-width:400px;margin:0 0 24px;">
+      <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      <input type="text" placeholder="Filter electrical..." id="filterInput">
+    </div>
+    <div class="item-grid" id="itemGrid">
+      <div class="item-card" data-name="solar panel">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/electric.solarpanel.large.png" alt="Solar Panel" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='SO'"></div>
+        <div class="item-name">Solar Panel</div>
+        <div class="item-meta">electric.solarpanel.large</div>
+      </div>
+      <div class="item-card" data-name="small battery">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/electric.battery.small.png" alt="Small Battery" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='SM'"></div>
+        <div class="item-name">Small Battery</div>
+        <div class="item-meta">electric.battery.small</div>
+      </div>
+      <div class="item-card" data-name="medium battery">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/electric.battery.rechargable.medium.png" alt="Medium Battery" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='ME'"></div>
+        <div class="item-name">Medium Battery</div>
+        <div class="item-meta">electric.battery.rechargable.medium</div>
+      </div>
+      <div class="item-card" data-name="large battery">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/electric.battery.rechargable.large.png" alt="Large Battery" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='LA'"></div>
+        <div class="item-name">Large Battery</div>
+        <div class="item-meta">electric.battery.rechargable.large</div>
+      </div>
+      <div class="item-card" data-name="wind turbine">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/generator.wind.scrap.png" alt="Wind Turbine" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='WI'"></div>
+        <div class="item-name">Wind Turbine</div>
+        <div class="item-meta">generator.wind.scrap</div>
+      </div>
+      <div class="item-card" data-name="small generator">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/electric.generator.small.png" alt="Small Generator" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='SM'"></div>
+        <div class="item-name">Small Generator</div>
+        <div class="item-meta">electric.generator.small</div>
+      </div>
+      <div class="item-card" data-name="switch">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/electric.switch.png" alt="Switch" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='SW'"></div>
+        <div class="item-name">Switch</div>
+        <div class="item-meta">electric.switch</div>
+      </div>
+      <div class="item-card" data-name="timer">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/electric.timer.png" alt="Timer" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='TI'"></div>
+        <div class="item-name">Timer</div>
+        <div class="item-meta">electric.timer</div>
+      </div>
+      <div class="item-card" data-name="and switch">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/electric.andswitch.png" alt="AND Switch" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='AN'"></div>
+        <div class="item-name">AND Switch</div>
+        <div class="item-meta">electric.andswitch</div>
+      </div>
+      <div class="item-card" data-name="or switch">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/electric.orswitch.png" alt="OR Switch" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='OR'"></div>
+        <div class="item-name">OR Switch</div>
+        <div class="item-meta">electric.orswitch</div>
+      </div>
+      <div class="item-card" data-name="xor switch">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/electric.xorswitch.png" alt="XOR Switch" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='XO'"></div>
+        <div class="item-name">XOR Switch</div>
+        <div class="item-meta">electric.xorswitch</div>
+      </div>
+      <div class="item-card" data-name="splitter">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/electric.splitter.png" alt="Splitter" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='SP'"></div>
+        <div class="item-name">Splitter</div>
+        <div class="item-meta">electric.splitter</div>
+      </div>
+      <div class="item-card" data-name="root combiner">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/electric.combiner.png" alt="Root Combiner" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='RO'"></div>
+        <div class="item-name">Root Combiner</div>
+        <div class="item-meta">electric.combiner</div>
+      </div>
+      <div class="item-card" data-name="counter">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/electric.counter.png" alt="Counter" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='CO'"></div>
+        <div class="item-name">Counter</div>
+        <div class="item-meta">electric.counter</div>
+      </div>
+      <div class="item-card" data-name="rf transmitter">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/electric.rf.transmitter.png" alt="RF Transmitter" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='RF'"></div>
+        <div class="item-name">RF Transmitter</div>
+        <div class="item-meta">electric.rf.transmitter</div>
+      </div>
+      <div class="item-card" data-name="rf receiver">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/electric.rf.receiver.png" alt="RF Receiver" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='RF'"></div>
+        <div class="item-name">RF Receiver</div>
+        <div class="item-meta">electric.rf.receiver</div>
+      </div>
+      <div class="item-card" data-name="blocker">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/electric.blocker.png" alt="Blocker" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='BL'"></div>
+        <div class="item-name">Blocker</div>
+        <div class="item-meta">electric.blocker</div>
+      </div>
+      <div class="item-card" data-name="rand switch">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/electric.random.switch.png" alt="RAND Switch" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='RA'"></div>
+        <div class="item-name">RAND Switch</div>
+        <div class="item-meta">electric.random.switch</div>
+      </div>
+      <div class="item-card" data-name="hbhf sensor">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/electric.hbhfsensor.png" alt="HBHF Sensor" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='HB'"></div>
+        <div class="item-name">HBHF Sensor</div>
+        <div class="item-meta">electric.hbhfsensor</div>
+      </div>
+      <div class="item-card" data-name="laser detector">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/electric.laserdetector.png" alt="Laser Detector" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='LA'"></div>
+        <div class="item-name">Laser Detector</div>
+        <div class="item-meta">electric.laserdetector</div>
+      </div>
+      <div class="item-card" data-name="pressure pad">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/electric.pressurepad.png" alt="Pressure Pad" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='PR'"></div>
+        <div class="item-name">Pressure Pad</div>
+        <div class="item-meta">electric.pressurepad</div>
+      </div>
+      <div class="item-card" data-name="ceiling light">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/ceilinglight.png" alt="Ceiling Light" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='CE'"></div>
+        <div class="item-name">Ceiling Light</div>
+        <div class="item-meta">ceilinglight</div>
+      </div>
+      <div class="item-card" data-name="search light">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/searchlight.png" alt="Search Light" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='SE'"></div>
+        <div class="item-name">Search Light</div>
+        <div class="item-meta">searchlight</div>
+      </div>
+      <div class="item-card" data-name="siren light">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/electric.sirenlight.png" alt="Siren Light" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='SI'"></div>
+        <div class="item-name">Siren Light</div>
+        <div class="item-meta">electric.sirenlight</div>
+      </div>
+      <div class="item-card" data-name="smart alarm">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/smart.alarm.png" alt="Smart Alarm" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='SM'"></div>
+        <div class="item-name">Smart Alarm</div>
+        <div class="item-meta">smart.alarm</div>
+      </div>
+      <div class="item-card" data-name="smart switch">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/smart.switch.png" alt="Smart Switch" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='SM'"></div>
+        <div class="item-name">Smart Switch</div>
+        <div class="item-meta">smart.switch</div>
+      </div>
+      <div class="item-card" data-name="door controller">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/electric.doorcontroller.png" alt="Door Controller" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='DO'"></div>
+        <div class="item-name">Door Controller</div>
+        <div class="item-meta">electric.doorcontroller</div>
+      </div>
+      <div class="item-card" data-name="audio alarm">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/electric.audioalarm.png" alt="Audio Alarm" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='AU'"></div>
+        <div class="item-name">Audio Alarm</div>
+        <div class="item-meta">electric.audioalarm</div>
+      </div>
+      <div class="item-card" data-name="tesla coil">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/electric.teslacoil.png" alt="Tesla Coil" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='TE'"></div>
+        <div class="item-name">Tesla Coil</div>
+        <div class="item-meta">electric.teslacoil</div>
+      </div>
+      <div class="item-card" data-name="computer station">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/computerstation.png" alt="Computer Station" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='CO'"></div>
+        <div class="item-name">Computer Station</div>
+        <div class="item-meta">computerstation</div>
+      </div>
+      <div class="item-card" data-name="industrial conveyor">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/industrial.conveyor.png" alt="Industrial Conveyor" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='IN'"></div>
+        <div class="item-name">Industrial Conveyor</div>
+        <div class="item-meta">industrial.conveyor</div>
+      </div>
+      <div class="item-card" data-name="industrial splitter">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/industrial.splitter.png" alt="Industrial Splitter" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='IN'"></div>
+        <div class="item-name">Industrial Splitter</div>
+        <div class="item-meta">industrial.splitter</div>
+      </div>
+      <div class="item-card" data-name="industrial combiner">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/industrial.combiner.png" alt="Industrial Combiner" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='IN'"></div>
+        <div class="item-name">Industrial Combiner</div>
+        <div class="item-meta">industrial.combiner</div>
+      </div>
+      <div class="item-card" data-name="powered water purifier">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/powered.water.purifier.png" alt="Powered Water Purifier" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='PO'"></div>
+        <div class="item-name">Powered Water Purifier</div>
+        <div class="item-meta">powered.water.purifier</div>
+      </div>
+      <div class="item-card" data-name="fluid switch">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/electric.fluidswitch.png" alt="Fluid Switch" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='FL'"></div>
+        <div class="item-name">Fluid Switch</div>
+        <div class="item-meta">electric.fluidswitch</div>
+      </div>
+      <div class="item-card" data-name="fluid splitter">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/electric.fluidsplitter.png" alt="Fluid Splitter" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='FL'"></div>
+        <div class="item-name">Fluid Splitter</div>
+        <div class="item-meta">electric.fluidsplitter</div>
+      </div>
+      <div class="item-card" data-name="fluid combiner">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/electric.fluidcombiner.png" alt="Fluid Combiner" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='FL'"></div>
+        <div class="item-name">Fluid Combiner</div>
+        <div class="item-meta">electric.fluidcombiner</div>
+      </div>
+    </div>
+    <div class="empty-state" id="emptyState" style="display:none;">
+      <div class="icon">🔍</div>
+      <p>No electrical match your search.</p>
+    </div>
+  </div>
+</div>
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-copy">&copy; 2026 RustWiki &mdash; Not affiliated with Facepunch Studios</div>
+    <div class="footer-links">
+      <a href="../index.html">Home</a>
+      <a href="../items.html">Items</a>
+      
+      <a href="../servers.html">Servers</a>
+    </div>
+  </div>
+</footer>
+<script>
+document.getElementById('filterInput').addEventListener('input', function() {
+  const q = this.value.toLowerCase();
+  const cards = document.querySelectorAll('.item-card');
+  let vis = 0;
+  cards.forEach(c => {
+    const match = c.dataset.name.includes(q);
+    c.style.display = match ? '' : 'none';
+    if(match) vis++;
+  });
+  document.getElementById('count').textContent = vis + ' items';
+  document.getElementById('emptyState').style.display = vis === 0 ? '' : 'none';
+  document.getElementById('itemGrid').style.display = vis === 0 ? 'none' : '';
+});
+</script>
+</body></html>

@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ammo &mdash; RustWiki</title>
+<meta name="description" content="Comprehensive Rust wiki with items, crafting, statistics, and servers.">
+<link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+<header class="top-bar">
+  <a href="../index.html" class="logo"><div class="logo-icon">R</div>RUST<em>WIKI</em></a>
+  <nav class="top-nav" id="nav">
+    <a href="../index.html">Home</a>
+    <a href="../items.html" class="active">Items</a>
+    
+    <a href="../servers.html">Servers</a>
+  </nav>
+  <button class="mobile-toggle" onclick="document.getElementById('nav').classList.toggle('open')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
+  </button>
+</header><div class="page">
+  <div class="breadcrumb">
+    <a href="../index.html">Home</a><span class="sep">/</span>
+    <a href="../items.html">Items</a><span class="sep">/</span>
+    <span>Ammo</span>
+  </div>
+  <div class="section">
+    <div class="section-header">
+      <h2 class="section-title">🎯 <em>Ammo</em></h2>
+      <span class="search-count" id="count">22 items</span>
+    </div>
+    <p style="color:var(--text-secondary);margin-bottom:24px;max-width:600px;">Bullets, shells, arrows, and explosive ammunition.</p>
+    <div class="search-wrap" style="max-width:400px;margin:0 0 24px;">
+      <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      <input type="text" placeholder="Filter ammo..." id="filterInput">
+    </div>
+    <div class="item-grid" id="itemGrid">
+      <div class="item-card" data-name="5.56 rifle ammo">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/ammo.rifle.png" alt="5.56 Rifle Ammo" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='5.'"></div>
+        <div class="item-name">5.56 Rifle Ammo</div>
+        <div class="item-meta">ammo.rifle</div>
+      </div>
+      <div class="item-card" data-name="explosive 5.56 rifle ammo">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/ammo.rifle.explosive.png" alt="Explosive 5.56 Rifle Ammo" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='EX'"></div>
+        <div class="item-name">Explosive 5.56 Rifle Ammo</div>
+        <div class="item-meta">ammo.rifle.explosive</div>
+      </div>
+      <div class="item-card" data-name="incendiary 5.56 rifle ammo">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/ammo.rifle.incendiary.png" alt="Incendiary 5.56 Rifle Ammo" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='IN'"></div>
+        <div class="item-name">Incendiary 5.56 Rifle Ammo</div>
+        <div class="item-meta">ammo.rifle.incendiary</div>
+      </div>
+      <div class="item-card" data-name="hv 5.56 rifle ammo">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/ammo.rifle.hv.png" alt="HV 5.56 Rifle Ammo" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='HV'"></div>
+        <div class="item-name">HV 5.56 Rifle Ammo</div>
+        <div class="item-meta">ammo.rifle.hv</div>
+      </div>
+      <div class="item-card" data-name="pistol bullet">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/ammo.pistol.png" alt="Pistol Bullet" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='PI'"></div>
+        <div class="item-name">Pistol Bullet</div>
+        <div class="item-meta">ammo.pistol</div>
+      </div>
+      <div class="item-card" data-name="hv pistol ammo">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/ammo.pistol.hv.png" alt="HV Pistol Ammo" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='HV'"></div>
+        <div class="item-name">HV Pistol Ammo</div>
+        <div class="item-meta">ammo.pistol.hv</div>
+      </div>
+      <div class="item-card" data-name="incendiary pistol bullet">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/ammo.pistol.fire.png" alt="Incendiary Pistol Bullet" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='IN'"></div>
+        <div class="item-name">Incendiary Pistol Bullet</div>
+        <div class="item-meta">ammo.pistol.fire</div>
+      </div>
+      <div class="item-card" data-name="12 gauge buckshot">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/ammo.shotgun.png" alt="12 Gauge Buckshot" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='12'"></div>
+        <div class="item-name">12 Gauge Buckshot</div>
+        <div class="item-meta">ammo.shotgun</div>
+      </div>
+      <div class="item-card" data-name="12 gauge slug">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/ammo.shotgun.slug.png" alt="12 Gauge Slug" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='12'"></div>
+        <div class="item-name">12 Gauge Slug</div>
+        <div class="item-meta">ammo.shotgun.slug</div>
+      </div>
+      <div class="item-card" data-name="12 gauge incendiary shell">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/ammo.shotgun.fire.png" alt="12 Gauge Incendiary Shell" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='12'"></div>
+        <div class="item-name">12 Gauge Incendiary Shell</div>
+        <div class="item-meta">ammo.shotgun.fire</div>
+      </div>
+      <div class="item-card" data-name="handmade shell">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/ammo.handmade.shell.png" alt="Handmade Shell" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='HA'"></div>
+        <div class="item-name">Handmade Shell</div>
+        <div class="item-meta">ammo.handmade.shell</div>
+      </div>
+      <div class="item-card" data-name="rocket">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/ammo.rocket.basic.png" alt="Rocket" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='RO'"></div>
+        <div class="item-name">Rocket</div>
+        <div class="item-meta">ammo.rocket.basic</div>
+      </div>
+      <div class="item-card" data-name="incendiary rocket">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/ammo.rocket.fire.png" alt="Incendiary Rocket" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='IN'"></div>
+        <div class="item-name">Incendiary Rocket</div>
+        <div class="item-meta">ammo.rocket.fire</div>
+      </div>
+      <div class="item-card" data-name="high velocity rocket">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/ammo.rocket.hv.png" alt="High Velocity Rocket" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='HI'"></div>
+        <div class="item-name">High Velocity Rocket</div>
+        <div class="item-meta">ammo.rocket.hv</div>
+      </div>
+      <div class="item-card" data-name="40mm he grenade">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/ammo.grenadelauncher.he.png" alt="40mm HE Grenade" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='40'"></div>
+        <div class="item-name">40mm HE Grenade</div>
+        <div class="item-meta">ammo.grenadelauncher.he</div>
+      </div>
+      <div class="item-card" data-name="40mm shotgun round">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/ammo.grenadelauncher.buckshot.png" alt="40mm Shotgun Round" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='40'"></div>
+        <div class="item-name">40mm Shotgun Round</div>
+        <div class="item-meta">ammo.grenadelauncher.buckshot</div>
+      </div>
+      <div class="item-card" data-name="40mm smoke grenade">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/ammo.grenadelauncher.smoke.png" alt="40mm Smoke Grenade" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='40'"></div>
+        <div class="item-name">40mm Smoke Grenade</div>
+        <div class="item-meta">ammo.grenadelauncher.smoke</div>
+      </div>
+      <div class="item-card" data-name="bone arrow">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/arrow.bone.png" alt="Bone Arrow" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='BO'"></div>
+        <div class="item-name">Bone Arrow</div>
+        <div class="item-meta">arrow.bone</div>
+      </div>
+      <div class="item-card" data-name="wooden arrow">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/arrow.wooden.png" alt="Wooden Arrow" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='WO'"></div>
+        <div class="item-name">Wooden Arrow</div>
+        <div class="item-meta">arrow.wooden</div>
+      </div>
+      <div class="item-card" data-name="fire arrow">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/arrow.fire.png" alt="Fire Arrow" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='FI'"></div>
+        <div class="item-name">Fire Arrow</div>
+        <div class="item-meta">arrow.fire</div>
+      </div>
+      <div class="item-card" data-name="hv arrow">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/arrow.hv.png" alt="HV Arrow" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='HV'"></div>
+        <div class="item-name">HV Arrow</div>
+        <div class="item-meta">arrow.hv</div>
+      </div>
+      <div class="item-card" data-name="nailgun nails">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/ammo.nailgun.nails.png" alt="Nailgun Nails" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='NA'"></div>
+        <div class="item-name">Nailgun Nails</div>
+        <div class="item-meta">ammo.nailgun.nails</div>
+      </div>
+    </div>
+    <div class="empty-state" id="emptyState" style="display:none;">
+      <div class="icon">🔍</div>
+      <p>No ammo match your search.</p>
+    </div>
+  </div>
+</div>
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-copy">&copy; 2026 RustWiki &mdash; Not affiliated with Facepunch Studios</div>
+    <div class="footer-links">
+      <a href="../index.html">Home</a>
+      <a href="../items.html">Items</a>
+      
+      <a href="../servers.html">Servers</a>
+    </div>
+  </div>
+</footer>
+<script>
+document.getElementById('filterInput').addEventListener('input', function() {
+  const q = this.value.toLowerCase();
+  const cards = document.querySelectorAll('.item-card');
+  let vis = 0;
+  cards.forEach(c => {
+    const match = c.dataset.name.includes(q);
+    c.style.display = match ? '' : 'none';
+    if(match) vis++;
+  });
+  document.getElementById('count').textContent = vis + ' items';
+  document.getElementById('emptyState').style.display = vis === 0 ? '' : 'none';
+  document.getElementById('itemGrid').style.display = vis === 0 ? 'none' : '';
+});
+</script>
+</body></html>

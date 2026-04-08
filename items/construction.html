@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Construction &mdash; RustWiki</title>
+<meta name="description" content="Comprehensive Rust wiki with items, crafting, statistics, and servers.">
+<link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+<header class="top-bar">
+  <a href="../index.html" class="logo"><div class="logo-icon">R</div>RUST<em>WIKI</em></a>
+  <nav class="top-nav" id="nav">
+    <a href="../index.html">Home</a>
+    <a href="../items.html" class="active">Items</a>
+    
+    <a href="../servers.html">Servers</a>
+  </nav>
+  <button class="mobile-toggle" onclick="document.getElementById('nav').classList.toggle('open')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
+  </button>
+</header><div class="page">
+  <div class="breadcrumb">
+    <a href="../index.html">Home</a><span class="sep">/</span>
+    <a href="../items.html">Items</a><span class="sep">/</span>
+    <span>Construction</span>
+  </div>
+  <div class="section">
+    <div class="section-header">
+      <h2 class="section-title">🏗️ <em>Construction</em></h2>
+      <span class="search-count" id="count">44 items</span>
+    </div>
+    <p style="color:var(--text-secondary);margin-bottom:24px;max-width:600px;">Building blocks, doors, walls, windows, and base components.</p>
+    <div class="search-wrap" style="max-width:400px;margin:0 0 24px;">
+      <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      <input type="text" placeholder="Filter construction..." id="filterInput">
+    </div>
+    <div class="item-grid" id="itemGrid">
+      <div class="item-card" data-name="building plan">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/building.planner.png" alt="Building Plan" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='BU'"></div>
+        <div class="item-name">Building Plan</div>
+        <div class="item-meta">building.planner</div>
+      </div>
+      <div class="item-card" data-name="hammer">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/hammer.png" alt="Hammer" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='HA'"></div>
+        <div class="item-name">Hammer</div>
+        <div class="item-meta">hammer</div>
+      </div>
+      <div class="item-card" data-name="tool cupboard">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/cupboard.tool.png" alt="Tool Cupboard" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='TO'"></div>
+        <div class="item-name">Tool Cupboard</div>
+        <div class="item-meta">cupboard.tool</div>
+      </div>
+      <div class="item-card" data-name="wooden door">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/door.hinged.wood.png" alt="Wooden Door" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='WO'"></div>
+        <div class="item-name">Wooden Door</div>
+        <div class="item-meta">door.hinged.wood</div>
+      </div>
+      <div class="item-card" data-name="sheet metal door">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/door.hinged.metal.png" alt="Sheet Metal Door" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='SH'"></div>
+        <div class="item-name">Sheet Metal Door</div>
+        <div class="item-meta">door.hinged.metal</div>
+      </div>
+      <div class="item-card" data-name="armored door">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/door.hinged.toptier.png" alt="Armored Door" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='AR'"></div>
+        <div class="item-name">Armored Door</div>
+        <div class="item-meta">door.hinged.toptier</div>
+      </div>
+      <div class="item-card" data-name="garage door">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/wall.frame.garagedoor.png" alt="Garage Door" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='GA'"></div>
+        <div class="item-name">Garage Door</div>
+        <div class="item-meta">wall.frame.garagedoor</div>
+      </div>
+      <div class="item-card" data-name="ladder hatch">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/floor.ladder.hatch.png" alt="Ladder Hatch" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='LA'"></div>
+        <div class="item-name">Ladder Hatch</div>
+        <div class="item-meta">floor.ladder.hatch</div>
+      </div>
+      <div class="item-card" data-name="code lock">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/lock.code.png" alt="Code Lock" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='CO'"></div>
+        <div class="item-name">Code Lock</div>
+        <div class="item-meta">lock.code</div>
+      </div>
+      <div class="item-card" data-name="key lock">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/lock.key.png" alt="Key Lock" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='KE'"></div>
+        <div class="item-name">Key Lock</div>
+        <div class="item-meta">lock.key</div>
+      </div>
+      <div class="item-card" data-name="high external stone wall">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/wall.external.high.stone.png" alt="High External Stone Wall" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='HI'"></div>
+        <div class="item-name">High External Stone Wall</div>
+        <div class="item-meta">wall.external.high.stone</div>
+      </div>
+      <div class="item-card" data-name="high external wood wall">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/wall.external.high.png" alt="High External Wood Wall" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='HI'"></div>
+        <div class="item-name">High External Wood Wall</div>
+        <div class="item-meta">wall.external.high</div>
+      </div>
+      <div class="item-card" data-name="chainlink fence">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/wall.frame.fence.png" alt="Chainlink Fence" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='CH'"></div>
+        <div class="item-name">Chainlink Fence</div>
+        <div class="item-meta">wall.frame.fence</div>
+      </div>
+      <div class="item-card" data-name="chainlink fence gate">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/wall.frame.fence.gate.png" alt="Chainlink Fence Gate" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='CH'"></div>
+        <div class="item-name">Chainlink Fence Gate</div>
+        <div class="item-meta">wall.frame.fence.gate</div>
+      </div>
+      <div class="item-card" data-name="prison cell gate">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/wall.frame.cell.gate.png" alt="Prison Cell Gate" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='PR'"></div>
+        <div class="item-name">Prison Cell Gate</div>
+        <div class="item-meta">wall.frame.cell.gate</div>
+      </div>
+      <div class="item-card" data-name="prison cell wall">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/wall.frame.cell.png" alt="Prison Cell Wall" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='PR'"></div>
+        <div class="item-name">Prison Cell Wall</div>
+        <div class="item-meta">wall.frame.cell</div>
+      </div>
+      <div class="item-card" data-name="window bars">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/wall.window.bars.toptier.png" alt="Window Bars" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='WI'"></div>
+        <div class="item-name">Window Bars</div>
+        <div class="item-meta">wall.window.bars.toptier</div>
+      </div>
+      <div class="item-card" data-name="metal barricade">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/barricade.metal.png" alt="Metal Barricade" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='ME'"></div>
+        <div class="item-name">Metal Barricade</div>
+        <div class="item-meta">barricade.metal</div>
+      </div>
+      <div class="item-card" data-name="wooden barricade">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/barricade.wood.png" alt="Wooden Barricade" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='WO'"></div>
+        <div class="item-name">Wooden Barricade</div>
+        <div class="item-meta">barricade.wood</div>
+      </div>
+      <div class="item-card" data-name="sandbag barricade">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/barricade.sandbags.png" alt="Sandbag Barricade" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='SA'"></div>
+        <div class="item-name">Sandbag Barricade</div>
+        <div class="item-meta">barricade.sandbags</div>
+      </div>
+      <div class="item-card" data-name="stone barricade">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/barricade.stone.png" alt="Stone Barricade" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='ST'"></div>
+        <div class="item-name">Stone Barricade</div>
+        <div class="item-meta">barricade.stone</div>
+      </div>
+      <div class="item-card" data-name="sleeping bag">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/sleepingbag.png" alt="Sleeping Bag" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='SL'"></div>
+        <div class="item-name">Sleeping Bag</div>
+        <div class="item-meta">sleepingbag</div>
+      </div>
+      <div class="item-card" data-name="bed">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/bed.png" alt="Bed" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='BE'"></div>
+        <div class="item-name">Bed</div>
+        <div class="item-meta">bed</div>
+      </div>
+      <div class="item-card" data-name="campfire">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/campfire.png" alt="Campfire" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='CA'"></div>
+        <div class="item-name">Campfire</div>
+        <div class="item-meta">campfire</div>
+      </div>
+      <div class="item-card" data-name="large furnace">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/furnace.large.png" alt="Large Furnace" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='LA'"></div>
+        <div class="item-name">Large Furnace</div>
+        <div class="item-meta">furnace.large</div>
+      </div>
+      <div class="item-card" data-name="furnace">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/furnace.png" alt="Furnace" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='FU'"></div>
+        <div class="item-name">Furnace</div>
+        <div class="item-meta">furnace</div>
+      </div>
+      <div class="item-card" data-name="workbench level 1">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/workbench1.png" alt="Workbench Level 1" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='WO'"></div>
+        <div class="item-name">Workbench Level 1</div>
+        <div class="item-meta">workbench1</div>
+      </div>
+      <div class="item-card" data-name="workbench level 2">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/workbench2.png" alt="Workbench Level 2" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='WO'"></div>
+        <div class="item-name">Workbench Level 2</div>
+        <div class="item-meta">workbench2</div>
+      </div>
+      <div class="item-card" data-name="workbench level 3">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/workbench3.png" alt="Workbench Level 3" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='WO'"></div>
+        <div class="item-name">Workbench Level 3</div>
+        <div class="item-meta">workbench3</div>
+      </div>
+      <div class="item-card" data-name="research table">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/research.table.png" alt="Research Table" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='RE'"></div>
+        <div class="item-name">Research Table</div>
+        <div class="item-meta">research.table</div>
+      </div>
+      <div class="item-card" data-name="repair bench">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/box.repair.bench.png" alt="Repair Bench" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='RE'"></div>
+        <div class="item-name">Repair Bench</div>
+        <div class="item-meta">box.repair.bench</div>
+      </div>
+      <div class="item-card" data-name="small oil refinery">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/small.oil.refinery.png" alt="Small Oil Refinery" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='SM'"></div>
+        <div class="item-name">Small Oil Refinery</div>
+        <div class="item-meta">small.oil.refinery</div>
+      </div>
+      <div class="item-card" data-name="large wood box">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/box.wooden.large.png" alt="Large Wood Box" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='LA'"></div>
+        <div class="item-name">Large Wood Box</div>
+        <div class="item-meta">box.wooden.large</div>
+      </div>
+      <div class="item-card" data-name="wood storage box">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/box.wooden.png" alt="Wood Storage Box" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='WO'"></div>
+        <div class="item-name">Wood Storage Box</div>
+        <div class="item-meta">box.wooden</div>
+      </div>
+      <div class="item-card" data-name="locker">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/locker.png" alt="Locker" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='LO'"></div>
+        <div class="item-name">Locker</div>
+        <div class="item-meta">locker</div>
+      </div>
+      <div class="item-card" data-name="vending machine">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/vending.machine.png" alt="Vending Machine" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='VE'"></div>
+        <div class="item-name">Vending Machine</div>
+        <div class="item-meta">vending.machine</div>
+      </div>
+      <div class="item-card" data-name="drop box">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/dropbox.png" alt="Drop Box" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='DR'"></div>
+        <div class="item-name">Drop Box</div>
+        <div class="item-meta">dropbox</div>
+      </div>
+      <div class="item-card" data-name="mail box">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/mailbox.png" alt="Mail Box" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='MA'"></div>
+        <div class="item-name">Mail Box</div>
+        <div class="item-meta">mailbox</div>
+      </div>
+      <div class="item-card" data-name="shelves">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/shelves.png" alt="Shelves" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='SH'"></div>
+        <div class="item-name">Shelves</div>
+        <div class="item-meta">shelves</div>
+      </div>
+      <div class="item-card" data-name="fridge">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/fridge.png" alt="Fridge" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='FR'"></div>
+        <div class="item-name">Fridge</div>
+        <div class="item-meta">fridge</div>
+      </div>
+      <div class="item-card" data-name="water barrel">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/water.barrel.png" alt="Water Barrel" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='WA'"></div>
+        <div class="item-name">Water Barrel</div>
+        <div class="item-meta">water.barrel</div>
+      </div>
+      <div class="item-card" data-name="water purifier">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/water.purifier.png" alt="Water Purifier" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='WA'"></div>
+        <div class="item-name">Water Purifier</div>
+        <div class="item-meta">water.purifier</div>
+      </div>
+      <div class="item-card" data-name="small water catcher">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/water.catcher.small.png" alt="Small Water Catcher" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='SM'"></div>
+        <div class="item-name">Small Water Catcher</div>
+        <div class="item-meta">water.catcher.small</div>
+      </div>
+      <div class="item-card" data-name="large water catcher">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/water.catcher.large.png" alt="Large Water Catcher" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='LA'"></div>
+        <div class="item-name">Large Water Catcher</div>
+        <div class="item-meta">water.catcher.large</div>
+      </div>
+    </div>
+    <div class="empty-state" id="emptyState" style="display:none;">
+      <div class="icon">🔍</div>
+      <p>No construction match your search.</p>
+    </div>
+  </div>
+</div>
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-copy">&copy; 2026 RustWiki &mdash; Not affiliated with Facepunch Studios</div>
+    <div class="footer-links">
+      <a href="../index.html">Home</a>
+      <a href="../items.html">Items</a>
+      
+      <a href="../servers.html">Servers</a>
+    </div>
+  </div>
+</footer>
+<script>
+document.getElementById('filterInput').addEventListener('input', function() {
+  const q = this.value.toLowerCase();
+  const cards = document.querySelectorAll('.item-card');
+  let vis = 0;
+  cards.forEach(c => {
+    const match = c.dataset.name.includes(q);
+    c.style.display = match ? '' : 'none';
+    if(match) vis++;
+  });
+  document.getElementById('count').textContent = vis + ' items';
+  document.getElementById('emptyState').style.display = vis === 0 ? '' : 'none';
+  document.getElementById('itemGrid').style.display = vis === 0 ? 'none' : '';
+});
+</script>
+</body></html>

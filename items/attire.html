@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Attire &mdash; RustWiki</title>
+<meta name="description" content="Comprehensive Rust wiki with items, crafting, statistics, and servers.">
+<link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+<header class="top-bar">
+  <a href="../index.html" class="logo"><div class="logo-icon">R</div>RUST<em>WIKI</em></a>
+  <nav class="top-nav" id="nav">
+    <a href="../index.html">Home</a>
+    <a href="../items.html" class="active">Items</a>
+    
+    <a href="../servers.html">Servers</a>
+  </nav>
+  <button class="mobile-toggle" onclick="document.getElementById('nav').classList.toggle('open')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
+  </button>
+</header><div class="page">
+  <div class="breadcrumb">
+    <a href="../index.html">Home</a><span class="sep">/</span>
+    <a href="../items.html">Items</a><span class="sep">/</span>
+    <span>Attire</span>
+  </div>
+  <div class="section">
+    <div class="section-header">
+      <h2 class="section-title">🥽 <em>Attire</em></h2>
+      <span class="search-count" id="count">37 items</span>
+    </div>
+    <p style="color:var(--text-secondary);margin-bottom:24px;max-width:600px;">Armor, clothing, helmets, and protective gear.</p>
+    <div class="search-wrap" style="max-width:400px;margin:0 0 24px;">
+      <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      <input type="text" placeholder="Filter attire..." id="filterInput">
+    </div>
+    <div class="item-grid" id="itemGrid">
+      <div class="item-card" data-name="hazmat suit">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/hazmatsuit.png" alt="Hazmat Suit" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='HA'"></div>
+        <div class="item-name">Hazmat Suit</div>
+        <div class="item-meta">hazmatsuit</div>
+      </div>
+      <div class="item-card" data-name="metal facemask">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/metal.facemask.png" alt="Metal Facemask" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='ME'"></div>
+        <div class="item-name">Metal Facemask</div>
+        <div class="item-meta">metal.facemask</div>
+      </div>
+      <div class="item-card" data-name="metal chest plate">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/metal.plate.torso.png" alt="Metal Chest Plate" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='ME'"></div>
+        <div class="item-name">Metal Chest Plate</div>
+        <div class="item-meta">metal.plate.torso</div>
+      </div>
+      <div class="item-card" data-name="road sign jacket">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/roadsign.jacket.png" alt="Road Sign Jacket" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='RO'"></div>
+        <div class="item-name">Road Sign Jacket</div>
+        <div class="item-meta">roadsign.jacket</div>
+      </div>
+      <div class="item-card" data-name="road sign kilt">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/roadsign.kilt.png" alt="Road Sign Kilt" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='RO'"></div>
+        <div class="item-name">Road Sign Kilt</div>
+        <div class="item-meta">roadsign.kilt</div>
+      </div>
+      <div class="item-card" data-name="coffee can helmet">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/coffeecan.helmet.png" alt="Coffee Can Helmet" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='CO'"></div>
+        <div class="item-name">Coffee Can Helmet</div>
+        <div class="item-meta">coffeecan.helmet</div>
+      </div>
+      <div class="item-card" data-name="roadsign gloves">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/roadsign.gloves.png" alt="Roadsign Gloves" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='RO'"></div>
+        <div class="item-name">Roadsign Gloves</div>
+        <div class="item-meta">roadsign.gloves</div>
+      </div>
+      <div class="item-card" data-name="boots">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/shoes.boots.png" alt="Boots" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='BO'"></div>
+        <div class="item-name">Boots</div>
+        <div class="item-meta">shoes.boots</div>
+      </div>
+      <div class="item-card" data-name="hoodie">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/hoodie.png" alt="Hoodie" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='HO'"></div>
+        <div class="item-name">Hoodie</div>
+        <div class="item-meta">hoodie</div>
+      </div>
+      <div class="item-card" data-name="pants">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/pants.png" alt="Pants" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='PA'"></div>
+        <div class="item-name">Pants</div>
+        <div class="item-meta">pants</div>
+      </div>
+      <div class="item-card" data-name="snow jacket">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/jacket.snow.png" alt="Snow Jacket" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='SN'"></div>
+        <div class="item-name">Snow Jacket</div>
+        <div class="item-meta">jacket.snow</div>
+      </div>
+      <div class="item-card" data-name="burlap headwrap">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/burlap.headwrap.png" alt="Burlap Headwrap" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='BU'"></div>
+        <div class="item-name">Burlap Headwrap</div>
+        <div class="item-meta">burlap.headwrap</div>
+      </div>
+      <div class="item-card" data-name="burlap shirt">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/burlap.shirt.png" alt="Burlap Shirt" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='BU'"></div>
+        <div class="item-name">Burlap Shirt</div>
+        <div class="item-meta">burlap.shirt</div>
+      </div>
+      <div class="item-card" data-name="burlap trousers">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/burlap.trousers.png" alt="Burlap Trousers" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='BU'"></div>
+        <div class="item-name">Burlap Trousers</div>
+        <div class="item-meta">burlap.trousers</div>
+      </div>
+      <div class="item-card" data-name="burlap shoes">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/burlap.shoes.png" alt="Burlap Shoes" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='BU'"></div>
+        <div class="item-name">Burlap Shoes</div>
+        <div class="item-meta">burlap.shoes</div>
+      </div>
+      <div class="item-card" data-name="burlap gloves">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/burlap.gloves.png" alt="Burlap Gloves" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='BU'"></div>
+        <div class="item-name">Burlap Gloves</div>
+        <div class="item-meta">burlap.gloves</div>
+      </div>
+      <div class="item-card" data-name="wetsuit">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/diving.suit.png" alt="Wetsuit" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='WE'"></div>
+        <div class="item-name">Wetsuit</div>
+        <div class="item-meta">diving.suit</div>
+      </div>
+      <div class="item-card" data-name="diving mask">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/diving.mask.png" alt="Diving Mask" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='DI'"></div>
+        <div class="item-name">Diving Mask</div>
+        <div class="item-meta">diving.mask</div>
+      </div>
+      <div class="item-card" data-name="diving fins">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/diving.fins.png" alt="Diving Fins" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='DI'"></div>
+        <div class="item-name">Diving Fins</div>
+        <div class="item-meta">diving.fins</div>
+      </div>
+      <div class="item-card" data-name="diving tank">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/diving.tank.png" alt="Diving Tank" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='DI'"></div>
+        <div class="item-name">Diving Tank</div>
+        <div class="item-meta">diving.tank</div>
+      </div>
+      <div class="item-card" data-name="hide poncho">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/attire.hide.poncho.png" alt="Hide Poncho" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='HI'"></div>
+        <div class="item-name">Hide Poncho</div>
+        <div class="item-meta">attire.hide.poncho</div>
+      </div>
+      <div class="item-card" data-name="hide boots">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/attire.hide.boots.png" alt="Hide Boots" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='HI'"></div>
+        <div class="item-name">Hide Boots</div>
+        <div class="item-meta">attire.hide.boots</div>
+      </div>
+      <div class="item-card" data-name="hide vest">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/attire.hide.vest.png" alt="Hide Vest" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='HI'"></div>
+        <div class="item-name">Hide Vest</div>
+        <div class="item-meta">attire.hide.vest</div>
+      </div>
+      <div class="item-card" data-name="hide pants">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/attire.hide.pants.png" alt="Hide Pants" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='HI'"></div>
+        <div class="item-name">Hide Pants</div>
+        <div class="item-meta">attire.hide.pants</div>
+      </div>
+      <div class="item-card" data-name="hide skirt">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/attire.hide.skirt.png" alt="Hide Skirt" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='HI'"></div>
+        <div class="item-name">Hide Skirt</div>
+        <div class="item-meta">attire.hide.skirt</div>
+      </div>
+      <div class="item-card" data-name="bone armor">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/bone.armor.suit.png" alt="Bone Armor" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='BO'"></div>
+        <div class="item-name">Bone Armor</div>
+        <div class="item-meta">bone.armor.suit</div>
+      </div>
+      <div class="item-card" data-name="bone helmet">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/deer.skull.mask.png" alt="Bone Helmet" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='BO'"></div>
+        <div class="item-name">Bone Helmet</div>
+        <div class="item-meta">deer.skull.mask</div>
+      </div>
+      <div class="item-card" data-name="heavy plate helmet">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/heavy.plate.helmet.png" alt="Heavy Plate Helmet" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='HE'"></div>
+        <div class="item-name">Heavy Plate Helmet</div>
+        <div class="item-meta">heavy.plate.helmet</div>
+      </div>
+      <div class="item-card" data-name="heavy plate jacket">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/heavy.plate.jacket.png" alt="Heavy Plate Jacket" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='HE'"></div>
+        <div class="item-name">Heavy Plate Jacket</div>
+        <div class="item-meta">heavy.plate.jacket</div>
+      </div>
+      <div class="item-card" data-name="heavy plate pants">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/heavy.plate.pants.png" alt="Heavy Plate Pants" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='HE'"></div>
+        <div class="item-name">Heavy Plate Pants</div>
+        <div class="item-meta">heavy.plate.pants</div>
+      </div>
+      <div class="item-card" data-name="wolf headdress">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/hat.wolf.png" alt="Wolf Headdress" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='WO'"></div>
+        <div class="item-name">Wolf Headdress</div>
+        <div class="item-meta">hat.wolf</div>
+      </div>
+      <div class="item-card" data-name="boonie hat">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/hat.boonie.png" alt="Boonie Hat" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='BO'"></div>
+        <div class="item-name">Boonie Hat</div>
+        <div class="item-meta">hat.boonie</div>
+      </div>
+      <div class="item-card" data-name="bucket helmet">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/bucket.helmet.png" alt="Bucket Helmet" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='BU'"></div>
+        <div class="item-name">Bucket Helmet</div>
+        <div class="item-meta">bucket.helmet</div>
+      </div>
+      <div class="item-card" data-name="riot helmet">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/riot.helmet.png" alt="Riot Helmet" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='RI'"></div>
+        <div class="item-name">Riot Helmet</div>
+        <div class="item-meta">riot.helmet</div>
+      </div>
+      <div class="item-card" data-name="bandana mask">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/mask.bandana.png" alt="Bandana Mask" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='BA'"></div>
+        <div class="item-name">Bandana Mask</div>
+        <div class="item-meta">mask.bandana</div>
+      </div>
+      <div class="item-card" data-name="balaclava">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/mask.balaclava.png" alt="Balaclava" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='BA'"></div>
+        <div class="item-name">Balaclava</div>
+        <div class="item-meta">mask.balaclava</div>
+      </div>
+      <div class="item-card" data-name="tactical gloves">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/tactical.gloves.png" alt="Tactical Gloves" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='TA'"></div>
+        <div class="item-name">Tactical Gloves</div>
+        <div class="item-meta">tactical.gloves</div>
+      </div>
+    </div>
+    <div class="empty-state" id="emptyState" style="display:none;">
+      <div class="icon">🔍</div>
+      <p>No attire match your search.</p>
+    </div>
+  </div>
+</div>
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-copy">&copy; 2026 RustWiki &mdash; Not affiliated with Facepunch Studios</div>
+    <div class="footer-links">
+      <a href="../index.html">Home</a>
+      <a href="../items.html">Items</a>
+      
+      <a href="../servers.html">Servers</a>
+    </div>
+  </div>
+</footer>
+<script>
+document.getElementById('filterInput').addEventListener('input', function() {
+  const q = this.value.toLowerCase();
+  const cards = document.querySelectorAll('.item-card');
+  let vis = 0;
+  cards.forEach(c => {
+    const match = c.dataset.name.includes(q);
+    c.style.display = match ? '' : 'none';
+    if(match) vis++;
+  });
+  document.getElementById('count').textContent = vis + ' items';
+  document.getElementById('emptyState').style.display = vis === 0 ? '' : 'none';
+  document.getElementById('itemGrid').style.display = vis === 0 ? 'none' : '';
+});
+</script>
+</body></html>

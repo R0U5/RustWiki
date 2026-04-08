@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tools &mdash; RustWiki</title>
+<meta name="description" content="Comprehensive Rust wiki with items, crafting, statistics, and servers.">
+<link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+<header class="top-bar">
+  <a href="../index.html" class="logo"><div class="logo-icon">R</div>RUST<em>WIKI</em></a>
+  <nav class="top-nav" id="nav">
+    <a href="../index.html">Home</a>
+    <a href="../items.html" class="active">Items</a>
+    
+    <a href="../servers.html">Servers</a>
+  </nav>
+  <button class="mobile-toggle" onclick="document.getElementById('nav').classList.toggle('open')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
+  </button>
+</header><div class="page">
+  <div class="breadcrumb">
+    <a href="../index.html">Home</a><span class="sep">/</span>
+    <a href="../items.html">Items</a><span class="sep">/</span>
+    <span>Tools</span>
+  </div>
+  <div class="section">
+    <div class="section-header">
+      <h2 class="section-title">⛏️ <em>Tools</em></h2>
+      <span class="search-count" id="count">19 items</span>
+    </div>
+    <p style="color:var(--text-secondary);margin-bottom:24px;max-width:600px;">Harvesting tools, building tools, and utility items.</p>
+    <div class="search-wrap" style="max-width:400px;margin:0 0 24px;">
+      <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      <input type="text" placeholder="Filter tools..." id="filterInput">
+    </div>
+    <div class="item-grid" id="itemGrid">
+      <div class="item-card" data-name="rock">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/rock.png" alt="Rock" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='RO'"></div>
+        <div class="item-name">Rock</div>
+        <div class="item-meta">rock</div>
+      </div>
+      <div class="item-card" data-name="stone pickaxe">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/stone.pickaxe.png" alt="Stone Pickaxe" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='ST'"></div>
+        <div class="item-name">Stone Pickaxe</div>
+        <div class="item-meta">stone.pickaxe</div>
+      </div>
+      <div class="item-card" data-name="stone hatchet">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/stonehatchet.png" alt="Stone Hatchet" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='ST'"></div>
+        <div class="item-name">Stone Hatchet</div>
+        <div class="item-meta">stonehatchet</div>
+      </div>
+      <div class="item-card" data-name="metal pickaxe">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/pickaxe.png" alt="Metal Pickaxe" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='ME'"></div>
+        <div class="item-name">Metal Pickaxe</div>
+        <div class="item-meta">pickaxe</div>
+      </div>
+      <div class="item-card" data-name="metal hatchet">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/hatchet.png" alt="Metal Hatchet" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='ME'"></div>
+        <div class="item-name">Metal Hatchet</div>
+        <div class="item-meta">hatchet</div>
+      </div>
+      <div class="item-card" data-name="salvaged icepick">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/icepick.salvaged.png" alt="Salvaged Icepick" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='SA'"></div>
+        <div class="item-name">Salvaged Icepick</div>
+        <div class="item-meta">icepick.salvaged</div>
+      </div>
+      <div class="item-card" data-name="salvaged axe">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/axe.salvaged.png" alt="Salvaged Axe" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='SA'"></div>
+        <div class="item-name">Salvaged Axe</div>
+        <div class="item-meta">axe.salvaged</div>
+      </div>
+      <div class="item-card" data-name="jackhammer">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/jackhammer.png" alt="Jackhammer" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='JA'"></div>
+        <div class="item-name">Jackhammer</div>
+        <div class="item-meta">jackhammer</div>
+      </div>
+      <div class="item-card" data-name="chainsaw">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/chainsaw.png" alt="Chainsaw" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='CH'"></div>
+        <div class="item-name">Chainsaw</div>
+        <div class="item-meta">chainsaw</div>
+      </div>
+      <div class="item-card" data-name="wire tool">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/wiretool.png" alt="Wire Tool" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='WI'"></div>
+        <div class="item-name">Wire Tool</div>
+        <div class="item-meta">wiretool</div>
+      </div>
+      <div class="item-card" data-name="binoculars">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/tool.binoculars.png" alt="Binoculars" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='BI'"></div>
+        <div class="item-name">Binoculars</div>
+        <div class="item-meta">tool.binoculars</div>
+      </div>
+      <div class="item-card" data-name="flashlight">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/flashlight.held.png" alt="Flashlight" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='FL'"></div>
+        <div class="item-name">Flashlight</div>
+        <div class="item-meta">flashlight.held</div>
+      </div>
+      <div class="item-card" data-name="supply signal">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/supply.signal.png" alt="Supply Signal" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='SU'"></div>
+        <div class="item-name">Supply Signal</div>
+        <div class="item-meta">supply.signal</div>
+      </div>
+      <div class="item-card" data-name="paddle">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/paddle.png" alt="Paddle" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='PA'"></div>
+        <div class="item-name">Paddle</div>
+        <div class="item-meta">paddle</div>
+      </div>
+      <div class="item-card" data-name="torch">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/torch.png" alt="Torch" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='TO'"></div>
+        <div class="item-name">Torch</div>
+        <div class="item-meta">torch</div>
+      </div>
+      <div class="item-card" data-name="candle hat">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/hat.candle.png" alt="Candle Hat" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='CA'"></div>
+        <div class="item-name">Candle Hat</div>
+        <div class="item-meta">hat.candle</div>
+      </div>
+      <div class="item-card" data-name="miners hat">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/hat.miner.png" alt="Miners Hat" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='MI'"></div>
+        <div class="item-name">Miners Hat</div>
+        <div class="item-meta">hat.miner</div>
+      </div>
+      <div class="item-card" data-name="survey charge">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/surveycharge.png" alt="Survey Charge" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='SU'"></div>
+        <div class="item-name">Survey Charge</div>
+        <div class="item-meta">surveycharge</div>
+      </div>
+      <div class="item-card" data-name="kayak">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/kayak.png" alt="Kayak" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='KA'"></div>
+        <div class="item-name">Kayak</div>
+        <div class="item-meta">kayak</div>
+      </div>
+    </div>
+    <div class="empty-state" id="emptyState" style="display:none;">
+      <div class="icon">🔍</div>
+      <p>No tools match your search.</p>
+    </div>
+  </div>
+</div>
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-copy">&copy; 2026 RustWiki &mdash; Not affiliated with Facepunch Studios</div>
+    <div class="footer-links">
+      <a href="../index.html">Home</a>
+      <a href="../items.html">Items</a>
+      
+      <a href="../servers.html">Servers</a>
+    </div>
+  </div>
+</footer>
+<script>
+document.getElementById('filterInput').addEventListener('input', function() {
+  const q = this.value.toLowerCase();
+  const cards = document.querySelectorAll('.item-card');
+  let vis = 0;
+  cards.forEach(c => {
+    const match = c.dataset.name.includes(q);
+    c.style.display = match ? '' : 'none';
+    if(match) vis++;
+  });
+  document.getElementById('count').textContent = vis + ' items';
+  document.getElementById('emptyState').style.display = vis === 0 ? '' : 'none';
+  document.getElementById('itemGrid').style.display = vis === 0 ? 'none' : '';
+});
+</script>
+</body></html>

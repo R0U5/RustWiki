@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Components &mdash; RustWiki</title>
+<meta name="description" content="Comprehensive Rust wiki with items, crafting, statistics, and servers.">
+<link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+<header class="top-bar">
+  <a href="../index.html" class="logo"><div class="logo-icon">R</div>RUST<em>WIKI</em></a>
+  <nav class="top-nav" id="nav">
+    <a href="../index.html">Home</a>
+    <a href="../items.html" class="active">Items</a>
+    
+    <a href="../servers.html">Servers</a>
+  </nav>
+  <button class="mobile-toggle" onclick="document.getElementById('nav').classList.toggle('open')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
+  </button>
+</header><div class="page">
+  <div class="breadcrumb">
+    <a href="../index.html">Home</a><span class="sep">/</span>
+    <a href="../items.html">Items</a><span class="sep">/</span>
+    <span>Components</span>
+  </div>
+  <div class="section">
+    <div class="section-header">
+      <h2 class="section-title">⚙️ <em>Components</em></h2>
+      <span class="search-count" id="count">18 items</span>
+    </div>
+    <p style="color:var(--text-secondary);margin-bottom:24px;max-width:600px;">Gears, springs, pipes, and tech trash for crafting.</p>
+    <div class="search-wrap" style="max-width:400px;margin:0 0 24px;">
+      <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      <input type="text" placeholder="Filter components..." id="filterInput">
+    </div>
+    <div class="item-grid" id="itemGrid">
+      <div class="item-card" data-name="gears">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/gears.png" alt="Gears" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='GE'"></div>
+        <div class="item-name">Gears</div>
+        <div class="item-meta">gears</div>
+      </div>
+      <div class="item-card" data-name="metal spring">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/metalspring.png" alt="Metal Spring" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='ME'"></div>
+        <div class="item-name">Metal Spring</div>
+        <div class="item-meta">metalspring</div>
+      </div>
+      <div class="item-card" data-name="metal pipe">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/metalpipe.png" alt="Metal Pipe" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='ME'"></div>
+        <div class="item-name">Metal Pipe</div>
+        <div class="item-meta">metalpipe</div>
+      </div>
+      <div class="item-card" data-name="road signs">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/roadsigns.png" alt="Road Signs" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='RO'"></div>
+        <div class="item-name">Road Signs</div>
+        <div class="item-meta">roadsigns</div>
+      </div>
+      <div class="item-card" data-name="rope">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/rope.png" alt="Rope" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='RO'"></div>
+        <div class="item-name">Rope</div>
+        <div class="item-meta">rope</div>
+      </div>
+      <div class="item-card" data-name="sewing kit">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/sewingkit.png" alt="Sewing Kit" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='SE'"></div>
+        <div class="item-name">Sewing Kit</div>
+        <div class="item-meta">sewingkit</div>
+      </div>
+      <div class="item-card" data-name="tarp">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/tarp.png" alt="Tarp" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='TA'"></div>
+        <div class="item-name">Tarp</div>
+        <div class="item-meta">tarp</div>
+      </div>
+      <div class="item-card" data-name="tech trash">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/techparts.png" alt="Tech Trash" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='TE'"></div>
+        <div class="item-name">Tech Trash</div>
+        <div class="item-meta">techparts</div>
+      </div>
+      <div class="item-card" data-name="rifle body">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/riflebody.png" alt="Rifle Body" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='RI'"></div>
+        <div class="item-name">Rifle Body</div>
+        <div class="item-meta">riflebody</div>
+      </div>
+      <div class="item-card" data-name="smg body">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/smgbody.png" alt="SMG Body" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='SM'"></div>
+        <div class="item-name">SMG Body</div>
+        <div class="item-meta">smgbody</div>
+      </div>
+      <div class="item-card" data-name="semi-automatic body">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/semibody.png" alt="Semi-Automatic Body" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='SE'"></div>
+        <div class="item-name">Semi-Automatic Body</div>
+        <div class="item-meta">semibody</div>
+      </div>
+      <div class="item-card" data-name="sheet metal">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/sheetmetal.png" alt="Sheet Metal" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='SH'"></div>
+        <div class="item-name">Sheet Metal</div>
+        <div class="item-meta">sheetmetal</div>
+      </div>
+      <div class="item-card" data-name="propane tank">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/propanetank.png" alt="Propane Tank" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='PR'"></div>
+        <div class="item-name">Propane Tank</div>
+        <div class="item-meta">propanetank</div>
+      </div>
+      <div class="item-card" data-name="empty can">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/can.beans.empty.png" alt="Empty Can" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='EM'"></div>
+        <div class="item-name">Empty Can</div>
+        <div class="item-meta">can.beans.empty</div>
+      </div>
+      <div class="item-card" data-name="metal blade">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/metalblade.png" alt="Metal Blade" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='ME'"></div>
+        <div class="item-name">Metal Blade</div>
+        <div class="item-meta">metalblade</div>
+      </div>
+      <div class="item-card" data-name="electric fuse">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/fuse.png" alt="Electric Fuse" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='EL'"></div>
+        <div class="item-name">Electric Fuse</div>
+        <div class="item-meta">fuse</div>
+      </div>
+      <div class="item-card" data-name="cctv camera">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/cctv.camera.png" alt="CCTV Camera" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='CC'"></div>
+        <div class="item-name">CCTV Camera</div>
+        <div class="item-meta">cctv.camera</div>
+      </div>
+      <div class="item-card" data-name="targeting computer">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/targeting.computer.png" alt="Targeting Computer" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='TA'"></div>
+        <div class="item-name">Targeting Computer</div>
+        <div class="item-meta">targeting.computer</div>
+      </div>
+    </div>
+    <div class="empty-state" id="emptyState" style="display:none;">
+      <div class="icon">🔍</div>
+      <p>No components match your search.</p>
+    </div>
+  </div>
+</div>
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-copy">&copy; 2026 RustWiki &mdash; Not affiliated with Facepunch Studios</div>
+    <div class="footer-links">
+      <a href="../index.html">Home</a>
+      <a href="../items.html">Items</a>
+      
+      <a href="../servers.html">Servers</a>
+    </div>
+  </div>
+</footer>
+<script>
+document.getElementById('filterInput').addEventListener('input', function() {
+  const q = this.value.toLowerCase();
+  const cards = document.querySelectorAll('.item-card');
+  let vis = 0;
+  cards.forEach(c => {
+    const match = c.dataset.name.includes(q);
+    c.style.display = match ? '' : 'none';
+    if(match) vis++;
+  });
+  document.getElementById('count').textContent = vis + ' items';
+  document.getElementById('emptyState').style.display = vis === 0 ? '' : 'none';
+  document.getElementById('itemGrid').style.display = vis === 0 ? 'none' : '';
+});
+</script>
+</body></html>

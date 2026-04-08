@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Medical &mdash; RustWiki</title>
+<meta name="description" content="Comprehensive Rust wiki with items, crafting, statistics, and servers.">
+<link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+<header class="top-bar">
+  <a href="../index.html" class="logo"><div class="logo-icon">R</div>RUST<em>WIKI</em></a>
+  <nav class="top-nav" id="nav">
+    <a href="../index.html">Home</a>
+    <a href="../items.html" class="active">Items</a>
+    
+    <a href="../servers.html">Servers</a>
+  </nav>
+  <button class="mobile-toggle" onclick="document.getElementById('nav').classList.toggle('open')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
+  </button>
+</header><div class="page">
+  <div class="breadcrumb">
+    <a href="../index.html">Home</a><span class="sep">/</span>
+    <a href="../items.html">Items</a><span class="sep">/</span>
+    <span>Medical</span>
+  </div>
+  <div class="section">
+    <div class="section-header">
+      <h2 class="section-title">💊 <em>Medical</em></h2>
+      <span class="search-count" id="count">13 items</span>
+    </div>
+    <p style="color:var(--text-secondary);margin-bottom:24px;max-width:600px;">Syringes, bandages, teas, and health recovery items.</p>
+    <div class="search-wrap" style="max-width:400px;margin:0 0 24px;">
+      <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      <input type="text" placeholder="Filter medical..." id="filterInput">
+    </div>
+    <div class="item-grid" id="itemGrid">
+      <div class="item-card" data-name="medical syringe">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/syringe.medical.png" alt="Medical Syringe" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='ME'"></div>
+        <div class="item-name">Medical Syringe</div>
+        <div class="item-meta">syringe.medical</div>
+      </div>
+      <div class="item-card" data-name="bandage">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/bandage.png" alt="Bandage" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='BA'"></div>
+        <div class="item-name">Bandage</div>
+        <div class="item-meta">bandage</div>
+      </div>
+      <div class="item-card" data-name="large medkit">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/largemedkit.png" alt="Large Medkit" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='LA'"></div>
+        <div class="item-name">Large Medkit</div>
+        <div class="item-meta">largemedkit</div>
+      </div>
+      <div class="item-card" data-name="anti-radiation pills">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/antiradpills.png" alt="Anti-Radiation Pills" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='AN'"></div>
+        <div class="item-name">Anti-Radiation Pills</div>
+        <div class="item-meta">antiradpills</div>
+      </div>
+      <div class="item-card" data-name="pure healing tea">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/healingtea.pure.png" alt="Pure Healing Tea" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='PU'"></div>
+        <div class="item-name">Pure Healing Tea</div>
+        <div class="item-meta">healingtea.pure</div>
+      </div>
+      <div class="item-card" data-name="advanced healing tea">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/healingtea.advanced.png" alt="Advanced Healing Tea" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='AD'"></div>
+        <div class="item-name">Advanced Healing Tea</div>
+        <div class="item-meta">healingtea.advanced</div>
+      </div>
+      <div class="item-card" data-name="basic healing tea">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/healingtea.png" alt="Basic Healing Tea" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='BA'"></div>
+        <div class="item-name">Basic Healing Tea</div>
+        <div class="item-meta">healingtea</div>
+      </div>
+      <div class="item-card" data-name="max health tea">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/maxhealthtea.png" alt="Max Health Tea" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='MA'"></div>
+        <div class="item-name">Max Health Tea</div>
+        <div class="item-meta">maxhealthtea</div>
+      </div>
+      <div class="item-card" data-name="pure max health tea">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/maxhealthtea.pure.png" alt="Pure Max Health Tea" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='PU'"></div>
+        <div class="item-name">Pure Max Health Tea</div>
+        <div class="item-meta">maxhealthtea.pure</div>
+      </div>
+      <div class="item-card" data-name="advanced max health tea">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/maxhealthtea.advanced.png" alt="Advanced Max Health Tea" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='AD'"></div>
+        <div class="item-name">Advanced Max Health Tea</div>
+        <div class="item-meta">maxhealthtea.advanced</div>
+      </div>
+      <div class="item-card" data-name="rad removal tea">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/radiationremovetea.png" alt="Rad Removal Tea" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='RA'"></div>
+        <div class="item-name">Rad Removal Tea</div>
+        <div class="item-meta">radiationremovetea</div>
+      </div>
+      <div class="item-card" data-name="mixing table">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/mixingtable.png" alt="Mixing Table" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='MI'"></div>
+        <div class="item-name">Mixing Table</div>
+        <div class="item-meta">mixingtable</div>
+      </div>
+      <div class="item-card" data-name="blood">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/blood.png" alt="Blood" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='BL'"></div>
+        <div class="item-name">Blood</div>
+        <div class="item-meta">blood</div>
+      </div>
+    </div>
+    <div class="empty-state" id="emptyState" style="display:none;">
+      <div class="icon">🔍</div>
+      <p>No medical match your search.</p>
+    </div>
+  </div>
+</div>
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-copy">&copy; 2026 RustWiki &mdash; Not affiliated with Facepunch Studios</div>
+    <div class="footer-links">
+      <a href="../index.html">Home</a>
+      <a href="../items.html">Items</a>
+      
+      <a href="../servers.html">Servers</a>
+    </div>
+  </div>
+</footer>
+<script>
+document.getElementById('filterInput').addEventListener('input', function() {
+  const q = this.value.toLowerCase();
+  const cards = document.querySelectorAll('.item-card');
+  let vis = 0;
+  cards.forEach(c => {
+    const match = c.dataset.name.includes(q);
+    c.style.display = match ? '' : 'none';
+    if(match) vis++;
+  });
+  document.getElementById('count').textContent = vis + ' items';
+  document.getElementById('emptyState').style.display = vis === 0 ? '' : 'none';
+  document.getElementById('itemGrid').style.display = vis === 0 ? 'none' : '';
+});
+</script>
+</body></html>

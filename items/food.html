@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Food &mdash; RustWiki</title>
+<meta name="description" content="Comprehensive Rust wiki with items, crafting, statistics, and servers.">
+<link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+<header class="top-bar">
+  <a href="../index.html" class="logo"><div class="logo-icon">R</div>RUST<em>WIKI</em></a>
+  <nav class="top-nav" id="nav">
+    <a href="../index.html">Home</a>
+    <a href="../items.html" class="active">Items</a>
+    
+    <a href="../servers.html">Servers</a>
+  </nav>
+  <button class="mobile-toggle" onclick="document.getElementById('nav').classList.toggle('open')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
+  </button>
+</header><div class="page">
+  <div class="breadcrumb">
+    <a href="../index.html">Home</a><span class="sep">/</span>
+    <a href="../items.html">Items</a><span class="sep">/</span>
+    <span>Food</span>
+  </div>
+  <div class="section">
+    <div class="section-header">
+      <h2 class="section-title">🍖 <em>Food</em></h2>
+      <span class="search-count" id="count">26 items</span>
+    </div>
+    <p style="color:var(--text-secondary);margin-bottom:24px;max-width:600px;">Cooked meats, berries, canned goods, and water.</p>
+    <div class="search-wrap" style="max-width:400px;margin:0 0 24px;">
+      <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      <input type="text" placeholder="Filter food..." id="filterInput">
+    </div>
+    <div class="item-grid" id="itemGrid">
+      <div class="item-card" data-name="can of beans">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/can.beans.png" alt="Can of Beans" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='CA'"></div>
+        <div class="item-name">Can of Beans</div>
+        <div class="item-meta">can.beans</div>
+      </div>
+      <div class="item-card" data-name="can of tuna">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/can.tuna.png" alt="Can of Tuna" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='CA'"></div>
+        <div class="item-name">Can of Tuna</div>
+        <div class="item-meta">can.tuna</div>
+      </div>
+      <div class="item-card" data-name="chocolate bar">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/chocolate.png" alt="Chocolate Bar" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='CH'"></div>
+        <div class="item-name">Chocolate Bar</div>
+        <div class="item-meta">chocolate</div>
+      </div>
+      <div class="item-card" data-name="granola bar">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/granolabar.png" alt="Granola Bar" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='GR'"></div>
+        <div class="item-name">Granola Bar</div>
+        <div class="item-meta">granolabar</div>
+      </div>
+      <div class="item-card" data-name="cooked pork">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/meat.pork.cooked.png" alt="Cooked Pork" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='CO'"></div>
+        <div class="item-name">Cooked Pork</div>
+        <div class="item-meta">meat.pork.cooked</div>
+      </div>
+      <div class="item-card" data-name="cooked chicken">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/chicken.cooked.png" alt="Cooked Chicken" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='CO'"></div>
+        <div class="item-name">Cooked Chicken</div>
+        <div class="item-meta">chicken.cooked</div>
+      </div>
+      <div class="item-card" data-name="cooked deer meat">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/deermeat.cooked.png" alt="Cooked Deer Meat" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='CO'"></div>
+        <div class="item-name">Cooked Deer Meat</div>
+        <div class="item-meta">deermeat.cooked</div>
+      </div>
+      <div class="item-card" data-name="cooked wolf meat">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/wolfmeat.cooked.png" alt="Cooked Wolf Meat" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='CO'"></div>
+        <div class="item-name">Cooked Wolf Meat</div>
+        <div class="item-meta">wolfmeat.cooked</div>
+      </div>
+      <div class="item-card" data-name="cooked bear meat">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/bearmeat.cooked.png" alt="Cooked Bear Meat" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='CO'"></div>
+        <div class="item-name">Cooked Bear Meat</div>
+        <div class="item-meta">bearmeat.cooked</div>
+      </div>
+      <div class="item-card" data-name="cooked horse meat">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/horsemeat.cooked.png" alt="Cooked Horse Meat" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='CO'"></div>
+        <div class="item-name">Cooked Horse Meat</div>
+        <div class="item-meta">horsemeat.cooked</div>
+      </div>
+      <div class="item-card" data-name="cooked human meat">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/humanmeat.cooked.png" alt="Cooked Human Meat" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='CO'"></div>
+        <div class="item-name">Cooked Human Meat</div>
+        <div class="item-meta">humanmeat.cooked</div>
+      </div>
+      <div class="item-card" data-name="raw pork">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/meat.boar.png" alt="Raw Pork" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='RA'"></div>
+        <div class="item-name">Raw Pork</div>
+        <div class="item-meta">meat.boar</div>
+      </div>
+      <div class="item-card" data-name="apple">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/apple.png" alt="Apple" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='AP'"></div>
+        <div class="item-name">Apple</div>
+        <div class="item-meta">apple</div>
+      </div>
+      <div class="item-card" data-name="blueberries">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/blueberries.png" alt="Blueberries" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='BL'"></div>
+        <div class="item-name">Blueberries</div>
+        <div class="item-meta">blueberries</div>
+      </div>
+      <div class="item-card" data-name="black raspberries">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/black.raspberries.png" alt="Black Raspberries" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='BL'"></div>
+        <div class="item-name">Black Raspberries</div>
+        <div class="item-meta">black.raspberries</div>
+      </div>
+      <div class="item-card" data-name="corn">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/corn.png" alt="Corn" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='CO'"></div>
+        <div class="item-name">Corn</div>
+        <div class="item-meta">corn</div>
+      </div>
+      <div class="item-card" data-name="pumpkin">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/pumpkin.png" alt="Pumpkin" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='PU'"></div>
+        <div class="item-name">Pumpkin</div>
+        <div class="item-meta">pumpkin</div>
+      </div>
+      <div class="item-card" data-name="potato">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/potato.png" alt="Potato" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='PO'"></div>
+        <div class="item-name">Potato</div>
+        <div class="item-meta">potato</div>
+      </div>
+      <div class="item-card" data-name="mushroom">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/mushroom.png" alt="Mushroom" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='MU'"></div>
+        <div class="item-name">Mushroom</div>
+        <div class="item-meta">mushroom</div>
+      </div>
+      <div class="item-card" data-name="small water bottle">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/water.png" alt="Small Water Bottle" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='SM'"></div>
+        <div class="item-name">Small Water Bottle</div>
+        <div class="item-meta">water</div>
+      </div>
+      <div class="item-card" data-name="water jug">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/waterjug.png" alt="Water Jug" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='WA'"></div>
+        <div class="item-name">Water Jug</div>
+        <div class="item-meta">waterjug</div>
+      </div>
+      <div class="item-card" data-name="bota bag">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/botabag.png" alt="Bota Bag" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='BO'"></div>
+        <div class="item-name">Bota Bag</div>
+        <div class="item-meta">botabag</div>
+      </div>
+      <div class="item-card" data-name="pure ore tea">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/oretea.pure.png" alt="Pure Ore Tea" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='PU'"></div>
+        <div class="item-name">Pure Ore Tea</div>
+        <div class="item-meta">oretea.pure</div>
+      </div>
+      <div class="item-card" data-name="pickles">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/jar.pickle.png" alt="Pickles" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='PI'"></div>
+        <div class="item-name">Pickles</div>
+        <div class="item-meta">jar.pickle</div>
+      </div>
+      <div class="item-card" data-name="bread">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/bread.png" alt="Bread" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='BR'"></div>
+        <div class="item-name">Bread</div>
+        <div class="item-meta">bread</div>
+      </div>
+      <div class="item-card" data-name="fish - trout">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/fish.troutsmall.png" alt="Fish - Trout" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='FI'"></div>
+        <div class="item-name">Fish - Trout</div>
+        <div class="item-meta">fish.troutsmall</div>
+      </div>
+    </div>
+    <div class="empty-state" id="emptyState" style="display:none;">
+      <div class="icon">🔍</div>
+      <p>No food match your search.</p>
+    </div>
+  </div>
+</div>
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-copy">&copy; 2026 RustWiki &mdash; Not affiliated with Facepunch Studios</div>
+    <div class="footer-links">
+      <a href="../index.html">Home</a>
+      <a href="../items.html">Items</a>
+      
+      <a href="../servers.html">Servers</a>
+    </div>
+  </div>
+</footer>
+<script>
+document.getElementById('filterInput').addEventListener('input', function() {
+  const q = this.value.toLowerCase();
+  const cards = document.querySelectorAll('.item-card');
+  let vis = 0;
+  cards.forEach(c => {
+    const match = c.dataset.name.includes(q);
+    c.style.display = match ? '' : 'none';
+    if(match) vis++;
+  });
+  document.getElementById('count').textContent = vis + ' items';
+  document.getElementById('emptyState').style.display = vis === 0 ? '' : 'none';
+  document.getElementById('itemGrid').style.display = vis === 0 ? 'none' : '';
+});
+</script>
+</body></html>

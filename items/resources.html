@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Resources &mdash; RustWiki</title>
+<meta name="description" content="Comprehensive Rust wiki with items, crafting, statistics, and servers.">
+<link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+<header class="top-bar">
+  <a href="../index.html" class="logo"><div class="logo-icon">R</div>RUST<em>WIKI</em></a>
+  <nav class="top-nav" id="nav">
+    <a href="../index.html">Home</a>
+    <a href="../items.html" class="active">Items</a>
+    
+    <a href="../servers.html">Servers</a>
+  </nav>
+  <button class="mobile-toggle" onclick="document.getElementById('nav').classList.toggle('open')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
+  </button>
+</header><div class="page">
+  <div class="breadcrumb">
+    <a href="../index.html">Home</a><span class="sep">/</span>
+    <a href="../items.html">Items</a><span class="sep">/</span>
+    <span>Resources</span>
+  </div>
+  <div class="section">
+    <div class="section-header">
+      <h2 class="section-title">🪨 <em>Resources</em></h2>
+      <span class="search-count" id="count">19 items</span>
+    </div>
+    <p style="color:var(--text-secondary);margin-bottom:24px;max-width:600px;">Raw materials, ores, wood, stone, and crafting components.</p>
+    <div class="search-wrap" style="max-width:400px;margin:0 0 24px;">
+      <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      <input type="text" placeholder="Filter resources..." id="filterInput">
+    </div>
+    <div class="item-grid" id="itemGrid">
+      <div class="item-card" data-name="wood">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/wood.png" alt="Wood" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='WO'"></div>
+        <div class="item-name">Wood</div>
+        <div class="item-meta">wood</div>
+      </div>
+      <div class="item-card" data-name="stone">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/stones.png" alt="Stone" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='ST'"></div>
+        <div class="item-name">Stone</div>
+        <div class="item-meta">stones</div>
+      </div>
+      <div class="item-card" data-name="metal fragments">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/metal.fragments.png" alt="Metal Fragments" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='ME'"></div>
+        <div class="item-name">Metal Fragments</div>
+        <div class="item-meta">metal.fragments</div>
+      </div>
+      <div class="item-card" data-name="high quality metal">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/metal.refined.png" alt="High Quality Metal" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='HI'"></div>
+        <div class="item-name">High Quality Metal</div>
+        <div class="item-meta">metal.refined</div>
+      </div>
+      <div class="item-card" data-name="sulfur">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/sulfur.png" alt="Sulfur" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='SU'"></div>
+        <div class="item-name">Sulfur</div>
+        <div class="item-meta">sulfur</div>
+      </div>
+      <div class="item-card" data-name="sulfur ore">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/sulfur.ore.png" alt="Sulfur Ore" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='SU'"></div>
+        <div class="item-name">Sulfur Ore</div>
+        <div class="item-meta">sulfur.ore</div>
+      </div>
+      <div class="item-card" data-name="metal ore">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/metal.ore.png" alt="Metal Ore" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='ME'"></div>
+        <div class="item-name">Metal Ore</div>
+        <div class="item-meta">metal.ore</div>
+      </div>
+      <div class="item-card" data-name="cloth">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/cloth.png" alt="Cloth" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='CL'"></div>
+        <div class="item-name">Cloth</div>
+        <div class="item-meta">cloth</div>
+      </div>
+      <div class="item-card" data-name="leather">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/leather.png" alt="Leather" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='LE'"></div>
+        <div class="item-name">Leather</div>
+        <div class="item-meta">leather</div>
+      </div>
+      <div class="item-card" data-name="animal fat">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/fat.animal.png" alt="Animal Fat" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='AN'"></div>
+        <div class="item-name">Animal Fat</div>
+        <div class="item-meta">fat.animal</div>
+      </div>
+      <div class="item-card" data-name="bone fragments">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/bone.fragments.png" alt="Bone Fragments" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='BO'"></div>
+        <div class="item-name">Bone Fragments</div>
+        <div class="item-meta">bone.fragments</div>
+      </div>
+      <div class="item-card" data-name="crude oil">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/crude.oil.png" alt="Crude Oil" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='CR'"></div>
+        <div class="item-name">Crude Oil</div>
+        <div class="item-meta">crude.oil</div>
+      </div>
+      <div class="item-card" data-name="low grade fuel">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/lowgradefuel.png" alt="Low Grade Fuel" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='LO'"></div>
+        <div class="item-name">Low Grade Fuel</div>
+        <div class="item-meta">lowgradefuel</div>
+      </div>
+      <div class="item-card" data-name="scrap">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/scrap.png" alt="Scrap" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='SC'"></div>
+        <div class="item-name">Scrap</div>
+        <div class="item-meta">scrap</div>
+      </div>
+      <div class="item-card" data-name="charcoal">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/charcoal.png" alt="Charcoal" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='CH'"></div>
+        <div class="item-name">Charcoal</div>
+        <div class="item-meta">charcoal</div>
+      </div>
+      <div class="item-card" data-name="gunpowder">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/gunpowder.png" alt="Gunpowder" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='GU'"></div>
+        <div class="item-name">Gunpowder</div>
+        <div class="item-meta">gunpowder</div>
+      </div>
+      <div class="item-card" data-name="explosives">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/explosives.png" alt="Explosives" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='EX'"></div>
+        <div class="item-name">Explosives</div>
+        <div class="item-meta">explosives</div>
+      </div>
+      <div class="item-card" data-name="horse dung">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/horsedung.png" alt="Horse Dung" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='HO'"></div>
+        <div class="item-name">Horse Dung</div>
+        <div class="item-meta">horsedung</div>
+      </div>
+      <div class="item-card" data-name="diesel fuel">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/diesel_barrel.png" alt="Diesel Fuel" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='DI'"></div>
+        <div class="item-name">Diesel Fuel</div>
+        <div class="item-meta">diesel_barrel</div>
+      </div>
+    </div>
+    <div class="empty-state" id="emptyState" style="display:none;">
+      <div class="icon">🔍</div>
+      <p>No resources match your search.</p>
+    </div>
+  </div>
+</div>
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-copy">&copy; 2026 RustWiki &mdash; Not affiliated with Facepunch Studios</div>
+    <div class="footer-links">
+      <a href="../index.html">Home</a>
+      <a href="../items.html">Items</a>
+      
+      <a href="../servers.html">Servers</a>
+    </div>
+  </div>
+</footer>
+<script>
+document.getElementById('filterInput').addEventListener('input', function() {
+  const q = this.value.toLowerCase();
+  const cards = document.querySelectorAll('.item-card');
+  let vis = 0;
+  cards.forEach(c => {
+    const match = c.dataset.name.includes(q);
+    c.style.display = match ? '' : 'none';
+    if(match) vis++;
+  });
+  document.getElementById('count').textContent = vis + ' items';
+  document.getElementById('emptyState').style.display = vis === 0 ? '' : 'none';
+  document.getElementById('itemGrid').style.display = vis === 0 ? 'none' : '';
+});
+</script>
+</body></html>

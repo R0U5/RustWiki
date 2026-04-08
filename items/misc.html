@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Misc &mdash; RustWiki</title>
+<meta name="description" content="Comprehensive Rust wiki with items, crafting, statistics, and servers.">
+<link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+<header class="top-bar">
+  <a href="../index.html" class="logo"><div class="logo-icon">R</div>RUST<em>WIKI</em></a>
+  <nav class="top-nav" id="nav">
+    <a href="../index.html">Home</a>
+    <a href="../items.html" class="active">Items</a>
+    
+    <a href="../servers.html">Servers</a>
+  </nav>
+  <button class="mobile-toggle" onclick="document.getElementById('nav').classList.toggle('open')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
+  </button>
+</header><div class="page">
+  <div class="breadcrumb">
+    <a href="../index.html">Home</a><span class="sep">/</span>
+    <a href="../items.html">Items</a><span class="sep">/</span>
+    <span>Misc</span>
+  </div>
+  <div class="section">
+    <div class="section-header">
+      <h2 class="section-title">📦 <em>Misc</em></h2>
+      <span class="search-count" id="count">17 items</span>
+    </div>
+    <p style="color:var(--text-secondary);margin-bottom:24px;max-width:600px;">Maps, notes, keys, and miscellaneous survival items.</p>
+    <div class="search-wrap" style="max-width:400px;margin:0 0 24px;">
+      <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      <input type="text" placeholder="Filter misc..." id="filterInput">
+    </div>
+    <div class="item-grid" id="itemGrid">
+      <div class="item-card" data-name="supply signal">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/supply.signal.png" alt="Supply Signal" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='SU'"></div>
+        <div class="item-name">Supply Signal</div>
+        <div class="item-meta">supply.signal</div>
+      </div>
+      <div class="item-card" data-name="map">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/map.png" alt="Map" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='MA'"></div>
+        <div class="item-name">Map</div>
+        <div class="item-meta">map</div>
+      </div>
+      <div class="item-card" data-name="note">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/note.png" alt="Note" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='NO'"></div>
+        <div class="item-name">Note</div>
+        <div class="item-meta">note</div>
+      </div>
+      <div class="item-card" data-name="small stash">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/stash.small.png" alt="Small Stash" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='SM'"></div>
+        <div class="item-name">Small Stash</div>
+        <div class="item-meta">stash.small</div>
+      </div>
+      <div class="item-card" data-name="workbench level 1">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/workbench1.png" alt="Workbench Level 1" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='WO'"></div>
+        <div class="item-name">Workbench Level 1</div>
+        <div class="item-meta">workbench1</div>
+      </div>
+      <div class="item-card" data-name="workbench level 2">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/workbench2.png" alt="Workbench Level 2" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='WO'"></div>
+        <div class="item-name">Workbench Level 2</div>
+        <div class="item-meta">workbench2</div>
+      </div>
+      <div class="item-card" data-name="workbench level 3">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/workbench3.png" alt="Workbench Level 3" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='WO'"></div>
+        <div class="item-name">Workbench Level 3</div>
+        <div class="item-meta">workbench3</div>
+      </div>
+      <div class="item-card" data-name="research table">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/research.table.png" alt="Research Table" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='RE'"></div>
+        <div class="item-name">Research Table</div>
+        <div class="item-meta">research.table</div>
+      </div>
+      <div class="item-card" data-name="repair bench">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/box.repair.bench.png" alt="Repair Bench" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='RE'"></div>
+        <div class="item-name">Repair Bench</div>
+        <div class="item-meta">box.repair.bench</div>
+      </div>
+      <div class="item-card" data-name="sleeping bag">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/sleepingbag.png" alt="Sleeping Bag" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='SL'"></div>
+        <div class="item-name">Sleeping Bag</div>
+        <div class="item-meta">sleepingbag</div>
+      </div>
+      <div class="item-card" data-name="bed">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/bed.png" alt="Bed" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='BE'"></div>
+        <div class="item-name">Bed</div>
+        <div class="item-meta">bed</div>
+      </div>
+      <div class="item-card" data-name="campfire">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/campfire.png" alt="Campfire" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='CA'"></div>
+        <div class="item-name">Campfire</div>
+        <div class="item-meta">campfire</div>
+      </div>
+      <div class="item-card" data-name="paper map">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/map.png" alt="Paper Map" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='PA'"></div>
+        <div class="item-name">Paper Map</div>
+        <div class="item-meta">map</div>
+      </div>
+      <div class="item-card" data-name="binoculars">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/tool.binoculars.png" alt="Binoculars" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='BI'"></div>
+        <div class="item-name">Binoculars</div>
+        <div class="item-meta">tool.binoculars</div>
+      </div>
+      <div class="item-card" data-name="candle">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/candle.png" alt="Candle" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='CA'"></div>
+        <div class="item-name">Candle</div>
+        <div class="item-meta">candle</div>
+      </div>
+      <div class="item-card" data-name="drone">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/drone.png" alt="Drone" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='DR'"></div>
+        <div class="item-name">Drone</div>
+        <div class="item-meta">drone</div>
+      </div>
+      <div class="item-card" data-name="parachute">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/parachute.png" alt="Parachute" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='PA'"></div>
+        <div class="item-name">Parachute</div>
+        <div class="item-meta">parachute</div>
+      </div>
+    </div>
+    <div class="empty-state" id="emptyState" style="display:none;">
+      <div class="icon">🔍</div>
+      <p>No misc match your search.</p>
+    </div>
+  </div>
+</div>
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-copy">&copy; 2026 RustWiki &mdash; Not affiliated with Facepunch Studios</div>
+    <div class="footer-links">
+      <a href="../index.html">Home</a>
+      <a href="../items.html">Items</a>
+      
+      <a href="../servers.html">Servers</a>
+    </div>
+  </div>
+</footer>
+<script>
+document.getElementById('filterInput').addEventListener('input', function() {
+  const q = this.value.toLowerCase();
+  const cards = document.querySelectorAll('.item-card');
+  let vis = 0;
+  cards.forEach(c => {
+    const match = c.dataset.name.includes(q);
+    c.style.display = match ? '' : 'none';
+    if(match) vis++;
+  });
+  document.getElementById('count').textContent = vis + ' items';
+  document.getElementById('emptyState').style.display = vis === 0 ? '' : 'none';
+  document.getElementById('itemGrid').style.display = vis === 0 ? 'none' : '';
+});
+</script>
+</body></html>

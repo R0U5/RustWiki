@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Weapons &mdash; RustWiki</title>
+<meta name="description" content="Comprehensive Rust wiki with items, crafting, statistics, and servers.">
+<link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+<header class="top-bar">
+  <a href="../index.html" class="logo"><div class="logo-icon">R</div>RUST<em>WIKI</em></a>
+  <nav class="top-nav" id="nav">
+    <a href="../index.html">Home</a>
+    <a href="../items.html" class="active">Items</a>
+    
+    <a href="../servers.html">Servers</a>
+  </nav>
+  <button class="mobile-toggle" onclick="document.getElementById('nav').classList.toggle('open')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
+  </button>
+</header><div class="page">
+  <div class="breadcrumb">
+    <a href="../index.html">Home</a><span class="sep">/</span>
+    <a href="../items.html">Items</a><span class="sep">/</span>
+    <span>Weapons</span>
+  </div>
+  <div class="section">
+    <div class="section-header">
+      <h2 class="section-title">🔫 <em>Weapons</em></h2>
+      <span class="search-count" id="count">41 items</span>
+    </div>
+    <p style="color:var(--text-secondary);margin-bottom:24px;max-width:600px;">Assault rifles, pistols, melee weapons, and explosive launchers.</p>
+    <div class="search-wrap" style="max-width:400px;margin:0 0 24px;">
+      <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      <input type="text" placeholder="Filter weapons..." id="filterInput">
+    </div>
+    <div class="item-grid" id="itemGrid">
+      <div class="item-card" data-name="assault rifle">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/rifle.ak.png" alt="Assault Rifle" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='AS'"></div>
+        <div class="item-name">Assault Rifle</div>
+        <div class="item-meta">rifle.ak</div>
+      </div>
+      <div class="item-card" data-name="bolt action rifle">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/rifle.bolt.png" alt="Bolt Action Rifle" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='BO'"></div>
+        <div class="item-name">Bolt Action Rifle</div>
+        <div class="item-meta">rifle.bolt</div>
+      </div>
+      <div class="item-card" data-name="semi-automatic rifle">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/rifle.semiauto.png" alt="Semi-Automatic Rifle" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='SE'"></div>
+        <div class="item-name">Semi-Automatic Rifle</div>
+        <div class="item-meta">rifle.semiauto</div>
+      </div>
+      <div class="item-card" data-name="lr-300 assault rifle">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/rifle.lr300.png" alt="LR-300 Assault Rifle" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='LR'"></div>
+        <div class="item-name">LR-300 Assault Rifle</div>
+        <div class="item-meta">rifle.lr300</div>
+      </div>
+      <div class="item-card" data-name="l96 rifle">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/rifle.l96.png" alt="L96 Rifle" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='L9'"></div>
+        <div class="item-name">L96 Rifle</div>
+        <div class="item-meta">rifle.l96</div>
+      </div>
+      <div class="item-card" data-name="m249">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/lmg.m249.png" alt="M249" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='M2'"></div>
+        <div class="item-name">M249</div>
+        <div class="item-meta">lmg.m249</div>
+      </div>
+      <div class="item-card" data-name="m39 rifle">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/rifle.m39.png" alt="M39 Rifle" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='M3'"></div>
+        <div class="item-name">M39 Rifle</div>
+        <div class="item-meta">rifle.m39</div>
+      </div>
+      <div class="item-card" data-name="thompson">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/smg.thompson.png" alt="Thompson" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='TH'"></div>
+        <div class="item-name">Thompson</div>
+        <div class="item-meta">smg.thompson</div>
+      </div>
+      <div class="item-card" data-name="mp5a4">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/smg.mp5.png" alt="MP5A4" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='MP'"></div>
+        <div class="item-name">MP5A4</div>
+        <div class="item-meta">smg.mp5</div>
+      </div>
+      <div class="item-card" data-name="custom smg">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/smg.2.png" alt="Custom SMG" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='CU'"></div>
+        <div class="item-name">Custom SMG</div>
+        <div class="item-meta">smg.2</div>
+      </div>
+      <div class="item-card" data-name="semi-automatic pistol">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/pistol.semiauto.png" alt="Semi-Automatic Pistol" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='SE'"></div>
+        <div class="item-name">Semi-Automatic Pistol</div>
+        <div class="item-meta">pistol.semiauto</div>
+      </div>
+      <div class="item-card" data-name="python revolver">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/pistol.python.png" alt="Python Revolver" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='PY'"></div>
+        <div class="item-name">Python Revolver</div>
+        <div class="item-meta">pistol.python</div>
+      </div>
+      <div class="item-card" data-name="m92 pistol">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/pistol.m92.png" alt="M92 Pistol" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='M9'"></div>
+        <div class="item-name">M92 Pistol</div>
+        <div class="item-meta">pistol.m92</div>
+      </div>
+      <div class="item-card" data-name="revolver">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/pistol.revolver.png" alt="Revolver" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='RE'"></div>
+        <div class="item-name">Revolver</div>
+        <div class="item-meta">pistol.revolver</div>
+      </div>
+      <div class="item-card" data-name="eoka pistol">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/pistol.eoka.png" alt="Eoka Pistol" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='EO'"></div>
+        <div class="item-name">Eoka Pistol</div>
+        <div class="item-meta">pistol.eoka</div>
+      </div>
+      <div class="item-card" data-name="nailgun">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/pistol.nailgun.png" alt="Nailgun" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='NA'"></div>
+        <div class="item-name">Nailgun</div>
+        <div class="item-meta">pistol.nailgun</div>
+      </div>
+      <div class="item-card" data-name="pump shotgun">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/shotgun.pump.png" alt="Pump Shotgun" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='PU'"></div>
+        <div class="item-name">Pump Shotgun</div>
+        <div class="item-meta">shotgun.pump</div>
+      </div>
+      <div class="item-card" data-name="double barrel shotgun">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/shotgun.double.png" alt="Double Barrel Shotgun" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='DO'"></div>
+        <div class="item-name">Double Barrel Shotgun</div>
+        <div class="item-meta">shotgun.double</div>
+      </div>
+      <div class="item-card" data-name="spas-12 shotgun">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/shotgun.spas12.png" alt="Spas-12 Shotgun" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='SP'"></div>
+        <div class="item-name">Spas-12 Shotgun</div>
+        <div class="item-meta">shotgun.spas12</div>
+      </div>
+      <div class="item-card" data-name="waterpipe shotgun">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/shotgun.waterpipe.png" alt="Waterpipe Shotgun" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='WA'"></div>
+        <div class="item-name">Waterpipe Shotgun</div>
+        <div class="item-meta">shotgun.waterpipe</div>
+      </div>
+      <div class="item-card" data-name="crossbow">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/crossbow.png" alt="Crossbow" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='CR'"></div>
+        <div class="item-name">Crossbow</div>
+        <div class="item-meta">crossbow</div>
+      </div>
+      <div class="item-card" data-name="compound bow">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/bow.compound.png" alt="Compound Bow" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='CO'"></div>
+        <div class="item-name">Compound Bow</div>
+        <div class="item-meta">bow.compound</div>
+      </div>
+      <div class="item-card" data-name="hunting bow">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/bow.hunting.png" alt="Hunting Bow" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='HU'"></div>
+        <div class="item-name">Hunting Bow</div>
+        <div class="item-meta">bow.hunting</div>
+      </div>
+      <div class="item-card" data-name="longsword">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/longsword.png" alt="Longsword" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='LO'"></div>
+        <div class="item-name">Longsword</div>
+        <div class="item-meta">longsword</div>
+      </div>
+      <div class="item-card" data-name="salvaged sword">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/salvaged.sword.png" alt="Salvaged Sword" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='SA'"></div>
+        <div class="item-name">Salvaged Sword</div>
+        <div class="item-meta">salvaged.sword</div>
+      </div>
+      <div class="item-card" data-name="salvaged cleaver">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/salvaged.cleaver.png" alt="Salvaged Cleaver" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='SA'"></div>
+        <div class="item-name">Salvaged Cleaver</div>
+        <div class="item-meta">salvaged.cleaver</div>
+      </div>
+      <div class="item-card" data-name="mace">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/mace.png" alt="Mace" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='MA'"></div>
+        <div class="item-name">Mace</div>
+        <div class="item-meta">mace</div>
+      </div>
+      <div class="item-card" data-name="bone club">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/bone.club.png" alt="Bone Club" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='BO'"></div>
+        <div class="item-name">Bone Club</div>
+        <div class="item-meta">bone.club</div>
+      </div>
+      <div class="item-card" data-name="bone knife">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/knife.bone.png" alt="Bone Knife" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='BO'"></div>
+        <div class="item-name">Bone Knife</div>
+        <div class="item-meta">knife.bone</div>
+      </div>
+      <div class="item-card" data-name="combat knife">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/knife.combat.png" alt="Combat Knife" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='CO'"></div>
+        <div class="item-name">Combat Knife</div>
+        <div class="item-meta">knife.combat</div>
+      </div>
+      <div class="item-card" data-name="butcher knife">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/knife.butcher.png" alt="Butcher Knife" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='BU'"></div>
+        <div class="item-name">Butcher Knife</div>
+        <div class="item-meta">knife.butcher</div>
+      </div>
+      <div class="item-card" data-name="stone spear">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/spear.stone.png" alt="Stone Spear" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='ST'"></div>
+        <div class="item-name">Stone Spear</div>
+        <div class="item-meta">spear.stone</div>
+      </div>
+      <div class="item-card" data-name="wooden spear">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/spear.wooden.png" alt="Wooden Spear" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='WO'"></div>
+        <div class="item-name">Wooden Spear</div>
+        <div class="item-meta">spear.wooden</div>
+      </div>
+      <div class="item-card" data-name="flame thrower">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/flamethrower.png" alt="Flame Thrower" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='FL'"></div>
+        <div class="item-name">Flame Thrower</div>
+        <div class="item-meta">flamethrower</div>
+      </div>
+      <div class="item-card" data-name="rocket launcher">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/rocket.launcher.png" alt="Rocket Launcher" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='RO'"></div>
+        <div class="item-name">Rocket Launcher</div>
+        <div class="item-meta">rocket.launcher</div>
+      </div>
+      <div class="item-card" data-name="multiple grenade launcher">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/multiplegrenadelauncher.png" alt="Multiple Grenade Launcher" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='MU'"></div>
+        <div class="item-name">Multiple Grenade Launcher</div>
+        <div class="item-meta">multiplegrenadelauncher</div>
+      </div>
+      <div class="item-card" data-name="f1 grenade">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/grenade.f1.png" alt="F1 Grenade" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='F1'"></div>
+        <div class="item-name">F1 Grenade</div>
+        <div class="item-meta">grenade.f1</div>
+      </div>
+      <div class="item-card" data-name="beancan grenade">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/grenade.beancan.png" alt="Beancan Grenade" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='BE'"></div>
+        <div class="item-name">Beancan Grenade</div>
+        <div class="item-meta">grenade.beancan</div>
+      </div>
+      <div class="item-card" data-name="satchel charge">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/explosive.satchel.png" alt="Satchel Charge" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='SA'"></div>
+        <div class="item-name">Satchel Charge</div>
+        <div class="item-meta">explosive.satchel</div>
+      </div>
+      <div class="item-card" data-name="timed explosive charge">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/explosive.timed.png" alt="Timed Explosive Charge" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='TI'"></div>
+        <div class="item-name">Timed Explosive Charge</div>
+        <div class="item-meta">explosive.timed</div>
+      </div>
+      <div class="item-card" data-name="minigun">
+        <div class="item-img"><img src="https://rustlabs.com/img/items180/minigun.png" alt="Minigun" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='MI'"></div>
+        <div class="item-name">Minigun</div>
+        <div class="item-meta">minigun</div>
+      </div>
+    </div>
+    <div class="empty-state" id="emptyState" style="display:none;">
+      <div class="icon">🔍</div>
+      <p>No weapons match your search.</p>
+    </div>
+  </div>
+</div>
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-copy">&copy; 2026 RustWiki &mdash; Not affiliated with Facepunch Studios</div>
+    <div class="footer-links">
+      <a href="../index.html">Home</a>
+      <a href="../items.html">Items</a>
+      
+      <a href="../servers.html">Servers</a>
+    </div>
+  </div>
+</footer>
+<script>
+document.getElementById('filterInput').addEventListener('input', function() {
+  const q = this.value.toLowerCase();
+  const cards = document.querySelectorAll('.item-card');
+  let vis = 0;
+  cards.forEach(c => {
+    const match = c.dataset.name.includes(q);
+    c.style.display = match ? '' : 'none';
+    if(match) vis++;
+  });
+  document.getElementById('count').textContent = vis + ' items';
+  document.getElementById('emptyState').style.display = vis === 0 ? '' : 'none';
+  document.getElementById('itemGrid').style.display = vis === 0 ? 'none' : '';
+});
+</script>
+</body></html>
