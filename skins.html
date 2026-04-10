@@ -7,32 +7,19 @@
 <meta name="description" content="Browse the current Rust item store rotation — weekly skins with prices, previews, and more.">
 <link rel="stylesheet" href="css/style.css">
 <style>
+  /* ---------- layout & colors ---------- */
   .store-info{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px;margin-bottom:28px}
   .info-card{background:var(--bg-card);border:1px solid var(--border);border-radius:8px;padding:20px;display:flex;align-items:flex-start;gap:14px}
-  .info-card .ic-icon{font-size:28px;flex-shrink:0;margin-top:2px}
   .info-card h3{font-family:var(--font-heading);font-size:15px;color:var(--text-primary);margin:0 0 4px}
   .info-card p{font-size:13px;color:var(--text-muted);margin:0;line-height:1.5}
-
-  .store-embed-wrap{position:relative;width:100%;border-radius:8px;overflow:hidden;border:1px solid var(--border);background:var(--bg-card)}
-  .store-embed-wrap iframe{width:100%;height:800px;border:none}
-  .embed-overlay{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;background:var(--bg-card);z-index:5;transition:opacity .3s}
-  .embed-overlay.hidden{opacity:0;pointer-events:none}
-  .embed-overlay .spinner{width:32px;height:32px;border:3px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:spin .8s linear infinite;margin-bottom:16px}
-  @keyframes spin{to{transform:rotate(360deg)}}
-  .embed-overlay p{font-size:14px;color:var(--text-muted)}
-
   .store-links{display:flex;gap:12px;flex-wrap:wrap;margin-top:20px}
   .store-link{font-family:var(--font-condensed);font-size:13px;font-weight:500;text-transform:uppercase;letter-spacing:1px;padding:10px 24px;border-radius:6px;border:1px solid var(--border);color:var(--text-secondary);text-decoration:none;transition:all .2s;display:flex;align-items:center;gap:8px}
   .store-link:hover{border-color:var(--accent);color:var(--accent);background:var(--accent-glow)}
   .store-link.primary{background:var(--accent);border-color:var(--accent);color:#fff}
   .store-link.primary:hover{opacity:.85;color:#fff}
-
   .embed-note{font-size:12px;color:var(--text-muted);margin-top:12px;line-height:1.6}
-
-  @media(max-width:768px){
-    .store-embed-wrap iframe{height:600px}
-    .store-info{grid-template-columns:1fr}
-  }
+  .store-preview img{width:100%;max-width:800px;border-radius:8px;border:1px solid var(--border);display:block;margin:0 auto}
+  @media(max-width:768px){.store-info{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -55,10 +42,11 @@
 
   <div class="hero" style="padding:36px 24px 28px;">
     <h1>Rust <em>Item Store</em></h1>
-    <p>The official Rust item store rotates every Thursday with new community-made skins. Browse the current rotation below.</p>
+    <p>The official Rust item store rotates every Thursday with new community‑made skins. Browse the current rotation below.</p>
   </div>
 
   <div class="section">
+    <!-- ---- store info cards ---- -->
     <div class="store-info">
       <div class="info-card">
         <div class="ic-icon">🔄</div>
@@ -71,7 +59,7 @@
         <div class="ic-icon">💰</div>
         <div>
           <h3>Prices</h3>
-          <p>Most skins range from $1.49&ndash;$4.99 USD. Building skins and rare items can cost up to $13.99.</p>
+          <p>Most skins range from $1.49–$4.99 USD. Building skins and rare items can cost up to $13.99.</p>
         </div>
       </div>
       <div class="info-card">
@@ -83,35 +71,23 @@
       </div>
     </div>
 
+    <!-- ---- section title ---- -->
     <div class="section-header" style="margin-bottom:16px;">
       <h2 class="section-title">Current <em>Store</em></h2>
     </div>
 
-    <div class="store-embed-wrap">
-      <div class="embed-overlay" id="embedOverlay">
-        <div class="spinner"></div>
-        <p>Loading Steam Item Store...</p>
-      </div>
-      <iframe
-        src="https://store.steampowered.com/itemstore/252490/"
-        id="storeFrame"
-        sandbox="allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox"
-        loading="lazy"
-        title="Rust Item Store on Steam"
-        onload="document.getElementById('embedOverlay').classList.add('hidden')">
-      </iframe>
-    </div>
-
-    <div class="embed-note">
-      If the embedded store doesn't load properly, use the direct links below. Steam login is required to purchase skins.
-    </div>
-
+    <!-- ---- links to Steam ---- -->
     <div class="store-links">
-      <a href="https://store.steampowered.com/itemstore/252490/" target="_blank" rel="noopener" class="store-link primary">🛒 Open Steam Item Store</a>
-      <a href="https://store.steampowered.com/itemstore/252490/browse/?filter=All" target="_blank" rel="noopener" class="store-link">📋 Browse All Skins</a>
-      <a href="https://store.steampowered.com/itemstore/252490/browse/?filter=Limited" target="_blank" rel="noopener" class="store-link">⏳ Limited Items</a>
-      <a href="https://steamcommunity.com/market/search?appid=252490" target="_blank" rel="noopener" class="store-link">📈 Community Market</a>
-      <a href="https://skinlords.com/blog/category/rust-item-store/" target="_blank" rel="noopener" class="store-link">📰 Weekly Reviews (SkinLords)</a>
+      <a href="https://store.steampowered.com/itemstore/252490/"
+         target="_blank" rel="noopener" class="store-link primary">Open Steam Item Store</a>
+      <a href="https://store.steampowered.com/itemstore/252490/browse/?filter=All"
+         target="_blank" rel="noopener" class="store-link">Browse All Skins</a>
+      <a href="https://store.steampowered.com/itemstore/252490/browse/?filter=Limited"
+         target="_blank" rel="noopener" class="store-link">Limited Items</a>
+      <a href="https://steamcommunity.com/market/search?appid=252490"
+         target="_blank" rel="noopener" class="store-link">Community Market</a>
+      <a href="https://skinlords.com/blog/category/rust-item-store/"
+         target="_blank" rel="noopener" class="store-link">Weekly Reviews (SkinLords)</a>
     </div>
   </div>
 </div>
