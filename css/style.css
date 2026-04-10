@@ -95,7 +95,7 @@ img { max-width:100%; display:block; }
 .top-nav { display:flex; gap:2px; align-items:center; }
 .top-nav a {
   font-family: var(--font-condensed);
-  font-size:14px; font-weight:500;
+  font-size:20px; font-weight:500;
   text-transform:uppercase; letter-spacing:1px;
   color: var(--text-secondary);
   padding:8px 16px; border-radius:4px;

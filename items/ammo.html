@@ -4,8 +4,46 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Ammo &mdash; RustWiki</title>
-<meta name="description" content="Comprehensive Rust wiki with items, crafting, statistics, and servers.">
+<meta name="description" content="All ammo in Rust — descriptions, crafting costs, and detailed information.">
 <link rel="stylesheet" href="../css/style.css">
+<style>
+  .item-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:12px}
+  .item-card{background:var(--bg-card);border:1px solid var(--border);border-radius:8px;padding:16px 12px;text-align:center;cursor:pointer;transition:all .2s;text-decoration:none;color:inherit;display:flex;flex-direction:column;align-items:center;gap:8px}
+  .item-card:hover{border-color:var(--accent);background:var(--bg-card-hover);transform:translateY(-2px)}
+  .item-card img{width:80px;height:80px;object-fit:contain;filter:drop-shadow(0 2px 6px rgba(0,0,0,.3))}
+  .item-card .item-label{font-family:var(--font-heading);font-size:13px;font-weight:600;color:var(--text-primary);line-height:1.2}
+  .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.7);backdrop-filter:blur(4px);z-index:200;display:none;align-items:center;justify-content:center;padding:20px}
+  .modal-overlay.open{display:flex}
+  .modal{background:var(--bg-card);border:1px solid var(--border);border-radius:12px;max-width:600px;width:100%;max-height:90vh;overflow-y:auto;position:relative;animation:modalIn .25s ease}
+  @keyframes modalIn{from{opacity:0;transform:scale(.95)}to{opacity:1;transform:scale(1)}}
+  .modal-close{position:absolute;top:12px;right:14px;background:none;border:none;color:var(--text-muted);font-size:24px;cursor:pointer;z-index:1;line-height:1;padding:4px 8px;border-radius:4px;transition:all .15s}
+  .modal-close:hover{color:var(--accent);background:var(--bg-secondary)}
+  .modal-header{display:flex;align-items:center;gap:20px;padding:28px 28px 0;border-bottom:1px solid var(--border);padding-bottom:20px}
+  .modal-header img{width:100px;height:100px;object-fit:contain;filter:drop-shadow(0 4px 12px rgba(0,0,0,.4))}
+  .modal-header-text h2{font-family:var(--font-heading);font-size:22px;color:var(--text-primary);margin:0}
+  .modal-header-text .item-type{font-family:var(--font-condensed);font-size:12px;text-transform:uppercase;letter-spacing:1.5px;color:var(--accent);margin-top:4px}
+  .modal-header-text .item-desc{font-size:13px;color:var(--text-muted);margin-top:8px;line-height:1.5}
+  .modal-body{padding:20px 28px 28px}
+  .modal-section-title{font-family:var(--font-condensed);font-size:12px;text-transform:uppercase;letter-spacing:1.5px;color:var(--text-muted);margin-bottom:10px;margin-top:20px}
+  .modal-section-title:first-child{margin-top:0}
+  .craft-row{display:flex;align-items:center;gap:12px;padding:8px 12px;background:var(--bg-secondary);border-radius:6px;margin-bottom:6px}
+  .craft-row img{width:32px;height:32px;object-fit:contain}
+  .craft-row .craft-name{font-size:14px;color:var(--text-primary);flex:1}
+  .craft-row .craft-amount{font-family:var(--font-heading);font-weight:700;font-size:15px;color:var(--accent)}
+  .stat-grid-modal{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:8px}
+  .stat-item{background:var(--bg-secondary);border-radius:6px;padding:10px 12px;text-align:center}
+  .stat-item .stat-label{font-family:var(--font-condensed);font-size:11px;text-transform:uppercase;letter-spacing:1px;color:var(--text-muted)}
+  .stat-item .stat-val{font-family:var(--font-heading);font-weight:700;font-size:18px;color:var(--text-primary);margin-top:2px}
+  .craft-time{font-size:13px;color:var(--text-muted);margin-top:12px;display:flex;align-items:center;gap:6px}
+  .craft-time em{color:var(--accent);font-style:normal;font-weight:600}
+  .workbench-badge{display:inline-block;font-family:var(--font-condensed);font-size:11px;text-transform:uppercase;letter-spacing:1px;padding:3px 10px;border-radius:4px;background:var(--bg-secondary);border:1px solid var(--border);color:var(--text-secondary);margin-top:8px}
+  @media(max-width:600px){
+    .item-grid{grid-template-columns:repeat(auto-fill,minmax(100px,1fr))}
+    .item-card img{width:60px;height:60px}
+    .modal-header{flex-direction:column;text-align:center;gap:12px}
+    .stat-grid-modal{grid-template-columns:1fr 1fr}
+  }
+</style>
 </head>
 <body>
 <header class="top-bar">
@@ -13,144 +51,32 @@
   <nav class="top-nav" id="nav">
     <a href="../index.html">Home</a>
     <a href="../items.html" class="active">Items</a>
-    
+    <a href="../skins.html">Skins</a>
     <a href="../servers.html">Servers</a>
   </nav>
   <button class="mobile-toggle" onclick="document.getElementById('nav').classList.toggle('open')">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
   </button>
-</header><div class="page">
+</header>
+<div class="page">
   <div class="breadcrumb">
     <a href="../index.html">Home</a><span class="sep">/</span>
     <a href="../items.html">Items</a><span class="sep">/</span>
     <span>Ammo</span>
   </div>
+  <div class="hero" style="padding:36px 24px 28px;">
+    <h1><img src="https://rustlabs.com/img/items180/ammo.rifle.png" style="width:48px;height:48px;object-fit:contain;vertical-align:middle;margin-right:8px"> <em>Ammo</em></h1>
+    <p>All ammunition types in Rust — from arrows to high velocity rockets.</p>
+  </div>
   <div class="section">
-    <div class="section-header">
-      <h2 class="section-title">🎯 <em>Ammo</em></h2>
-      <span class="search-count" id="count">22 items</span>
-    </div>
-    <p style="color:var(--text-secondary);margin-bottom:24px;max-width:600px;">Bullets, shells, arrows, and explosive ammunition.</p>
-    <div class="search-wrap" style="max-width:400px;margin:0 0 24px;">
-      <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-      <input type="text" placeholder="Filter ammo..." id="filterInput">
-    </div>
-    <div class="item-grid" id="itemGrid">
-      <div class="item-card" data-name="5.56 rifle ammo">
-        <div class="item-img"><img src="https://rustlabs.com/img/items180/ammo.rifle.png" alt="5.56 Rifle Ammo" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='5.'"></div>
-        <div class="item-name">5.56 Rifle Ammo</div>
-        <div class="item-meta">ammo.rifle</div>
-      </div>
-      <div class="item-card" data-name="explosive 5.56 rifle ammo">
-        <div class="item-img"><img src="https://rustlabs.com/img/items180/ammo.rifle.explosive.png" alt="Explosive 5.56 Rifle Ammo" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='EX'"></div>
-        <div class="item-name">Explosive 5.56 Rifle Ammo</div>
-        <div class="item-meta">ammo.rifle.explosive</div>
-      </div>
-      <div class="item-card" data-name="incendiary 5.56 rifle ammo">
-        <div class="item-img"><img src="https://rustlabs.com/img/items180/ammo.rifle.incendiary.png" alt="Incendiary 5.56 Rifle Ammo" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='IN'"></div>
-        <div class="item-name">Incendiary 5.56 Rifle Ammo</div>
-        <div class="item-meta">ammo.rifle.incendiary</div>
-      </div>
-      <div class="item-card" data-name="hv 5.56 rifle ammo">
-        <div class="item-img"><img src="https://rustlabs.com/img/items180/ammo.rifle.hv.png" alt="HV 5.56 Rifle Ammo" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='HV'"></div>
-        <div class="item-name">HV 5.56 Rifle Ammo</div>
-        <div class="item-meta">ammo.rifle.hv</div>
-      </div>
-      <div class="item-card" data-name="pistol bullet">
-        <div class="item-img"><img src="https://rustlabs.com/img/items180/ammo.pistol.png" alt="Pistol Bullet" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='PI'"></div>
-        <div class="item-name">Pistol Bullet</div>
-        <div class="item-meta">ammo.pistol</div>
-      </div>
-      <div class="item-card" data-name="hv pistol ammo">
-        <div class="item-img"><img src="https://rustlabs.com/img/items180/ammo.pistol.hv.png" alt="HV Pistol Ammo" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='HV'"></div>
-        <div class="item-name">HV Pistol Ammo</div>
-        <div class="item-meta">ammo.pistol.hv</div>
-      </div>
-      <div class="item-card" data-name="incendiary pistol bullet">
-        <div class="item-img"><img src="https://rustlabs.com/img/items180/ammo.pistol.fire.png" alt="Incendiary Pistol Bullet" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='IN'"></div>
-        <div class="item-name">Incendiary Pistol Bullet</div>
-        <div class="item-meta">ammo.pistol.fire</div>
-      </div>
-      <div class="item-card" data-name="12 gauge buckshot">
-        <div class="item-img"><img src="https://rustlabs.com/img/items180/ammo.shotgun.png" alt="12 Gauge Buckshot" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='12'"></div>
-        <div class="item-name">12 Gauge Buckshot</div>
-        <div class="item-meta">ammo.shotgun</div>
-      </div>
-      <div class="item-card" data-name="12 gauge slug">
-        <div class="item-img"><img src="https://rustlabs.com/img/items180/ammo.shotgun.slug.png" alt="12 Gauge Slug" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='12'"></div>
-        <div class="item-name">12 Gauge Slug</div>
-        <div class="item-meta">ammo.shotgun.slug</div>
-      </div>
-      <div class="item-card" data-name="12 gauge incendiary shell">
-        <div class="item-img"><img src="https://rustlabs.com/img/items180/ammo.shotgun.fire.png" alt="12 Gauge Incendiary Shell" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='12'"></div>
-        <div class="item-name">12 Gauge Incendiary Shell</div>
-        <div class="item-meta">ammo.shotgun.fire</div>
-      </div>
-      <div class="item-card" data-name="handmade shell">
-        <div class="item-img"><img src="https://rustlabs.com/img/items180/ammo.handmade.shell.png" alt="Handmade Shell" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='HA'"></div>
-        <div class="item-name">Handmade Shell</div>
-        <div class="item-meta">ammo.handmade.shell</div>
-      </div>
-      <div class="item-card" data-name="rocket">
-        <div class="item-img"><img src="https://rustlabs.com/img/items180/ammo.rocket.basic.png" alt="Rocket" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='RO'"></div>
-        <div class="item-name">Rocket</div>
-        <div class="item-meta">ammo.rocket.basic</div>
-      </div>
-      <div class="item-card" data-name="incendiary rocket">
-        <div class="item-img"><img src="https://rustlabs.com/img/items180/ammo.rocket.fire.png" alt="Incendiary Rocket" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='IN'"></div>
-        <div class="item-name">Incendiary Rocket</div>
-        <div class="item-meta">ammo.rocket.fire</div>
-      </div>
-      <div class="item-card" data-name="high velocity rocket">
-        <div class="item-img"><img src="https://rustlabs.com/img/items180/ammo.rocket.hv.png" alt="High Velocity Rocket" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='HI'"></div>
-        <div class="item-name">High Velocity Rocket</div>
-        <div class="item-meta">ammo.rocket.hv</div>
-      </div>
-      <div class="item-card" data-name="40mm he grenade">
-        <div class="item-img"><img src="https://rustlabs.com/img/items180/ammo.grenadelauncher.he.png" alt="40mm HE Grenade" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='40'"></div>
-        <div class="item-name">40mm HE Grenade</div>
-        <div class="item-meta">ammo.grenadelauncher.he</div>
-      </div>
-      <div class="item-card" data-name="40mm shotgun round">
-        <div class="item-img"><img src="https://rustlabs.com/img/items180/ammo.grenadelauncher.buckshot.png" alt="40mm Shotgun Round" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='40'"></div>
-        <div class="item-name">40mm Shotgun Round</div>
-        <div class="item-meta">ammo.grenadelauncher.buckshot</div>
-      </div>
-      <div class="item-card" data-name="40mm smoke grenade">
-        <div class="item-img"><img src="https://rustlabs.com/img/items180/ammo.grenadelauncher.smoke.png" alt="40mm Smoke Grenade" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='40'"></div>
-        <div class="item-name">40mm Smoke Grenade</div>
-        <div class="item-meta">ammo.grenadelauncher.smoke</div>
-      </div>
-      <div class="item-card" data-name="bone arrow">
-        <div class="item-img"><img src="https://rustlabs.com/img/items180/arrow.bone.png" alt="Bone Arrow" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='BO'"></div>
-        <div class="item-name">Bone Arrow</div>
-        <div class="item-meta">arrow.bone</div>
-      </div>
-      <div class="item-card" data-name="wooden arrow">
-        <div class="item-img"><img src="https://rustlabs.com/img/items180/arrow.wooden.png" alt="Wooden Arrow" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='WO'"></div>
-        <div class="item-name">Wooden Arrow</div>
-        <div class="item-meta">arrow.wooden</div>
-      </div>
-      <div class="item-card" data-name="fire arrow">
-        <div class="item-img"><img src="https://rustlabs.com/img/items180/arrow.fire.png" alt="Fire Arrow" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='FI'"></div>
-        <div class="item-name">Fire Arrow</div>
-        <div class="item-meta">arrow.fire</div>
-      </div>
-      <div class="item-card" data-name="hv arrow">
-        <div class="item-img"><img src="https://rustlabs.com/img/items180/arrow.hv.png" alt="HV Arrow" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='HV'"></div>
-        <div class="item-name">HV Arrow</div>
-        <div class="item-meta">arrow.hv</div>
-      </div>
-      <div class="item-card" data-name="nailgun nails">
-        <div class="item-img"><img src="https://rustlabs.com/img/items180/ammo.nailgun.nails.png" alt="Nailgun Nails" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='NA'"></div>
-        <div class="item-name">Nailgun Nails</div>
-        <div class="item-meta">ammo.nailgun.nails</div>
-      </div>
-    </div>
-    <div class="empty-state" id="emptyState" style="display:none;">
-      <div class="icon">🔍</div>
-      <p>No ammo match your search.</p>
-    </div>
+    <div class="item-grid" id="itemGrid"></div>
+  </div>
+</div>
+<div class="modal-overlay" id="modal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal()">&times;</button>
+    <div class="modal-header" id="modalHeader"></div>
+    <div class="modal-body" id="modalBody"></div>
   </div>
 </div>
 <footer class="site-footer">
@@ -159,24 +85,69 @@
     <div class="footer-links">
       <a href="../index.html">Home</a>
       <a href="../items.html">Items</a>
-      
+      <a href="../skins.html">Skins</a>
       <a href="../servers.html">Servers</a>
     </div>
   </div>
 </footer>
 <script>
-document.getElementById('filterInput').addEventListener('input', function() {
-  const q = this.value.toLowerCase();
-  const cards = document.querySelectorAll('.item-card');
-  let vis = 0;
-  cards.forEach(c => {
-    const match = c.dataset.name.includes(q);
-    c.style.display = match ? '' : 'none';
-    if(match) vis++;
-  });
-  document.getElementById('count').textContent = vis + ' items';
-  document.getElementById('emptyState').style.display = vis === 0 ? '' : 'none';
-  document.getElementById('itemGrid').style.display = vis === 0 ? 'none' : '';
-});
+const IMG = 'https://rustlabs.com/img/items180';
+const ITEMS = [{"n": "Wooden Arrow", "s": "arrow.wooden", "desc": "Basic arrow for the hunting bow. Cheap and effective early game.", "craft": [{"n": "Wood", "s": "wood", "a": 25}, {"n": "Stones", "s": "stones", "a": 10}], "wb": 0, "time": 2}, {"n": "High Velocity Arrow", "s": "arrow.hv", "desc": "A faster arrow with flatter trajectory. Better for long range.", "craft": [{"n": "Wood", "s": "wood", "a": 15}, {"n": "Stones", "s": "stones", "a": 5}, {"n": "Metal Fragments", "s": "metal.fragments", "a": 5}], "wb": 1, "time": 2}, {"n": "Bone Arrow", "s": "arrow.bone", "desc": "An arrow tipped with bone. More damage than wooden arrows.", "craft": [{"n": "Wood", "s": "wood", "a": 25}, {"n": "Bone Fragments", "s": "bone.fragments", "a": 10}], "wb": 0, "time": 2}, {"n": "Fire Arrow", "s": "arrow.fire", "desc": "An arrow that ignites on impact. Sets wooden structures on fire.", "craft": [{"n": "Wood", "s": "wood", "a": 25}, {"n": "Cloth", "s": "cloth", "a": 2}, {"n": "Low Grade Fuel", "s": "lowgradefuel", "a": 10}], "wb": 0, "time": 3}, {"n": "Nails", "s": "ammo.nailgun.nails", "desc": "Ammunition for the nailgun. Cheap and plentiful.", "craft": [{"n": "Metal Fragments", "s": "metal.fragments", "a": 4}], "wb": 0, "time": 1}, {"n": "Handmade Shell", "s": "ammo.handmade.shell", "desc": "Crude shotgun ammo. Less damage and range than manufactured shells.", "craft": [{"n": "Gunpowder", "s": "gunpowder", "a": 5}, {"n": "Stones", "s": "stones", "a": 5}], "wb": 0, "time": 2}, {"n": "12 Gauge Buckshot", "s": "ammo.shotgun", "desc": "Standard shotgun ammunition. Devastating at close range.", "craft": [{"n": "Gunpowder", "s": "gunpowder", "a": 3}, {"n": "Metal Fragments", "s": "metal.fragments", "a": 3}], "wb": 1, "time": 2}, {"n": "12 Gauge Slug", "s": "ammo.shotgun.slug", "desc": "Single-projectile shotgun round. Higher range and accuracy than buckshot.", "craft": [{"n": "Gunpowder", "s": "gunpowder", "a": 3}, {"n": "Metal Fragments", "s": "metal.fragments", "a": 5}], "wb": 1, "time": 2}, {"n": "12 Gauge Incendiary Shell", "s": "ammo.shotgun.fire", "desc": "Incendiary shotgun shells that ignite targets.", "craft": [{"n": "12 Gauge Buckshot", "s": "ammo.shotgun", "a": 2}, {"n": "Low Grade Fuel", "s": "lowgradefuel", "a": 5}], "wb": 2, "time": 3}, {"n": "Pistol Bullet", "s": "ammo.pistol", "desc": "Standard 9mm ammunition for pistols and SMGs.", "craft": [{"n": "Gunpowder", "s": "gunpowder", "a": 3}, {"n": "Metal Fragments", "s": "metal.fragments", "a": 5}], "wb": 1, "time": 2}, {"n": "HV Pistol Ammo", "s": "ammo.pistol.hv", "desc": "High velocity pistol rounds. Faster with flatter trajectory.", "craft": [{"n": "Gunpowder", "s": "gunpowder", "a": 5}, {"n": "Metal Fragments", "s": "metal.fragments", "a": 5}], "wb": 2, "time": 3}, {"n": "Incendiary Pistol Bullet", "s": "ammo.pistol.fire", "desc": "Incendiary pistol rounds that ignite targets.", "craft": [{"n": "Pistol Bullet", "s": "ammo.pistol", "a": 2}, {"n": "Low Grade Fuel", "s": "lowgradefuel", "a": 2}], "wb": 2, "time": 3}, {"n": "5.56 Rifle Ammo", "s": "ammo.rifle", "desc": "Standard rifle ammunition used by most rifles and LMGs.", "craft": [{"n": "Gunpowder", "s": "gunpowder", "a": 5}, {"n": "Metal Fragments", "s": "metal.fragments", "a": 5}], "wb": 1, "time": 2}, {"n": "HV 5.56 Rifle Ammo", "s": "ammo.rifle.hv", "desc": "High velocity rifle rounds. Faster bullet speed and less drop.", "craft": [{"n": "Gunpowder", "s": "gunpowder", "a": 7}, {"n": "Metal Fragments", "s": "metal.fragments", "a": 5}], "wb": 2, "time": 3}, {"n": "Incendiary 5.56 Rifle Ammo", "s": "ammo.rifle.incendiary", "desc": "Incendiary rifle rounds that set targets ablaze.", "craft": [{"n": "5.56 Rifle Ammo", "s": "ammo.rifle", "a": 2}, {"n": "Low Grade Fuel", "s": "lowgradefuel", "a": 2}], "wb": 2, "time": 3}, {"n": "Explosive 5.56 Rifle Ammo", "s": "ammo.rifle.explosive", "desc": "Explosive rounds effective against structures. Used for raiding.", "craft": [{"n": "5.56 Rifle Ammo", "s": "ammo.rifle", "a": 1}, {"n": "Gunpowder", "s": "gunpowder", "a": 2}, {"n": "Sulfur", "s": "sulfur", "a": 5}, {"n": "Metal Fragments", "s": "metal.fragments", "a": 5}], "wb": 3, "time": 5}, {"n": "Rocket", "s": "ammo.rocket.basic", "desc": "Standard rocket for the rocket launcher. High splash damage.", "craft": [{"n": "Metal Pipe", "s": "metalpipe", "a": 2}, {"n": "Gunpowder", "s": "gunpowder", "a": 150}, {"n": "Explosives", "s": "explosives", "a": 10}], "wb": 3, "time": 10}, {"n": "HV Rocket", "s": "ammo.rocket.hv", "desc": "A faster rocket with less splash damage but more direct damage.", "craft": [{"n": "Metal Pipe", "s": "metalpipe", "a": 1}, {"n": "Gunpowder", "s": "gunpowder", "a": 100}], "wb": 2, "time": 10}, {"n": "Incendiary Rocket", "s": "ammo.rocket.fire", "desc": "A rocket that creates a large fire on impact. Good for wooden structures.", "craft": [{"n": "Rocket", "s": "ammo.rocket.basic", "a": 1}, {"n": "Low Grade Fuel", "s": "lowgradefuel", "a": 250}], "wb": 2, "time": 10}, {"n": "40mm Grenade", "s": "ammo.grenadelauncher.he", "desc": "High explosive round for the grenade launcher.", "craft": [{"n": "Gunpowder", "s": "gunpowder", "a": 20}, {"n": "Metal Fragments", "s": "metal.fragments", "a": 25}], "wb": 2, "time": 5}, {"n": "40mm Smoke Grenade", "s": "ammo.grenadelauncher.smoke", "desc": "Smoke round for the grenade launcher. Creates a smoke screen.", "craft": [{"n": "Gunpowder", "s": "gunpowder", "a": 10}, {"n": "Metal Fragments", "s": "metal.fragments", "a": 15}, {"n": "Cloth", "s": "cloth", "a": 5}], "wb": 1, "time": 3}, {"n": "40mm Shotgun Round", "s": "ammo.grenadelauncher.buckshot", "desc": "Shotgun round for the grenade launcher. Close range devastation.", "craft": [{"n": "Gunpowder", "s": "gunpowder", "a": 10}, {"n": "Metal Fragments", "s": "metal.fragments", "a": 25}], "wb": 2, "time": 3}];
+
+const grid = document.getElementById('itemGrid');
+const modal = document.getElementById('modal');
+
+function esc(s){const d=document.createElement('span');d.textContent=s||'';return d.innerHTML}
+
+function renderGrid(){
+  grid.innerHTML = ITEMS.map(w =>
+    '<div class="item-card" data-slug="'+w.s+'">' +
+    '<img src="'+IMG+'/'+w.s+'.png" onerror="this.style.opacity=\'0.3\'" loading="lazy">' +
+    '<div class="item-label">'+esc(w.n)+'</div></div>'
+  ).join('');
+}
+
+function openModal(slug){
+  const w = ITEMS.find(x=>x.s===slug);
+  if(!w) return;
+  const header = document.getElementById('modalHeader');
+  const body = document.getElementById('modalBody');
+  header.innerHTML =
+    '<img src="'+IMG+'/'+w.s+'.png" onerror="this.style.opacity=\'0.3\'">' +
+    '<div class="modal-header-text">' +
+    '<h2>'+esc(w.n)+'</h2>' +
+    '<div class="item-desc">'+esc(w.desc)+'</div>' +
+    '</div>';
+  let html = '';
+  if(w.stats && w.stats.length){
+    html += '<div class="modal-section-title">Stats</div><div class="stat-grid-modal">';
+    w.stats.forEach(s => html += '<div class="stat-item"><div class="stat-label">'+s.l+'</div><div class="stat-val">'+s.v+'</div></div>');
+    html += '</div>';
+  }
+  if(w.craft){
+    html += '<div class="modal-section-title">Crafting Cost</div>';
+    w.craft.forEach(c => {
+      html += '<div class="craft-row">' +
+        '<img src="'+IMG+'/'+c.s+'.png" onerror="this.style.opacity=\'0.3\'">' +
+        '<span class="craft-name">'+esc(c.n)+'</span>' +
+        '<span class="craft-amount">&times;'+c.a+'</span></div>';
+    });
+    if(w.time) html += '<div class="craft-time">⏱ Craft time: <em>'+w.time+'s</em></div>';
+    if(w.wb!==undefined && w.wb!==null) html += '<div class="workbench-badge">Workbench Level '+w.wb+'</div>';
+  } else {
+    html += '<div class="modal-section-title">Crafting</div>';
+    html += '<div style="color:var(--text-muted);font-size:13px;padding:8px 0;">'+esc(w.loot||'This item cannot be crafted. Found as loot.')+'</div>';
+  }
+  body.innerHTML = html;
+  modal.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModal(){modal.classList.remove('open');document.body.style.overflow='';}
+grid.addEventListener('click', e => {const c=e.target.closest('.item-card');if(c)openModal(c.dataset.slug);});
+modal.addEventListener('click', e => {if(e.target===modal)closeModal();});
+document.addEventListener('keydown', e => {if(e.key==='Escape')closeModal();});
+renderGrid();
 </script>
-</body></html>
+</body>
+</html>

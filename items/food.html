@@ -4,8 +4,46 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Food &mdash; RustWiki</title>
-<meta name="description" content="Comprehensive Rust wiki with items, crafting, statistics, and servers.">
+<meta name="description" content="All food in Rust — descriptions, crafting costs, and detailed information.">
 <link rel="stylesheet" href="../css/style.css">
+<style>
+  .item-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:12px}
+  .item-card{background:var(--bg-card);border:1px solid var(--border);border-radius:8px;padding:16px 12px;text-align:center;cursor:pointer;transition:all .2s;text-decoration:none;color:inherit;display:flex;flex-direction:column;align-items:center;gap:8px}
+  .item-card:hover{border-color:var(--accent);background:var(--bg-card-hover);transform:translateY(-2px)}
+  .item-card img{width:80px;height:80px;object-fit:contain;filter:drop-shadow(0 2px 6px rgba(0,0,0,.3))}
+  .item-card .item-label{font-family:var(--font-heading);font-size:13px;font-weight:600;color:var(--text-primary);line-height:1.2}
+  .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.7);backdrop-filter:blur(4px);z-index:200;display:none;align-items:center;justify-content:center;padding:20px}
+  .modal-overlay.open{display:flex}
+  .modal{background:var(--bg-card);border:1px solid var(--border);border-radius:12px;max-width:600px;width:100%;max-height:90vh;overflow-y:auto;position:relative;animation:modalIn .25s ease}
+  @keyframes modalIn{from{opacity:0;transform:scale(.95)}to{opacity:1;transform:scale(1)}}
+  .modal-close{position:absolute;top:12px;right:14px;background:none;border:none;color:var(--text-muted);font-size:24px;cursor:pointer;z-index:1;line-height:1;padding:4px 8px;border-radius:4px;transition:all .15s}
+  .modal-close:hover{color:var(--accent);background:var(--bg-secondary)}
+  .modal-header{display:flex;align-items:center;gap:20px;padding:28px 28px 0;border-bottom:1px solid var(--border);padding-bottom:20px}
+  .modal-header img{width:100px;height:100px;object-fit:contain;filter:drop-shadow(0 4px 12px rgba(0,0,0,.4))}
+  .modal-header-text h2{font-family:var(--font-heading);font-size:22px;color:var(--text-primary);margin:0}
+  .modal-header-text .item-type{font-family:var(--font-condensed);font-size:12px;text-transform:uppercase;letter-spacing:1.5px;color:var(--accent);margin-top:4px}
+  .modal-header-text .item-desc{font-size:13px;color:var(--text-muted);margin-top:8px;line-height:1.5}
+  .modal-body{padding:20px 28px 28px}
+  .modal-section-title{font-family:var(--font-condensed);font-size:12px;text-transform:uppercase;letter-spacing:1.5px;color:var(--text-muted);margin-bottom:10px;margin-top:20px}
+  .modal-section-title:first-child{margin-top:0}
+  .craft-row{display:flex;align-items:center;gap:12px;padding:8px 12px;background:var(--bg-secondary);border-radius:6px;margin-bottom:6px}
+  .craft-row img{width:32px;height:32px;object-fit:contain}
+  .craft-row .craft-name{font-size:14px;color:var(--text-primary);flex:1}
+  .craft-row .craft-amount{font-family:var(--font-heading);font-weight:700;font-size:15px;color:var(--accent)}
+  .stat-grid-modal{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:8px}
+  .stat-item{background:var(--bg-secondary);border-radius:6px;padding:10px 12px;text-align:center}
+  .stat-item .stat-label{font-family:var(--font-condensed);font-size:11px;text-transform:uppercase;letter-spacing:1px;color:var(--text-muted)}
+  .stat-item .stat-val{font-family:var(--font-heading);font-weight:700;font-size:18px;color:var(--text-primary);margin-top:2px}
+  .craft-time{font-size:13px;color:var(--text-muted);margin-top:12px;display:flex;align-items:center;gap:6px}
+  .craft-time em{color:var(--accent);font-style:normal;font-weight:600}
+  .workbench-badge{display:inline-block;font-family:var(--font-condensed);font-size:11px;text-transform:uppercase;letter-spacing:1px;padding:3px 10px;border-radius:4px;background:var(--bg-secondary);border:1px solid var(--border);color:var(--text-secondary);margin-top:8px}
+  @media(max-width:600px){
+    .item-grid{grid-template-columns:repeat(auto-fill,minmax(100px,1fr))}
+    .item-card img{width:60px;height:60px}
+    .modal-header{flex-direction:column;text-align:center;gap:12px}
+    .stat-grid-modal{grid-template-columns:1fr 1fr}
+  }
+</style>
 </head>
 <body>
 <header class="top-bar">
@@ -13,164 +51,32 @@
   <nav class="top-nav" id="nav">
     <a href="../index.html">Home</a>
     <a href="../items.html" class="active">Items</a>
-    
+    <a href="../skins.html">Skins</a>
     <a href="../servers.html">Servers</a>
   </nav>
   <button class="mobile-toggle" onclick="document.getElementById('nav').classList.toggle('open')">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
   </button>
-</header><div class="page">
+</header>
+<div class="page">
   <div class="breadcrumb">
     <a href="../index.html">Home</a><span class="sep">/</span>
     <a href="../items.html">Items</a><span class="sep">/</span>
     <span>Food</span>
   </div>
+  <div class="hero" style="padding:36px 24px 28px;">
+    <h1><img src="https://rustlabs.com/img/items180/granolabar.png" style="width:48px;height:48px;object-fit:contain;vertical-align:middle;margin-right:8px"> <em>Food</em></h1>
+    <p>All food and drink items in Rust — raw, cooked, and grown.</p>
+  </div>
   <div class="section">
-    <div class="section-header">
-      <h2 class="section-title">🍖 <em>Food</em></h2>
-      <span class="search-count" id="count">26 items</span>
-    </div>
-    <p style="color:var(--text-secondary);margin-bottom:24px;max-width:600px;">Cooked meats, berries, canned goods, and water.</p>
-    <div class="search-wrap" style="max-width:400px;margin:0 0 24px;">
-      <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-      <input type="text" placeholder="Filter food..." id="filterInput">
-    </div>
-    <div class="item-grid" id="itemGrid">
-      <div class="item-card" data-name="can of beans">
-        <div class="item-img"><img src="https://rustlabs.com/img/items180/can.beans.png" alt="Can of Beans" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='CA'"></div>
-        <div class="item-name">Can of Beans</div>
-        <div class="item-meta">can.beans</div>
-      </div>
-      <div class="item-card" data-name="can of tuna">
-        <div class="item-img"><img src="https://rustlabs.com/img/items180/can.tuna.png" alt="Can of Tuna" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='CA'"></div>
-        <div class="item-name">Can of Tuna</div>
-        <div class="item-meta">can.tuna</div>
-      </div>
-      <div class="item-card" data-name="chocolate bar">
-        <div class="item-img"><img src="https://rustlabs.com/img/items180/chocolate.png" alt="Chocolate Bar" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='CH'"></div>
-        <div class="item-name">Chocolate Bar</div>
-        <div class="item-meta">chocolate</div>
-      </div>
-      <div class="item-card" data-name="granola bar">
-        <div class="item-img"><img src="https://rustlabs.com/img/items180/granolabar.png" alt="Granola Bar" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='GR'"></div>
-        <div class="item-name">Granola Bar</div>
-        <div class="item-meta">granolabar</div>
-      </div>
-      <div class="item-card" data-name="cooked pork">
-        <div class="item-img"><img src="https://rustlabs.com/img/items180/meat.pork.cooked.png" alt="Cooked Pork" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='CO'"></div>
-        <div class="item-name">Cooked Pork</div>
-        <div class="item-meta">meat.pork.cooked</div>
-      </div>
-      <div class="item-card" data-name="cooked chicken">
-        <div class="item-img"><img src="https://rustlabs.com/img/items180/chicken.cooked.png" alt="Cooked Chicken" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='CO'"></div>
-        <div class="item-name">Cooked Chicken</div>
-        <div class="item-meta">chicken.cooked</div>
-      </div>
-      <div class="item-card" data-name="cooked deer meat">
-        <div class="item-img"><img src="https://rustlabs.com/img/items180/deermeat.cooked.png" alt="Cooked Deer Meat" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='CO'"></div>
-        <div class="item-name">Cooked Deer Meat</div>
-        <div class="item-meta">deermeat.cooked</div>
-      </div>
-      <div class="item-card" data-name="cooked wolf meat">
-        <div class="item-img"><img src="https://rustlabs.com/img/items180/wolfmeat.cooked.png" alt="Cooked Wolf Meat" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='CO'"></div>
-        <div class="item-name">Cooked Wolf Meat</div>
-        <div class="item-meta">wolfmeat.cooked</div>
-      </div>
-      <div class="item-card" data-name="cooked bear meat">
-        <div class="item-img"><img src="https://rustlabs.com/img/items180/bearmeat.cooked.png" alt="Cooked Bear Meat" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='CO'"></div>
-        <div class="item-name">Cooked Bear Meat</div>
-        <div class="item-meta">bearmeat.cooked</div>
-      </div>
-      <div class="item-card" data-name="cooked horse meat">
-        <div class="item-img"><img src="https://rustlabs.com/img/items180/horsemeat.cooked.png" alt="Cooked Horse Meat" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='CO'"></div>
-        <div class="item-name">Cooked Horse Meat</div>
-        <div class="item-meta">horsemeat.cooked</div>
-      </div>
-      <div class="item-card" data-name="cooked human meat">
-        <div class="item-img"><img src="https://rustlabs.com/img/items180/humanmeat.cooked.png" alt="Cooked Human Meat" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='CO'"></div>
-        <div class="item-name">Cooked Human Meat</div>
-        <div class="item-meta">humanmeat.cooked</div>
-      </div>
-      <div class="item-card" data-name="raw pork">
-        <div class="item-img"><img src="https://rustlabs.com/img/items180/meat.boar.png" alt="Raw Pork" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='RA'"></div>
-        <div class="item-name">Raw Pork</div>
-        <div class="item-meta">meat.boar</div>
-      </div>
-      <div class="item-card" data-name="apple">
-        <div class="item-img"><img src="https://rustlabs.com/img/items180/apple.png" alt="Apple" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='AP'"></div>
-        <div class="item-name">Apple</div>
-        <div class="item-meta">apple</div>
-      </div>
-      <div class="item-card" data-name="blueberries">
-        <div class="item-img"><img src="https://rustlabs.com/img/items180/blueberries.png" alt="Blueberries" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='BL'"></div>
-        <div class="item-name">Blueberries</div>
-        <div class="item-meta">blueberries</div>
-      </div>
-      <div class="item-card" data-name="black raspberries">
-        <div class="item-img"><img src="https://rustlabs.com/img/items180/black.raspberries.png" alt="Black Raspberries" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='BL'"></div>
-        <div class="item-name">Black Raspberries</div>
-        <div class="item-meta">black.raspberries</div>
-      </div>
-      <div class="item-card" data-name="corn">
-        <div class="item-img"><img src="https://rustlabs.com/img/items180/corn.png" alt="Corn" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='CO'"></div>
-        <div class="item-name">Corn</div>
-        <div class="item-meta">corn</div>
-      </div>
-      <div class="item-card" data-name="pumpkin">
-        <div class="item-img"><img src="https://rustlabs.com/img/items180/pumpkin.png" alt="Pumpkin" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='PU'"></div>
-        <div class="item-name">Pumpkin</div>
-        <div class="item-meta">pumpkin</div>
-      </div>
-      <div class="item-card" data-name="potato">
-        <div class="item-img"><img src="https://rustlabs.com/img/items180/potato.png" alt="Potato" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='PO'"></div>
-        <div class="item-name">Potato</div>
-        <div class="item-meta">potato</div>
-      </div>
-      <div class="item-card" data-name="mushroom">
-        <div class="item-img"><img src="https://rustlabs.com/img/items180/mushroom.png" alt="Mushroom" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='MU'"></div>
-        <div class="item-name">Mushroom</div>
-        <div class="item-meta">mushroom</div>
-      </div>
-      <div class="item-card" data-name="small water bottle">
-        <div class="item-img"><img src="https://rustlabs.com/img/items180/water.png" alt="Small Water Bottle" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='SM'"></div>
-        <div class="item-name">Small Water Bottle</div>
-        <div class="item-meta">water</div>
-      </div>
-      <div class="item-card" data-name="water jug">
-        <div class="item-img"><img src="https://rustlabs.com/img/items180/waterjug.png" alt="Water Jug" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='WA'"></div>
-        <div class="item-name">Water Jug</div>
-        <div class="item-meta">waterjug</div>
-      </div>
-      <div class="item-card" data-name="bota bag">
-        <div class="item-img"><img src="https://rustlabs.com/img/items180/botabag.png" alt="Bota Bag" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='BO'"></div>
-        <div class="item-name">Bota Bag</div>
-        <div class="item-meta">botabag</div>
-      </div>
-      <div class="item-card" data-name="pure ore tea">
-        <div class="item-img"><img src="https://rustlabs.com/img/items180/oretea.pure.png" alt="Pure Ore Tea" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='PU'"></div>
-        <div class="item-name">Pure Ore Tea</div>
-        <div class="item-meta">oretea.pure</div>
-      </div>
-      <div class="item-card" data-name="pickles">
-        <div class="item-img"><img src="https://rustlabs.com/img/items180/jar.pickle.png" alt="Pickles" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='PI'"></div>
-        <div class="item-name">Pickles</div>
-        <div class="item-meta">jar.pickle</div>
-      </div>
-      <div class="item-card" data-name="bread">
-        <div class="item-img"><img src="https://rustlabs.com/img/items180/bread.png" alt="Bread" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='BR'"></div>
-        <div class="item-name">Bread</div>
-        <div class="item-meta">bread</div>
-      </div>
-      <div class="item-card" data-name="fish - trout">
-        <div class="item-img"><img src="https://rustlabs.com/img/items180/fish.troutsmall.png" alt="Fish - Trout" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='FI'"></div>
-        <div class="item-name">Fish - Trout</div>
-        <div class="item-meta">fish.troutsmall</div>
-      </div>
-    </div>
-    <div class="empty-state" id="emptyState" style="display:none;">
-      <div class="icon">🔍</div>
-      <p>No food match your search.</p>
-    </div>
+    <div class="item-grid" id="itemGrid"></div>
+  </div>
+</div>
+<div class="modal-overlay" id="modal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal()">&times;</button>
+    <div class="modal-header" id="modalHeader"></div>
+    <div class="modal-body" id="modalBody"></div>
   </div>
 </div>
 <footer class="site-footer">
@@ -179,24 +85,69 @@
     <div class="footer-links">
       <a href="../index.html">Home</a>
       <a href="../items.html">Items</a>
-      
+      <a href="../skins.html">Skins</a>
       <a href="../servers.html">Servers</a>
     </div>
   </div>
 </footer>
 <script>
-document.getElementById('filterInput').addEventListener('input', function() {
-  const q = this.value.toLowerCase();
-  const cards = document.querySelectorAll('.item-card');
-  let vis = 0;
-  cards.forEach(c => {
-    const match = c.dataset.name.includes(q);
-    c.style.display = match ? '' : 'none';
-    if(match) vis++;
-  });
-  document.getElementById('count').textContent = vis + ' items';
-  document.getElementById('emptyState').style.display = vis === 0 ? '' : 'none';
-  document.getElementById('itemGrid').style.display = vis === 0 ? 'none' : '';
-});
+const IMG = 'https://rustlabs.com/img/items180';
+const ITEMS = [{"n": "Granola Bar", "s": "granolabar", "desc": "A packaged food item found in crates. Restores some hunger and health.", "loot": "Found in food crates and barrels."}, {"n": "Chocolate Bar", "s": "chocolate", "desc": "A packaged chocolate bar. Good hunger and calorie restoration.", "loot": "Found in food crates and barrels."}, {"n": "Can of Tuna", "s": "can.tuna", "desc": "Canned fish providing decent nutrition.", "loot": "Found in food crates and barrels."}, {"n": "Can of Beans", "s": "can.beans", "desc": "Canned beans providing good hunger restoration.", "loot": "Found in food crates and barrels."}, {"n": "Apple", "s": "apple", "desc": "A fresh apple found near trees. Small hunger and hydration boost."}, {"n": "Blueberries", "s": "blueberries", "desc": "Wild berries found in bushes. Minor nutrition."}, {"n": "Black Raspberries", "s": "black.raspberries", "desc": "Wild berries found in the wild. Minor nutrition."}, {"n": "Corn", "s": "corn", "desc": "A crop that can be grown in planters. Good food source when farmed."}, {"n": "Pumpkin", "s": "pumpkin", "desc": "A crop grown in planters. Excellent nutrition and hydration."}, {"n": "Potato", "s": "potato", "desc": "A crop grown in planters. Good staple food when cooked."}, {"n": "Raw Chicken Breast", "s": "chicken.raw", "desc": "Raw chicken from killed chickens. Must be cooked before eating."}, {"n": "Cooked Chicken", "s": "chicken.cooked", "desc": "Cooked chicken breast. Good nutrition without risk of food poisoning.", "craft": [{"n": "Raw Chicken Breast", "s": "chicken.raw", "a": 1}], "loot": "Cooked in a Camp Fire or Furnace."}, {"n": "Raw Pork", "s": "meat.boar", "desc": "Raw pork from killed boars. Must be cooked."}, {"n": "Cooked Pork", "s": "meat.pork.cooked", "desc": "Cooked pork. Solid nutrition source.", "craft": [{"n": "Raw Pork", "s": "meat.boar", "a": 1}], "loot": "Cooked in a Camp Fire or Furnace."}, {"n": "Raw Deer Meat", "s": "deermeat.raw", "desc": "Raw venison from deer. Cook before eating."}, {"n": "Cooked Deer Meat", "s": "deermeat.cooked", "desc": "Cooked venison providing good calories.", "craft": [{"n": "Raw Deer Meat", "s": "deermeat.raw", "a": 1}], "loot": "Cooked in a Camp Fire or Furnace."}, {"n": "Raw Wolf Meat", "s": "wolfmeat.raw", "desc": "Raw meat from wolves. Must be cooked."}, {"n": "Cooked Wolf Meat", "s": "wolfmeat.cooked", "desc": "Cooked wolf meat. Good nutrition.", "craft": [{"n": "Raw Wolf Meat", "s": "wolfmeat.raw", "a": 1}], "loot": "Cooked in a Camp Fire or Furnace."}, {"n": "Raw Bear Meat", "s": "bearmeat", "desc": "Raw bear meat. Must be cooked before consuming."}, {"n": "Cooked Bear Meat", "s": "bearmeat.cooked", "desc": "Cooked bear meat. High calorie food.", "craft": [{"n": "Raw Bear Meat", "s": "bearmeat", "a": 1}], "loot": "Cooked in a Camp Fire or Furnace."}, {"n": "Raw Horse Meat", "s": "horsemeat.raw", "desc": "Raw meat from horses. Cook before eating."}, {"n": "Cooked Horse Meat", "s": "horsemeat.cooked", "desc": "Cooked horse meat.", "craft": [{"n": "Raw Horse Meat", "s": "horsemeat.raw", "a": 1}], "loot": "Cooked in a Camp Fire or Furnace."}, {"n": "Raw Human Meat", "s": "humanmeat.raw", "desc": "Raw meat from human corpses. Can be eaten but may cause dehydration."}, {"n": "Cooked Human Meat", "s": "humanmeat.cooked", "desc": "Cooked human meat. Edible but may dehydrate you.", "craft": [{"n": "Raw Human Meat", "s": "humanmeat.raw", "a": 1}], "loot": "Cooked in a Camp Fire or Furnace."}, {"n": "Small Trout", "s": "fish.troutsmall", "desc": "A small fish caught while fishing. Can be cooked."}, {"n": "Water Jug", "s": "waterjug", "desc": "A container for carrying water. Vital for hydration on long runs.", "craft": [{"n": "Cloth", "s": "cloth", "a": 10}, {"n": "Metal Fragments", "s": "metal.fragments", "a": 25}], "wb": 0, "time": 10}];
+
+const grid = document.getElementById('itemGrid');
+const modal = document.getElementById('modal');
+
+function esc(s){const d=document.createElement('span');d.textContent=s||'';return d.innerHTML}
+
+function renderGrid(){
+  grid.innerHTML = ITEMS.map(w =>
+    '<div class="item-card" data-slug="'+w.s+'">' +
+    '<img src="'+IMG+'/'+w.s+'.png" onerror="this.style.opacity=\'0.3\'" loading="lazy">' +
+    '<div class="item-label">'+esc(w.n)+'</div></div>'
+  ).join('');
+}
+
+function openModal(slug){
+  const w = ITEMS.find(x=>x.s===slug);
+  if(!w) return;
+  const header = document.getElementById('modalHeader');
+  const body = document.getElementById('modalBody');
+  header.innerHTML =
+    '<img src="'+IMG+'/'+w.s+'.png" onerror="this.style.opacity=\'0.3\'">' +
+    '<div class="modal-header-text">' +
+    '<h2>'+esc(w.n)+'</h2>' +
+    '<div class="item-desc">'+esc(w.desc)+'</div>' +
+    '</div>';
+  let html = '';
+  if(w.stats && w.stats.length){
+    html += '<div class="modal-section-title">Stats</div><div class="stat-grid-modal">';
+    w.stats.forEach(s => html += '<div class="stat-item"><div class="stat-label">'+s.l+'</div><div class="stat-val">'+s.v+'</div></div>');
+    html += '</div>';
+  }
+  if(w.craft){
+    html += '<div class="modal-section-title">Crafting Cost</div>';
+    w.craft.forEach(c => {
+      html += '<div class="craft-row">' +
+        '<img src="'+IMG+'/'+c.s+'.png" onerror="this.style.opacity=\'0.3\'">' +
+        '<span class="craft-name">'+esc(c.n)+'</span>' +
+        '<span class="craft-amount">&times;'+c.a+'</span></div>';
+    });
+    if(w.time) html += '<div class="craft-time">⏱ Craft time: <em>'+w.time+'s</em></div>';
+    if(w.wb!==undefined && w.wb!==null) html += '<div class="workbench-badge">Workbench Level '+w.wb+'</div>';
+  } else {
+    html += '<div class="modal-section-title">Crafting</div>';
+    html += '<div style="color:var(--text-muted);font-size:13px;padding:8px 0;">'+esc(w.loot||'This item cannot be crafted. Found as loot.')+'</div>';
+  }
+  body.innerHTML = html;
+  modal.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModal(){modal.classList.remove('open');document.body.style.overflow='';}
+grid.addEventListener('click', e => {const c=e.target.closest('.item-card');if(c)openModal(c.dataset.slug);});
+modal.addEventListener('click', e => {if(e.target===modal)closeModal();});
+document.addEventListener('keydown', e => {if(e.key==='Escape')closeModal();});
+renderGrid();
 </script>
-</body></html>
+</body>
+</html>

@@ -4,8 +4,46 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Tools &mdash; RustWiki</title>
-<meta name="description" content="Comprehensive Rust wiki with items, crafting, statistics, and servers.">
+<meta name="description" content="All tools in Rust — descriptions, crafting costs, and detailed information.">
 <link rel="stylesheet" href="../css/style.css">
+<style>
+  .item-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:12px}
+  .item-card{background:var(--bg-card);border:1px solid var(--border);border-radius:8px;padding:16px 12px;text-align:center;cursor:pointer;transition:all .2s;text-decoration:none;color:inherit;display:flex;flex-direction:column;align-items:center;gap:8px}
+  .item-card:hover{border-color:var(--accent);background:var(--bg-card-hover);transform:translateY(-2px)}
+  .item-card img{width:80px;height:80px;object-fit:contain;filter:drop-shadow(0 2px 6px rgba(0,0,0,.3))}
+  .item-card .item-label{font-family:var(--font-heading);font-size:13px;font-weight:600;color:var(--text-primary);line-height:1.2}
+  .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.7);backdrop-filter:blur(4px);z-index:200;display:none;align-items:center;justify-content:center;padding:20px}
+  .modal-overlay.open{display:flex}
+  .modal{background:var(--bg-card);border:1px solid var(--border);border-radius:12px;max-width:600px;width:100%;max-height:90vh;overflow-y:auto;position:relative;animation:modalIn .25s ease}
+  @keyframes modalIn{from{opacity:0;transform:scale(.95)}to{opacity:1;transform:scale(1)}}
+  .modal-close{position:absolute;top:12px;right:14px;background:none;border:none;color:var(--text-muted);font-size:24px;cursor:pointer;z-index:1;line-height:1;padding:4px 8px;border-radius:4px;transition:all .15s}
+  .modal-close:hover{color:var(--accent);background:var(--bg-secondary)}
+  .modal-header{display:flex;align-items:center;gap:20px;padding:28px 28px 0;border-bottom:1px solid var(--border);padding-bottom:20px}
+  .modal-header img{width:100px;height:100px;object-fit:contain;filter:drop-shadow(0 4px 12px rgba(0,0,0,.4))}
+  .modal-header-text h2{font-family:var(--font-heading);font-size:22px;color:var(--text-primary);margin:0}
+  .modal-header-text .item-type{font-family:var(--font-condensed);font-size:12px;text-transform:uppercase;letter-spacing:1.5px;color:var(--accent);margin-top:4px}
+  .modal-header-text .item-desc{font-size:13px;color:var(--text-muted);margin-top:8px;line-height:1.5}
+  .modal-body{padding:20px 28px 28px}
+  .modal-section-title{font-family:var(--font-condensed);font-size:12px;text-transform:uppercase;letter-spacing:1.5px;color:var(--text-muted);margin-bottom:10px;margin-top:20px}
+  .modal-section-title:first-child{margin-top:0}
+  .craft-row{display:flex;align-items:center;gap:12px;padding:8px 12px;background:var(--bg-secondary);border-radius:6px;margin-bottom:6px}
+  .craft-row img{width:32px;height:32px;object-fit:contain}
+  .craft-row .craft-name{font-size:14px;color:var(--text-primary);flex:1}
+  .craft-row .craft-amount{font-family:var(--font-heading);font-weight:700;font-size:15px;color:var(--accent)}
+  .stat-grid-modal{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:8px}
+  .stat-item{background:var(--bg-secondary);border-radius:6px;padding:10px 12px;text-align:center}
+  .stat-item .stat-label{font-family:var(--font-condensed);font-size:11px;text-transform:uppercase;letter-spacing:1px;color:var(--text-muted)}
+  .stat-item .stat-val{font-family:var(--font-heading);font-weight:700;font-size:18px;color:var(--text-primary);margin-top:2px}
+  .craft-time{font-size:13px;color:var(--text-muted);margin-top:12px;display:flex;align-items:center;gap:6px}
+  .craft-time em{color:var(--accent);font-style:normal;font-weight:600}
+  .workbench-badge{display:inline-block;font-family:var(--font-condensed);font-size:11px;text-transform:uppercase;letter-spacing:1px;padding:3px 10px;border-radius:4px;background:var(--bg-secondary);border:1px solid var(--border);color:var(--text-secondary);margin-top:8px}
+  @media(max-width:600px){
+    .item-grid{grid-template-columns:repeat(auto-fill,minmax(100px,1fr))}
+    .item-card img{width:60px;height:60px}
+    .modal-header{flex-direction:column;text-align:center;gap:12px}
+    .stat-grid-modal{grid-template-columns:1fr 1fr}
+  }
+</style>
 </head>
 <body>
 <header class="top-bar">
@@ -13,129 +51,32 @@
   <nav class="top-nav" id="nav">
     <a href="../index.html">Home</a>
     <a href="../items.html" class="active">Items</a>
-    
+    <a href="../skins.html">Skins</a>
     <a href="../servers.html">Servers</a>
   </nav>
   <button class="mobile-toggle" onclick="document.getElementById('nav').classList.toggle('open')">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
   </button>
-</header><div class="page">
+</header>
+<div class="page">
   <div class="breadcrumb">
     <a href="../index.html">Home</a><span class="sep">/</span>
     <a href="../items.html">Items</a><span class="sep">/</span>
     <span>Tools</span>
   </div>
+  <div class="hero" style="padding:36px 24px 28px;">
+    <h1><img src="https://rustlabs.com/img/items180/icepick.salvaged.png" style="width:48px;height:48px;object-fit:contain;vertical-align:middle;margin-right:8px"> <em>Tools</em></h1>
+    <p>All tools in Rust — for gathering, building, and utility.</p>
+  </div>
   <div class="section">
-    <div class="section-header">
-      <h2 class="section-title">⛏️ <em>Tools</em></h2>
-      <span class="search-count" id="count">19 items</span>
-    </div>
-    <p style="color:var(--text-secondary);margin-bottom:24px;max-width:600px;">Harvesting tools, building tools, and utility items.</p>
-    <div class="search-wrap" style="max-width:400px;margin:0 0 24px;">
-      <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-      <input type="text" placeholder="Filter tools..." id="filterInput">
-    </div>
-    <div class="item-grid" id="itemGrid">
-      <div class="item-card" data-name="rock">
-        <div class="item-img"><img src="https://rustlabs.com/img/items180/rock.png" alt="Rock" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='RO'"></div>
-        <div class="item-name">Rock</div>
-        <div class="item-meta">rock</div>
-      </div>
-      <div class="item-card" data-name="stone pickaxe">
-        <div class="item-img"><img src="https://rustlabs.com/img/items180/stone.pickaxe.png" alt="Stone Pickaxe" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='ST'"></div>
-        <div class="item-name">Stone Pickaxe</div>
-        <div class="item-meta">stone.pickaxe</div>
-      </div>
-      <div class="item-card" data-name="stone hatchet">
-        <div class="item-img"><img src="https://rustlabs.com/img/items180/stonehatchet.png" alt="Stone Hatchet" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='ST'"></div>
-        <div class="item-name">Stone Hatchet</div>
-        <div class="item-meta">stonehatchet</div>
-      </div>
-      <div class="item-card" data-name="metal pickaxe">
-        <div class="item-img"><img src="https://rustlabs.com/img/items180/pickaxe.png" alt="Metal Pickaxe" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='ME'"></div>
-        <div class="item-name">Metal Pickaxe</div>
-        <div class="item-meta">pickaxe</div>
-      </div>
-      <div class="item-card" data-name="metal hatchet">
-        <div class="item-img"><img src="https://rustlabs.com/img/items180/hatchet.png" alt="Metal Hatchet" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='ME'"></div>
-        <div class="item-name">Metal Hatchet</div>
-        <div class="item-meta">hatchet</div>
-      </div>
-      <div class="item-card" data-name="salvaged icepick">
-        <div class="item-img"><img src="https://rustlabs.com/img/items180/icepick.salvaged.png" alt="Salvaged Icepick" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='SA'"></div>
-        <div class="item-name">Salvaged Icepick</div>
-        <div class="item-meta">icepick.salvaged</div>
-      </div>
-      <div class="item-card" data-name="salvaged axe">
-        <div class="item-img"><img src="https://rustlabs.com/img/items180/axe.salvaged.png" alt="Salvaged Axe" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='SA'"></div>
-        <div class="item-name">Salvaged Axe</div>
-        <div class="item-meta">axe.salvaged</div>
-      </div>
-      <div class="item-card" data-name="jackhammer">
-        <div class="item-img"><img src="https://rustlabs.com/img/items180/jackhammer.png" alt="Jackhammer" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='JA'"></div>
-        <div class="item-name">Jackhammer</div>
-        <div class="item-meta">jackhammer</div>
-      </div>
-      <div class="item-card" data-name="chainsaw">
-        <div class="item-img"><img src="https://rustlabs.com/img/items180/chainsaw.png" alt="Chainsaw" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='CH'"></div>
-        <div class="item-name">Chainsaw</div>
-        <div class="item-meta">chainsaw</div>
-      </div>
-      <div class="item-card" data-name="wire tool">
-        <div class="item-img"><img src="https://rustlabs.com/img/items180/wiretool.png" alt="Wire Tool" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='WI'"></div>
-        <div class="item-name">Wire Tool</div>
-        <div class="item-meta">wiretool</div>
-      </div>
-      <div class="item-card" data-name="binoculars">
-        <div class="item-img"><img src="https://rustlabs.com/img/items180/tool.binoculars.png" alt="Binoculars" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='BI'"></div>
-        <div class="item-name">Binoculars</div>
-        <div class="item-meta">tool.binoculars</div>
-      </div>
-      <div class="item-card" data-name="flashlight">
-        <div class="item-img"><img src="https://rustlabs.com/img/items180/flashlight.held.png" alt="Flashlight" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='FL'"></div>
-        <div class="item-name">Flashlight</div>
-        <div class="item-meta">flashlight.held</div>
-      </div>
-      <div class="item-card" data-name="supply signal">
-        <div class="item-img"><img src="https://rustlabs.com/img/items180/supply.signal.png" alt="Supply Signal" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='SU'"></div>
-        <div class="item-name">Supply Signal</div>
-        <div class="item-meta">supply.signal</div>
-      </div>
-      <div class="item-card" data-name="paddle">
-        <div class="item-img"><img src="https://rustlabs.com/img/items180/paddle.png" alt="Paddle" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='PA'"></div>
-        <div class="item-name">Paddle</div>
-        <div class="item-meta">paddle</div>
-      </div>
-      <div class="item-card" data-name="torch">
-        <div class="item-img"><img src="https://rustlabs.com/img/items180/torch.png" alt="Torch" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='TO'"></div>
-        <div class="item-name">Torch</div>
-        <div class="item-meta">torch</div>
-      </div>
-      <div class="item-card" data-name="candle hat">
-        <div class="item-img"><img src="https://rustlabs.com/img/items180/hat.candle.png" alt="Candle Hat" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='CA'"></div>
-        <div class="item-name">Candle Hat</div>
-        <div class="item-meta">hat.candle</div>
-      </div>
-      <div class="item-card" data-name="miners hat">
-        <div class="item-img"><img src="https://rustlabs.com/img/items180/hat.miner.png" alt="Miners Hat" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='MI'"></div>
-        <div class="item-name">Miners Hat</div>
-        <div class="item-meta">hat.miner</div>
-      </div>
-      <div class="item-card" data-name="survey charge">
-        <div class="item-img"><img src="https://rustlabs.com/img/items180/surveycharge.png" alt="Survey Charge" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='SU'"></div>
-        <div class="item-name">Survey Charge</div>
-        <div class="item-meta">surveycharge</div>
-      </div>
-      <div class="item-card" data-name="kayak">
-        <div class="item-img"><img src="https://rustlabs.com/img/items180/kayak.png" alt="Kayak" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='KA'"></div>
-        <div class="item-name">Kayak</div>
-        <div class="item-meta">kayak</div>
-      </div>
-    </div>
-    <div class="empty-state" id="emptyState" style="display:none;">
-      <div class="icon">🔍</div>
-      <p>No tools match your search.</p>
-    </div>
+    <div class="item-grid" id="itemGrid"></div>
+  </div>
+</div>
+<div class="modal-overlay" id="modal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal()">&times;</button>
+    <div class="modal-header" id="modalHeader"></div>
+    <div class="modal-body" id="modalBody"></div>
   </div>
 </div>
 <footer class="site-footer">
@@ -144,24 +85,69 @@
     <div class="footer-links">
       <a href="../index.html">Home</a>
       <a href="../items.html">Items</a>
-      
+      <a href="../skins.html">Skins</a>
       <a href="../servers.html">Servers</a>
     </div>
   </div>
 </footer>
 <script>
-document.getElementById('filterInput').addEventListener('input', function() {
-  const q = this.value.toLowerCase();
-  const cards = document.querySelectorAll('.item-card');
-  let vis = 0;
-  cards.forEach(c => {
-    const match = c.dataset.name.includes(q);
-    c.style.display = match ? '' : 'none';
-    if(match) vis++;
-  });
-  document.getElementById('count').textContent = vis + ' items';
-  document.getElementById('emptyState').style.display = vis === 0 ? '' : 'none';
-  document.getElementById('itemGrid').style.display = vis === 0 ? 'none' : '';
-});
+const IMG = 'https://rustlabs.com/img/items180';
+const ITEMS = [{"n": "Rock", "s": "rock", "desc": "Your starting tool. Used to hit trees, nodes, and other players. Not very effective but free."}, {"n": "Stone Pickaxe", "s": "stone.pickaxe", "desc": "A basic pickaxe for mining nodes. Upgrade from the rock.", "craft": [{"n": "Wood", "s": "wood", "a": 200}, {"n": "Stones", "s": "stones", "a": 100}], "wb": 0, "time": 10}, {"n": "Stone Hatchet", "s": "stonehatchet", "desc": "A basic hatchet for chopping trees. Better than a rock.", "craft": [{"n": "Wood", "s": "wood", "a": 200}, {"n": "Stones", "s": "stones", "a": 100}], "wb": 0, "time": 10}, {"n": "Salvaged Axe", "s": "axe.salvaged", "desc": "A mid-tier axe with good wood gathering speed.", "craft": [{"n": "Metal Pipe", "s": "metalpipe", "a": 1}, {"n": "Metal Blade", "s": "metalblade", "a": 1}], "wb": 1, "time": 15}, {"n": "Salvaged Icepick", "s": "icepick.salvaged", "desc": "A mid-tier pickaxe for efficient node mining.", "craft": [{"n": "Metal Pipe", "s": "metalpipe", "a": 1}, {"n": "Metal Blade", "s": "metalblade", "a": 1}], "wb": 1, "time": 15}, {"n": "Hatchet", "s": "hatchet", "desc": "A refined hatchet. Fast wood gathering and decent combat weapon.", "craft": [{"n": "Metal Fragments", "s": "metal.fragments", "a": 75}, {"n": "Wood", "s": "wood", "a": 125}], "wb": 1, "time": 15}, {"n": "Pickaxe", "s": "pickaxe", "desc": "A refined pickaxe. Efficient at mining all node types.", "craft": [{"n": "Metal Fragments", "s": "metal.fragments", "a": 125}, {"n": "Wood", "s": "wood", "a": 100}], "wb": 1, "time": 15}, {"n": "Jackhammer", "s": "jackhammer", "desc": "A powered mining tool. Extremely fast at mining but uses fuel. Found in outpost.", "loot": "Purchased at Outpost for 150 Scrap."}, {"n": "Chainsaw", "s": "chainsaw", "desc": "A powered wood-gathering tool. Extremely fast. Purchased at Outpost.", "loot": "Purchased at Outpost for 125 Scrap."}, {"n": "Torch", "s": "torch", "desc": "A basic light source. Can also deal minor fire damage.", "craft": [{"n": "Wood", "s": "wood", "a": 30}, {"n": "Cloth", "s": "cloth", "a": 10}], "wb": 0, "time": 5}, {"n": "Flashlight", "s": "flashlight.held", "desc": "A handheld flashlight for navigating at night.", "craft": [{"n": "Metal Fragments", "s": "metal.fragments", "a": 50}], "wb": 1, "time": 10}, {"n": "Wire Tool", "s": "wiretool", "desc": "Used to connect electrical components together.", "craft": [{"n": "High Quality Metal", "s": "metal.refined", "a": 1}, {"n": "Metal Fragments", "s": "metal.fragments", "a": 50}], "wb": 1, "time": 10}, {"n": "Binoculars", "s": "tool.binoculars", "desc": "Long-range viewing tool. No combat use but great for scouting.", "loot": "Found in crates and at Outpost."}, {"n": "Hammer", "s": "hammer", "desc": "Used to upgrade, repair, rotate, and demolish building blocks.", "craft": [{"n": "Wood", "s": "wood", "a": 100}], "wb": 0, "time": 5}, {"n": "Building Plan", "s": "building.planner", "desc": "Used to place foundations, walls, floors, stairs, and roofs.", "craft": [{"n": "Wood", "s": "wood", "a": 20}], "wb": 0, "time": 5}, {"n": "Spray Can", "s": "spraycan", "desc": "Used to apply skins to items and paint signs.", "craft": [{"n": "Metal Fragments", "s": "metal.fragments", "a": 25}], "wb": 0, "time": 5}, {"n": "Geiger Counter", "s": "geiger.counter", "desc": "Measures radiation levels in the area.", "loot": "Found in crates and at Outpost."}, {"n": "Fishing Rod", "s": "fishingrod.handmade", "desc": "A handmade rod for catching fish at fishing villages or coastlines.", "craft": [{"n": "Wood", "s": "wood", "a": 200}, {"n": "Cloth", "s": "cloth", "a": 50}], "wb": 0, "time": 15}, {"n": "Map", "s": "map", "desc": "A physical map showing the island. Can be drawn on and shared.", "craft": [{"n": "Wood", "s": "wood", "a": 5}], "wb": 0, "time": 2}];
+
+const grid = document.getElementById('itemGrid');
+const modal = document.getElementById('modal');
+
+function esc(s){const d=document.createElement('span');d.textContent=s||'';return d.innerHTML}
+
+function renderGrid(){
+  grid.innerHTML = ITEMS.map(w =>
+    '<div class="item-card" data-slug="'+w.s+'">' +
+    '<img src="'+IMG+'/'+w.s+'.png" onerror="this.style.opacity=\'0.3\'" loading="lazy">' +
+    '<div class="item-label">'+esc(w.n)+'</div></div>'
+  ).join('');
+}
+
+function openModal(slug){
+  const w = ITEMS.find(x=>x.s===slug);
+  if(!w) return;
+  const header = document.getElementById('modalHeader');
+  const body = document.getElementById('modalBody');
+  header.innerHTML =
+    '<img src="'+IMG+'/'+w.s+'.png" onerror="this.style.opacity=\'0.3\'">' +
+    '<div class="modal-header-text">' +
+    '<h2>'+esc(w.n)+'</h2>' +
+    '<div class="item-desc">'+esc(w.desc)+'</div>' +
+    '</div>';
+  let html = '';
+  if(w.stats && w.stats.length){
+    html += '<div class="modal-section-title">Stats</div><div class="stat-grid-modal">';
+    w.stats.forEach(s => html += '<div class="stat-item"><div class="stat-label">'+s.l+'</div><div class="stat-val">'+s.v+'</div></div>');
+    html += '</div>';
+  }
+  if(w.craft){
+    html += '<div class="modal-section-title">Crafting Cost</div>';
+    w.craft.forEach(c => {
+      html += '<div class="craft-row">' +
+        '<img src="'+IMG+'/'+c.s+'.png" onerror="this.style.opacity=\'0.3\'">' +
+        '<span class="craft-name">'+esc(c.n)+'</span>' +
+        '<span class="craft-amount">&times;'+c.a+'</span></div>';
+    });
+    if(w.time) html += '<div class="craft-time">⏱ Craft time: <em>'+w.time+'s</em></div>';
+    if(w.wb!==undefined && w.wb!==null) html += '<div class="workbench-badge">Workbench Level '+w.wb+'</div>';
+  } else {
+    html += '<div class="modal-section-title">Crafting</div>';
+    html += '<div style="color:var(--text-muted);font-size:13px;padding:8px 0;">'+esc(w.loot||'This item cannot be crafted. Found as loot.')+'</div>';
+  }
+  body.innerHTML = html;
+  modal.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModal(){modal.classList.remove('open');document.body.style.overflow='';}
+grid.addEventListener('click', e => {const c=e.target.closest('.item-card');if(c)openModal(c.dataset.slug);});
+modal.addEventListener('click', e => {if(e.target===modal)closeModal();});
+document.addEventListener('keydown', e => {if(e.key==='Escape')closeModal();});
+renderGrid();
 </script>
-</body></html>
+</body>
+</html>

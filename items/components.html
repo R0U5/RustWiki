@@ -4,8 +4,46 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Components &mdash; RustWiki</title>
-<meta name="description" content="Comprehensive Rust wiki with items, crafting, statistics, and servers.">
+<meta name="description" content="All components in Rust — descriptions, crafting costs, and detailed information.">
 <link rel="stylesheet" href="../css/style.css">
+<style>
+  .item-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:12px}
+  .item-card{background:var(--bg-card);border:1px solid var(--border);border-radius:8px;padding:16px 12px;text-align:center;cursor:pointer;transition:all .2s;text-decoration:none;color:inherit;display:flex;flex-direction:column;align-items:center;gap:8px}
+  .item-card:hover{border-color:var(--accent);background:var(--bg-card-hover);transform:translateY(-2px)}
+  .item-card img{width:80px;height:80px;object-fit:contain;filter:drop-shadow(0 2px 6px rgba(0,0,0,.3))}
+  .item-card .item-label{font-family:var(--font-heading);font-size:13px;font-weight:600;color:var(--text-primary);line-height:1.2}
+  .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.7);backdrop-filter:blur(4px);z-index:200;display:none;align-items:center;justify-content:center;padding:20px}
+  .modal-overlay.open{display:flex}
+  .modal{background:var(--bg-card);border:1px solid var(--border);border-radius:12px;max-width:600px;width:100%;max-height:90vh;overflow-y:auto;position:relative;animation:modalIn .25s ease}
+  @keyframes modalIn{from{opacity:0;transform:scale(.95)}to{opacity:1;transform:scale(1)}}
+  .modal-close{position:absolute;top:12px;right:14px;background:none;border:none;color:var(--text-muted);font-size:24px;cursor:pointer;z-index:1;line-height:1;padding:4px 8px;border-radius:4px;transition:all .15s}
+  .modal-close:hover{color:var(--accent);background:var(--bg-secondary)}
+  .modal-header{display:flex;align-items:center;gap:20px;padding:28px 28px 0;border-bottom:1px solid var(--border);padding-bottom:20px}
+  .modal-header img{width:100px;height:100px;object-fit:contain;filter:drop-shadow(0 4px 12px rgba(0,0,0,.4))}
+  .modal-header-text h2{font-family:var(--font-heading);font-size:22px;color:var(--text-primary);margin:0}
+  .modal-header-text .item-type{font-family:var(--font-condensed);font-size:12px;text-transform:uppercase;letter-spacing:1.5px;color:var(--accent);margin-top:4px}
+  .modal-header-text .item-desc{font-size:13px;color:var(--text-muted);margin-top:8px;line-height:1.5}
+  .modal-body{padding:20px 28px 28px}
+  .modal-section-title{font-family:var(--font-condensed);font-size:12px;text-transform:uppercase;letter-spacing:1.5px;color:var(--text-muted);margin-bottom:10px;margin-top:20px}
+  .modal-section-title:first-child{margin-top:0}
+  .craft-row{display:flex;align-items:center;gap:12px;padding:8px 12px;background:var(--bg-secondary);border-radius:6px;margin-bottom:6px}
+  .craft-row img{width:32px;height:32px;object-fit:contain}
+  .craft-row .craft-name{font-size:14px;color:var(--text-primary);flex:1}
+  .craft-row .craft-amount{font-family:var(--font-heading);font-weight:700;font-size:15px;color:var(--accent)}
+  .stat-grid-modal{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:8px}
+  .stat-item{background:var(--bg-secondary);border-radius:6px;padding:10px 12px;text-align:center}
+  .stat-item .stat-label{font-family:var(--font-condensed);font-size:11px;text-transform:uppercase;letter-spacing:1px;color:var(--text-muted)}
+  .stat-item .stat-val{font-family:var(--font-heading);font-weight:700;font-size:18px;color:var(--text-primary);margin-top:2px}
+  .craft-time{font-size:13px;color:var(--text-muted);margin-top:12px;display:flex;align-items:center;gap:6px}
+  .craft-time em{color:var(--accent);font-style:normal;font-weight:600}
+  .workbench-badge{display:inline-block;font-family:var(--font-condensed);font-size:11px;text-transform:uppercase;letter-spacing:1px;padding:3px 10px;border-radius:4px;background:var(--bg-secondary);border:1px solid var(--border);color:var(--text-secondary);margin-top:8px}
+  @media(max-width:600px){
+    .item-grid{grid-template-columns:repeat(auto-fill,minmax(100px,1fr))}
+    .item-card img{width:60px;height:60px}
+    .modal-header{flex-direction:column;text-align:center;gap:12px}
+    .stat-grid-modal{grid-template-columns:1fr 1fr}
+  }
+</style>
 </head>
 <body>
 <header class="top-bar">
@@ -13,124 +51,32 @@
   <nav class="top-nav" id="nav">
     <a href="../index.html">Home</a>
     <a href="../items.html" class="active">Items</a>
-    
+    <a href="../skins.html">Skins</a>
     <a href="../servers.html">Servers</a>
   </nav>
   <button class="mobile-toggle" onclick="document.getElementById('nav').classList.toggle('open')">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
   </button>
-</header><div class="page">
+</header>
+<div class="page">
   <div class="breadcrumb">
     <a href="../index.html">Home</a><span class="sep">/</span>
     <a href="../items.html">Items</a><span class="sep">/</span>
     <span>Components</span>
   </div>
+  <div class="hero" style="padding:36px 24px 28px;">
+    <h1><img src="https://rustlabs.com/img/items180/gears.png" style="width:48px;height:48px;object-fit:contain;vertical-align:middle;margin-right:8px"> <em>Components</em></h1>
+    <p>All components in Rust — found in barrels and crates, used for crafting.</p>
+  </div>
   <div class="section">
-    <div class="section-header">
-      <h2 class="section-title">⚙️ <em>Components</em></h2>
-      <span class="search-count" id="count">18 items</span>
-    </div>
-    <p style="color:var(--text-secondary);margin-bottom:24px;max-width:600px;">Gears, springs, pipes, and tech trash for crafting.</p>
-    <div class="search-wrap" style="max-width:400px;margin:0 0 24px;">
-      <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-      <input type="text" placeholder="Filter components..." id="filterInput">
-    </div>
-    <div class="item-grid" id="itemGrid">
-      <div class="item-card" data-name="gears">
-        <div class="item-img"><img src="https://rustlabs.com/img/items180/gears.png" alt="Gears" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='GE'"></div>
-        <div class="item-name">Gears</div>
-        <div class="item-meta">gears</div>
-      </div>
-      <div class="item-card" data-name="metal spring">
-        <div class="item-img"><img src="https://rustlabs.com/img/items180/metalspring.png" alt="Metal Spring" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='ME'"></div>
-        <div class="item-name">Metal Spring</div>
-        <div class="item-meta">metalspring</div>
-      </div>
-      <div class="item-card" data-name="metal pipe">
-        <div class="item-img"><img src="https://rustlabs.com/img/items180/metalpipe.png" alt="Metal Pipe" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='ME'"></div>
-        <div class="item-name">Metal Pipe</div>
-        <div class="item-meta">metalpipe</div>
-      </div>
-      <div class="item-card" data-name="road signs">
-        <div class="item-img"><img src="https://rustlabs.com/img/items180/roadsigns.png" alt="Road Signs" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='RO'"></div>
-        <div class="item-name">Road Signs</div>
-        <div class="item-meta">roadsigns</div>
-      </div>
-      <div class="item-card" data-name="rope">
-        <div class="item-img"><img src="https://rustlabs.com/img/items180/rope.png" alt="Rope" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='RO'"></div>
-        <div class="item-name">Rope</div>
-        <div class="item-meta">rope</div>
-      </div>
-      <div class="item-card" data-name="sewing kit">
-        <div class="item-img"><img src="https://rustlabs.com/img/items180/sewingkit.png" alt="Sewing Kit" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='SE'"></div>
-        <div class="item-name">Sewing Kit</div>
-        <div class="item-meta">sewingkit</div>
-      </div>
-      <div class="item-card" data-name="tarp">
-        <div class="item-img"><img src="https://rustlabs.com/img/items180/tarp.png" alt="Tarp" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='TA'"></div>
-        <div class="item-name">Tarp</div>
-        <div class="item-meta">tarp</div>
-      </div>
-      <div class="item-card" data-name="tech trash">
-        <div class="item-img"><img src="https://rustlabs.com/img/items180/techparts.png" alt="Tech Trash" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='TE'"></div>
-        <div class="item-name">Tech Trash</div>
-        <div class="item-meta">techparts</div>
-      </div>
-      <div class="item-card" data-name="rifle body">
-        <div class="item-img"><img src="https://rustlabs.com/img/items180/riflebody.png" alt="Rifle Body" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='RI'"></div>
-        <div class="item-name">Rifle Body</div>
-        <div class="item-meta">riflebody</div>
-      </div>
-      <div class="item-card" data-name="smg body">
-        <div class="item-img"><img src="https://rustlabs.com/img/items180/smgbody.png" alt="SMG Body" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='SM'"></div>
-        <div class="item-name">SMG Body</div>
-        <div class="item-meta">smgbody</div>
-      </div>
-      <div class="item-card" data-name="semi-automatic body">
-        <div class="item-img"><img src="https://rustlabs.com/img/items180/semibody.png" alt="Semi-Automatic Body" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='SE'"></div>
-        <div class="item-name">Semi-Automatic Body</div>
-        <div class="item-meta">semibody</div>
-      </div>
-      <div class="item-card" data-name="sheet metal">
-        <div class="item-img"><img src="https://rustlabs.com/img/items180/sheetmetal.png" alt="Sheet Metal" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='SH'"></div>
-        <div class="item-name">Sheet Metal</div>
-        <div class="item-meta">sheetmetal</div>
-      </div>
-      <div class="item-card" data-name="propane tank">
-        <div class="item-img"><img src="https://rustlabs.com/img/items180/propanetank.png" alt="Propane Tank" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='PR'"></div>
-        <div class="item-name">Propane Tank</div>
-        <div class="item-meta">propanetank</div>
-      </div>
-      <div class="item-card" data-name="empty can">
-        <div class="item-img"><img src="https://rustlabs.com/img/items180/can.beans.empty.png" alt="Empty Can" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='EM'"></div>
-        <div class="item-name">Empty Can</div>
-        <div class="item-meta">can.beans.empty</div>
-      </div>
-      <div class="item-card" data-name="metal blade">
-        <div class="item-img"><img src="https://rustlabs.com/img/items180/metalblade.png" alt="Metal Blade" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='ME'"></div>
-        <div class="item-name">Metal Blade</div>
-        <div class="item-meta">metalblade</div>
-      </div>
-      <div class="item-card" data-name="electric fuse">
-        <div class="item-img"><img src="https://rustlabs.com/img/items180/fuse.png" alt="Electric Fuse" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='EL'"></div>
-        <div class="item-name">Electric Fuse</div>
-        <div class="item-meta">fuse</div>
-      </div>
-      <div class="item-card" data-name="cctv camera">
-        <div class="item-img"><img src="https://rustlabs.com/img/items180/cctv.camera.png" alt="CCTV Camera" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='CC'"></div>
-        <div class="item-name">CCTV Camera</div>
-        <div class="item-meta">cctv.camera</div>
-      </div>
-      <div class="item-card" data-name="targeting computer">
-        <div class="item-img"><img src="https://rustlabs.com/img/items180/targeting.computer.png" alt="Targeting Computer" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='TA'"></div>
-        <div class="item-name">Targeting Computer</div>
-        <div class="item-meta">targeting.computer</div>
-      </div>
-    </div>
-    <div class="empty-state" id="emptyState" style="display:none;">
-      <div class="icon">🔍</div>
-      <p>No components match your search.</p>
-    </div>
+    <div class="item-grid" id="itemGrid"></div>
+  </div>
+</div>
+<div class="modal-overlay" id="modal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal()">&times;</button>
+    <div class="modal-header" id="modalHeader"></div>
+    <div class="modal-body" id="modalBody"></div>
   </div>
 </div>
 <footer class="site-footer">
@@ -139,24 +85,69 @@
     <div class="footer-links">
       <a href="../index.html">Home</a>
       <a href="../items.html">Items</a>
-      
+      <a href="../skins.html">Skins</a>
       <a href="../servers.html">Servers</a>
     </div>
   </div>
 </footer>
 <script>
-document.getElementById('filterInput').addEventListener('input', function() {
-  const q = this.value.toLowerCase();
-  const cards = document.querySelectorAll('.item-card');
-  let vis = 0;
-  cards.forEach(c => {
-    const match = c.dataset.name.includes(q);
-    c.style.display = match ? '' : 'none';
-    if(match) vis++;
-  });
-  document.getElementById('count').textContent = vis + ' items';
-  document.getElementById('emptyState').style.display = vis === 0 ? '' : 'none';
-  document.getElementById('itemGrid').style.display = vis === 0 ? 'none' : '';
-});
+const IMG = 'https://rustlabs.com/img/items180';
+const ITEMS = [{"n": "Gears", "s": "gears", "desc": "Mechanical gears used in various crafting recipes. Found in barrels and crates.", "loot": "Found in barrels, crates, and by recycling."}, {"n": "Metal Blade", "s": "metalblade", "desc": "A metal blade component used in tool and weapon crafting.", "loot": "Found in barrels and crates."}, {"n": "Metal Pipe", "s": "metalpipe", "desc": "A metal pipe used in many weapon recipes.", "loot": "Found in barrels, crates, and by recycling."}, {"n": "Metal Spring", "s": "metalspring", "desc": "A spring used in various gun recipes. Essential for mid-tier weapons.", "loot": "Found in barrels, crates, and by recycling."}, {"n": "Rope", "s": "rope", "desc": "Rope used in various crafting recipes.", "loot": "Found in barrels and crates."}, {"n": "Sewing Kit", "s": "sewingkit", "desc": "Used to craft most clothing and armor. Found in crates.", "loot": "Found in crates and by recycling clothing."}, {"n": "Tarp", "s": "tarp", "desc": "A tarp used in some armor and backpack recipes.", "loot": "Found in crates and by recycling."}, {"n": "Road Signs", "s": "roadsigns", "desc": "Road signs used to craft roadsign armor.", "loot": "Found in barrels and by recycling."}, {"n": "Sheet Metal", "s": "sheetmetal", "desc": "Sheet metal used in some crafting recipes.", "loot": "Found in barrels and crates."}, {"n": "SMG Body", "s": "smgbody", "desc": "A weapon component needed to craft SMGs.", "loot": "Found in crates and elite crates."}, {"n": "Semi Automatic Body", "s": "semibody", "desc": "A weapon body used to craft the SAR and semi-auto pistol.", "loot": "Found in crates."}, {"n": "Rifle Body", "s": "riflebody", "desc": "A rare component for crafting the AK-47 and Bolt Action Rifle.", "loot": "Found in elite crates, locked crates, and military crates."}, {"n": "Tech Trash", "s": "techparts", "desc": "Electronic components used in advanced recipes and recycled for scrap.", "loot": "Found in elite crates and military crates."}, {"n": "CCTV Camera", "s": "cctv.camera", "desc": "A camera component used in auto turrets and computer stations.", "loot": "Found in elite crates."}, {"n": "Propane Tank", "s": "propanetank", "desc": "An empty propane tank used in flame turret crafting.", "loot": "Found in barrels and crates."}, {"n": "Electric Fuse", "s": "fuse", "desc": "An electrical fuse required for monument puzzles.", "loot": "Found in barrels, crates, and at Outpost."}, {"n": "Green Card", "s": "keycard_green", "desc": "A green keycard for accessing monument puzzle rooms.", "loot": "Found behind blue card doors."}, {"n": "Weapon Flashlight", "s": "weapon.mod.flashlight", "desc": "An attachable flashlight for weapons.", "craft": [{"n": "High Quality Metal", "s": "metal.refined", "a": 3}, {"n": "Metal Fragments", "s": "metal.fragments", "a": 50}], "wb": 1, "time": 10}];
+
+const grid = document.getElementById('itemGrid');
+const modal = document.getElementById('modal');
+
+function esc(s){const d=document.createElement('span');d.textContent=s||'';return d.innerHTML}
+
+function renderGrid(){
+  grid.innerHTML = ITEMS.map(w =>
+    '<div class="item-card" data-slug="'+w.s+'">' +
+    '<img src="'+IMG+'/'+w.s+'.png" onerror="this.style.opacity=\'0.3\'" loading="lazy">' +
+    '<div class="item-label">'+esc(w.n)+'</div></div>'
+  ).join('');
+}
+
+function openModal(slug){
+  const w = ITEMS.find(x=>x.s===slug);
+  if(!w) return;
+  const header = document.getElementById('modalHeader');
+  const body = document.getElementById('modalBody');
+  header.innerHTML =
+    '<img src="'+IMG+'/'+w.s+'.png" onerror="this.style.opacity=\'0.3\'">' +
+    '<div class="modal-header-text">' +
+    '<h2>'+esc(w.n)+'</h2>' +
+    '<div class="item-desc">'+esc(w.desc)+'</div>' +
+    '</div>';
+  let html = '';
+  if(w.stats && w.stats.length){
+    html += '<div class="modal-section-title">Stats</div><div class="stat-grid-modal">';
+    w.stats.forEach(s => html += '<div class="stat-item"><div class="stat-label">'+s.l+'</div><div class="stat-val">'+s.v+'</div></div>');
+    html += '</div>';
+  }
+  if(w.craft){
+    html += '<div class="modal-section-title">Crafting Cost</div>';
+    w.craft.forEach(c => {
+      html += '<div class="craft-row">' +
+        '<img src="'+IMG+'/'+c.s+'.png" onerror="this.style.opacity=\'0.3\'">' +
+        '<span class="craft-name">'+esc(c.n)+'</span>' +
+        '<span class="craft-amount">&times;'+c.a+'</span></div>';
+    });
+    if(w.time) html += '<div class="craft-time">⏱ Craft time: <em>'+w.time+'s</em></div>';
+    if(w.wb!==undefined && w.wb!==null) html += '<div class="workbench-badge">Workbench Level '+w.wb+'</div>';
+  } else {
+    html += '<div class="modal-section-title">Crafting</div>';
+    html += '<div style="color:var(--text-muted);font-size:13px;padding:8px 0;">'+esc(w.loot||'This item cannot be crafted. Found as loot.')+'</div>';
+  }
+  body.innerHTML = html;
+  modal.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModal(){modal.classList.remove('open');document.body.style.overflow='';}
+grid.addEventListener('click', e => {const c=e.target.closest('.item-card');if(c)openModal(c.dataset.slug);});
+modal.addEventListener('click', e => {if(e.target===modal)closeModal();});
+document.addEventListener('keydown', e => {if(e.key==='Escape')closeModal();});
+renderGrid();
 </script>
-</body></html>
+</body>
+</html>

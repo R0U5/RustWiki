@@ -4,8 +4,46 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Attire &mdash; RustWiki</title>
-<meta name="description" content="Comprehensive Rust wiki with items, crafting, statistics, and servers.">
+<meta name="description" content="All attire in Rust — descriptions, crafting costs, and detailed information.">
 <link rel="stylesheet" href="../css/style.css">
+<style>
+  .item-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:12px}
+  .item-card{background:var(--bg-card);border:1px solid var(--border);border-radius:8px;padding:16px 12px;text-align:center;cursor:pointer;transition:all .2s;text-decoration:none;color:inherit;display:flex;flex-direction:column;align-items:center;gap:8px}
+  .item-card:hover{border-color:var(--accent);background:var(--bg-card-hover);transform:translateY(-2px)}
+  .item-card img{width:80px;height:80px;object-fit:contain;filter:drop-shadow(0 2px 6px rgba(0,0,0,.3))}
+  .item-card .item-label{font-family:var(--font-heading);font-size:13px;font-weight:600;color:var(--text-primary);line-height:1.2}
+  .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.7);backdrop-filter:blur(4px);z-index:200;display:none;align-items:center;justify-content:center;padding:20px}
+  .modal-overlay.open{display:flex}
+  .modal{background:var(--bg-card);border:1px solid var(--border);border-radius:12px;max-width:600px;width:100%;max-height:90vh;overflow-y:auto;position:relative;animation:modalIn .25s ease}
+  @keyframes modalIn{from{opacity:0;transform:scale(.95)}to{opacity:1;transform:scale(1)}}
+  .modal-close{position:absolute;top:12px;right:14px;background:none;border:none;color:var(--text-muted);font-size:24px;cursor:pointer;z-index:1;line-height:1;padding:4px 8px;border-radius:4px;transition:all .15s}
+  .modal-close:hover{color:var(--accent);background:var(--bg-secondary)}
+  .modal-header{display:flex;align-items:center;gap:20px;padding:28px 28px 0;border-bottom:1px solid var(--border);padding-bottom:20px}
+  .modal-header img{width:100px;height:100px;object-fit:contain;filter:drop-shadow(0 4px 12px rgba(0,0,0,.4))}
+  .modal-header-text h2{font-family:var(--font-heading);font-size:22px;color:var(--text-primary);margin:0}
+  .modal-header-text .item-type{font-family:var(--font-condensed);font-size:12px;text-transform:uppercase;letter-spacing:1.5px;color:var(--accent);margin-top:4px}
+  .modal-header-text .item-desc{font-size:13px;color:var(--text-muted);margin-top:8px;line-height:1.5}
+  .modal-body{padding:20px 28px 28px}
+  .modal-section-title{font-family:var(--font-condensed);font-size:12px;text-transform:uppercase;letter-spacing:1.5px;color:var(--text-muted);margin-bottom:10px;margin-top:20px}
+  .modal-section-title:first-child{margin-top:0}
+  .craft-row{display:flex;align-items:center;gap:12px;padding:8px 12px;background:var(--bg-secondary);border-radius:6px;margin-bottom:6px}
+  .craft-row img{width:32px;height:32px;object-fit:contain}
+  .craft-row .craft-name{font-size:14px;color:var(--text-primary);flex:1}
+  .craft-row .craft-amount{font-family:var(--font-heading);font-weight:700;font-size:15px;color:var(--accent)}
+  .stat-grid-modal{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:8px}
+  .stat-item{background:var(--bg-secondary);border-radius:6px;padding:10px 12px;text-align:center}
+  .stat-item .stat-label{font-family:var(--font-condensed);font-size:11px;text-transform:uppercase;letter-spacing:1px;color:var(--text-muted)}
+  .stat-item .stat-val{font-family:var(--font-heading);font-weight:700;font-size:18px;color:var(--text-primary);margin-top:2px}
+  .craft-time{font-size:13px;color:var(--text-muted);margin-top:12px;display:flex;align-items:center;gap:6px}
+  .craft-time em{color:var(--accent);font-style:normal;font-weight:600}
+  .workbench-badge{display:inline-block;font-family:var(--font-condensed);font-size:11px;text-transform:uppercase;letter-spacing:1px;padding:3px 10px;border-radius:4px;background:var(--bg-secondary);border:1px solid var(--border);color:var(--text-secondary);margin-top:8px}
+  @media(max-width:600px){
+    .item-grid{grid-template-columns:repeat(auto-fill,minmax(100px,1fr))}
+    .item-card img{width:60px;height:60px}
+    .modal-header{flex-direction:column;text-align:center;gap:12px}
+    .stat-grid-modal{grid-template-columns:1fr 1fr}
+  }
+</style>
 </head>
 <body>
 <header class="top-bar">
@@ -13,219 +51,32 @@
   <nav class="top-nav" id="nav">
     <a href="../index.html">Home</a>
     <a href="../items.html" class="active">Items</a>
-    
+    <a href="../skins.html">Skins</a>
     <a href="../servers.html">Servers</a>
   </nav>
   <button class="mobile-toggle" onclick="document.getElementById('nav').classList.toggle('open')">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
   </button>
-</header><div class="page">
+</header>
+<div class="page">
   <div class="breadcrumb">
     <a href="../index.html">Home</a><span class="sep">/</span>
     <a href="../items.html">Items</a><span class="sep">/</span>
     <span>Attire</span>
   </div>
+  <div class="hero" style="padding:36px 24px 28px;">
+    <h1><img src="https://rustlabs.com/img/items180/metal.facemask.png" style="width:48px;height:48px;object-fit:contain;vertical-align:middle;margin-right:8px"> <em>Attire</em></h1>
+    <p>All clothing and armor in Rust — from primitive cloth to endgame metal armor.</p>
+  </div>
   <div class="section">
-    <div class="section-header">
-      <h2 class="section-title">🥽 <em>Attire</em></h2>
-      <span class="search-count" id="count">37 items</span>
-    </div>
-    <p style="color:var(--text-secondary);margin-bottom:24px;max-width:600px;">Armor, clothing, helmets, and protective gear.</p>
-    <div class="search-wrap" style="max-width:400px;margin:0 0 24px;">
-      <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-      <input type="text" placeholder="Filter attire..." id="filterInput">
-    </div>
-    <div class="item-grid" id="itemGrid">
-      <div class="item-card" data-name="hazmat suit">
-        <div class="item-img"><img src="https://rustlabs.com/img/items180/hazmatsuit.png" alt="Hazmat Suit" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='HA'"></div>
-        <div class="item-name">Hazmat Suit</div>
-        <div class="item-meta">hazmatsuit</div>
-      </div>
-      <div class="item-card" data-name="metal facemask">
-        <div class="item-img"><img src="https://rustlabs.com/img/items180/metal.facemask.png" alt="Metal Facemask" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='ME'"></div>
-        <div class="item-name">Metal Facemask</div>
-        <div class="item-meta">metal.facemask</div>
-      </div>
-      <div class="item-card" data-name="metal chest plate">
-        <div class="item-img"><img src="https://rustlabs.com/img/items180/metal.plate.torso.png" alt="Metal Chest Plate" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='ME'"></div>
-        <div class="item-name">Metal Chest Plate</div>
-        <div class="item-meta">metal.plate.torso</div>
-      </div>
-      <div class="item-card" data-name="road sign jacket">
-        <div class="item-img"><img src="https://rustlabs.com/img/items180/roadsign.jacket.png" alt="Road Sign Jacket" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='RO'"></div>
-        <div class="item-name">Road Sign Jacket</div>
-        <div class="item-meta">roadsign.jacket</div>
-      </div>
-      <div class="item-card" data-name="road sign kilt">
-        <div class="item-img"><img src="https://rustlabs.com/img/items180/roadsign.kilt.png" alt="Road Sign Kilt" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='RO'"></div>
-        <div class="item-name">Road Sign Kilt</div>
-        <div class="item-meta">roadsign.kilt</div>
-      </div>
-      <div class="item-card" data-name="coffee can helmet">
-        <div class="item-img"><img src="https://rustlabs.com/img/items180/coffeecan.helmet.png" alt="Coffee Can Helmet" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='CO'"></div>
-        <div class="item-name">Coffee Can Helmet</div>
-        <div class="item-meta">coffeecan.helmet</div>
-      </div>
-      <div class="item-card" data-name="roadsign gloves">
-        <div class="item-img"><img src="https://rustlabs.com/img/items180/roadsign.gloves.png" alt="Roadsign Gloves" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='RO'"></div>
-        <div class="item-name">Roadsign Gloves</div>
-        <div class="item-meta">roadsign.gloves</div>
-      </div>
-      <div class="item-card" data-name="boots">
-        <div class="item-img"><img src="https://rustlabs.com/img/items180/shoes.boots.png" alt="Boots" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='BO'"></div>
-        <div class="item-name">Boots</div>
-        <div class="item-meta">shoes.boots</div>
-      </div>
-      <div class="item-card" data-name="hoodie">
-        <div class="item-img"><img src="https://rustlabs.com/img/items180/hoodie.png" alt="Hoodie" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='HO'"></div>
-        <div class="item-name">Hoodie</div>
-        <div class="item-meta">hoodie</div>
-      </div>
-      <div class="item-card" data-name="pants">
-        <div class="item-img"><img src="https://rustlabs.com/img/items180/pants.png" alt="Pants" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='PA'"></div>
-        <div class="item-name">Pants</div>
-        <div class="item-meta">pants</div>
-      </div>
-      <div class="item-card" data-name="snow jacket">
-        <div class="item-img"><img src="https://rustlabs.com/img/items180/jacket.snow.png" alt="Snow Jacket" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='SN'"></div>
-        <div class="item-name">Snow Jacket</div>
-        <div class="item-meta">jacket.snow</div>
-      </div>
-      <div class="item-card" data-name="burlap headwrap">
-        <div class="item-img"><img src="https://rustlabs.com/img/items180/burlap.headwrap.png" alt="Burlap Headwrap" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='BU'"></div>
-        <div class="item-name">Burlap Headwrap</div>
-        <div class="item-meta">burlap.headwrap</div>
-      </div>
-      <div class="item-card" data-name="burlap shirt">
-        <div class="item-img"><img src="https://rustlabs.com/img/items180/burlap.shirt.png" alt="Burlap Shirt" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='BU'"></div>
-        <div class="item-name">Burlap Shirt</div>
-        <div class="item-meta">burlap.shirt</div>
-      </div>
-      <div class="item-card" data-name="burlap trousers">
-        <div class="item-img"><img src="https://rustlabs.com/img/items180/burlap.trousers.png" alt="Burlap Trousers" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='BU'"></div>
-        <div class="item-name">Burlap Trousers</div>
-        <div class="item-meta">burlap.trousers</div>
-      </div>
-      <div class="item-card" data-name="burlap shoes">
-        <div class="item-img"><img src="https://rustlabs.com/img/items180/burlap.shoes.png" alt="Burlap Shoes" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='BU'"></div>
-        <div class="item-name">Burlap Shoes</div>
-        <div class="item-meta">burlap.shoes</div>
-      </div>
-      <div class="item-card" data-name="burlap gloves">
-        <div class="item-img"><img src="https://rustlabs.com/img/items180/burlap.gloves.png" alt="Burlap Gloves" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='BU'"></div>
-        <div class="item-name">Burlap Gloves</div>
-        <div class="item-meta">burlap.gloves</div>
-      </div>
-      <div class="item-card" data-name="wetsuit">
-        <div class="item-img"><img src="https://rustlabs.com/img/items180/diving.suit.png" alt="Wetsuit" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='WE'"></div>
-        <div class="item-name">Wetsuit</div>
-        <div class="item-meta">diving.suit</div>
-      </div>
-      <div class="item-card" data-name="diving mask">
-        <div class="item-img"><img src="https://rustlabs.com/img/items180/diving.mask.png" alt="Diving Mask" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='DI'"></div>
-        <div class="item-name">Diving Mask</div>
-        <div class="item-meta">diving.mask</div>
-      </div>
-      <div class="item-card" data-name="diving fins">
-        <div class="item-img"><img src="https://rustlabs.com/img/items180/diving.fins.png" alt="Diving Fins" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='DI'"></div>
-        <div class="item-name">Diving Fins</div>
-        <div class="item-meta">diving.fins</div>
-      </div>
-      <div class="item-card" data-name="diving tank">
-        <div class="item-img"><img src="https://rustlabs.com/img/items180/diving.tank.png" alt="Diving Tank" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='DI'"></div>
-        <div class="item-name">Diving Tank</div>
-        <div class="item-meta">diving.tank</div>
-      </div>
-      <div class="item-card" data-name="hide poncho">
-        <div class="item-img"><img src="https://rustlabs.com/img/items180/attire.hide.poncho.png" alt="Hide Poncho" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='HI'"></div>
-        <div class="item-name">Hide Poncho</div>
-        <div class="item-meta">attire.hide.poncho</div>
-      </div>
-      <div class="item-card" data-name="hide boots">
-        <div class="item-img"><img src="https://rustlabs.com/img/items180/attire.hide.boots.png" alt="Hide Boots" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='HI'"></div>
-        <div class="item-name">Hide Boots</div>
-        <div class="item-meta">attire.hide.boots</div>
-      </div>
-      <div class="item-card" data-name="hide vest">
-        <div class="item-img"><img src="https://rustlabs.com/img/items180/attire.hide.vest.png" alt="Hide Vest" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='HI'"></div>
-        <div class="item-name">Hide Vest</div>
-        <div class="item-meta">attire.hide.vest</div>
-      </div>
-      <div class="item-card" data-name="hide pants">
-        <div class="item-img"><img src="https://rustlabs.com/img/items180/attire.hide.pants.png" alt="Hide Pants" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='HI'"></div>
-        <div class="item-name">Hide Pants</div>
-        <div class="item-meta">attire.hide.pants</div>
-      </div>
-      <div class="item-card" data-name="hide skirt">
-        <div class="item-img"><img src="https://rustlabs.com/img/items180/attire.hide.skirt.png" alt="Hide Skirt" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='HI'"></div>
-        <div class="item-name">Hide Skirt</div>
-        <div class="item-meta">attire.hide.skirt</div>
-      </div>
-      <div class="item-card" data-name="bone armor">
-        <div class="item-img"><img src="https://rustlabs.com/img/items180/bone.armor.suit.png" alt="Bone Armor" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='BO'"></div>
-        <div class="item-name">Bone Armor</div>
-        <div class="item-meta">bone.armor.suit</div>
-      </div>
-      <div class="item-card" data-name="bone helmet">
-        <div class="item-img"><img src="https://rustlabs.com/img/items180/deer.skull.mask.png" alt="Bone Helmet" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='BO'"></div>
-        <div class="item-name">Bone Helmet</div>
-        <div class="item-meta">deer.skull.mask</div>
-      </div>
-      <div class="item-card" data-name="heavy plate helmet">
-        <div class="item-img"><img src="https://rustlabs.com/img/items180/heavy.plate.helmet.png" alt="Heavy Plate Helmet" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='HE'"></div>
-        <div class="item-name">Heavy Plate Helmet</div>
-        <div class="item-meta">heavy.plate.helmet</div>
-      </div>
-      <div class="item-card" data-name="heavy plate jacket">
-        <div class="item-img"><img src="https://rustlabs.com/img/items180/heavy.plate.jacket.png" alt="Heavy Plate Jacket" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='HE'"></div>
-        <div class="item-name">Heavy Plate Jacket</div>
-        <div class="item-meta">heavy.plate.jacket</div>
-      </div>
-      <div class="item-card" data-name="heavy plate pants">
-        <div class="item-img"><img src="https://rustlabs.com/img/items180/heavy.plate.pants.png" alt="Heavy Plate Pants" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='HE'"></div>
-        <div class="item-name">Heavy Plate Pants</div>
-        <div class="item-meta">heavy.plate.pants</div>
-      </div>
-      <div class="item-card" data-name="wolf headdress">
-        <div class="item-img"><img src="https://rustlabs.com/img/items180/hat.wolf.png" alt="Wolf Headdress" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='WO'"></div>
-        <div class="item-name">Wolf Headdress</div>
-        <div class="item-meta">hat.wolf</div>
-      </div>
-      <div class="item-card" data-name="boonie hat">
-        <div class="item-img"><img src="https://rustlabs.com/img/items180/hat.boonie.png" alt="Boonie Hat" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='BO'"></div>
-        <div class="item-name">Boonie Hat</div>
-        <div class="item-meta">hat.boonie</div>
-      </div>
-      <div class="item-card" data-name="bucket helmet">
-        <div class="item-img"><img src="https://rustlabs.com/img/items180/bucket.helmet.png" alt="Bucket Helmet" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='BU'"></div>
-        <div class="item-name">Bucket Helmet</div>
-        <div class="item-meta">bucket.helmet</div>
-      </div>
-      <div class="item-card" data-name="riot helmet">
-        <div class="item-img"><img src="https://rustlabs.com/img/items180/riot.helmet.png" alt="Riot Helmet" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='RI'"></div>
-        <div class="item-name">Riot Helmet</div>
-        <div class="item-meta">riot.helmet</div>
-      </div>
-      <div class="item-card" data-name="bandana mask">
-        <div class="item-img"><img src="https://rustlabs.com/img/items180/mask.bandana.png" alt="Bandana Mask" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='BA'"></div>
-        <div class="item-name">Bandana Mask</div>
-        <div class="item-meta">mask.bandana</div>
-      </div>
-      <div class="item-card" data-name="balaclava">
-        <div class="item-img"><img src="https://rustlabs.com/img/items180/mask.balaclava.png" alt="Balaclava" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='BA'"></div>
-        <div class="item-name">Balaclava</div>
-        <div class="item-meta">mask.balaclava</div>
-      </div>
-      <div class="item-card" data-name="tactical gloves">
-        <div class="item-img"><img src="https://rustlabs.com/img/items180/tactical.gloves.png" alt="Tactical Gloves" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='TA'"></div>
-        <div class="item-name">Tactical Gloves</div>
-        <div class="item-meta">tactical.gloves</div>
-      </div>
-    </div>
-    <div class="empty-state" id="emptyState" style="display:none;">
-      <div class="icon">🔍</div>
-      <p>No attire match your search.</p>
-    </div>
+    <div class="item-grid" id="itemGrid"></div>
+  </div>
+</div>
+<div class="modal-overlay" id="modal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal()">&times;</button>
+    <div class="modal-header" id="modalHeader"></div>
+    <div class="modal-body" id="modalBody"></div>
   </div>
 </div>
 <footer class="site-footer">
@@ -234,24 +85,69 @@
     <div class="footer-links">
       <a href="../index.html">Home</a>
       <a href="../items.html">Items</a>
-      
+      <a href="../skins.html">Skins</a>
       <a href="../servers.html">Servers</a>
     </div>
   </div>
 </footer>
 <script>
-document.getElementById('filterInput').addEventListener('input', function() {
-  const q = this.value.toLowerCase();
-  const cards = document.querySelectorAll('.item-card');
-  let vis = 0;
-  cards.forEach(c => {
-    const match = c.dataset.name.includes(q);
-    c.style.display = match ? '' : 'none';
-    if(match) vis++;
-  });
-  document.getElementById('count').textContent = vis + ' items';
-  document.getElementById('emptyState').style.display = vis === 0 ? '' : 'none';
-  document.getElementById('itemGrid').style.display = vis === 0 ? 'none' : '';
-});
+const IMG = 'https://rustlabs.com/img/items180';
+const ITEMS = [{"n": "Burlap Shirt", "s": "burlap.shirt", "desc": "A basic shirt providing minimal cold protection.", "craft": [{"n": "Cloth", "s": "cloth", "a": 20}], "wb": 0, "time": 10}, {"n": "Burlap Trousers", "s": "burlap.trousers", "desc": "Basic cloth pants. Better than nothing.", "craft": [{"n": "Cloth", "s": "cloth", "a": 20}], "wb": 0, "time": 10}, {"n": "Burlap Shoes", "s": "burlap.shoes", "desc": "Simple cloth shoes for basic foot protection.", "craft": [{"n": "Cloth", "s": "cloth", "a": 10}], "wb": 0, "time": 5}, {"n": "Burlap Headwrap", "s": "burlap.headwrap", "desc": "A cloth headwrap. Minimal protection.", "craft": [{"n": "Cloth", "s": "cloth", "a": 10}], "wb": 0, "time": 5}, {"n": "Burlap Gloves", "s": "burlap.gloves", "desc": "Basic cloth gloves.", "craft": [{"n": "Cloth", "s": "cloth", "a": 10}], "wb": 0, "time": 5}, {"n": "Hoodie", "s": "hoodie", "desc": "A warm hoodie offering decent cold and projectile protection.", "craft": [{"n": "Cloth", "s": "cloth", "a": 80}, {"n": "Sewing Kit", "s": "sewingkit", "a": 2}], "wb": 1, "time": 30}, {"n": "Pants", "s": "pants", "desc": "Cloth pants with moderate protection.", "craft": [{"n": "Cloth", "s": "cloth", "a": 80}, {"n": "Sewing Kit", "s": "sewingkit", "a": 2}], "wb": 1, "time": 30}, {"n": "Boots", "s": "shoes.boots", "desc": "Leather boots with good cold and projectile protection.", "craft": [{"n": "Leather", "s": "leather", "a": 30}, {"n": "Sewing Kit", "s": "sewingkit", "a": 1}], "wb": 1, "time": 20}, {"n": "Hide Poncho", "s": "attire.hide.poncho", "desc": "A leather poncho offering cold and minor projectile protection.", "craft": [{"n": "Leather", "s": "leather", "a": 50}, {"n": "Sewing Kit", "s": "sewingkit", "a": 2}], "wb": 0, "time": 15}, {"n": "Hide Vest", "s": "attire.hide.vest", "desc": "A leather vest providing moderate protection.", "craft": [{"n": "Leather", "s": "leather", "a": 40}, {"n": "Cloth", "s": "cloth", "a": 15}], "wb": 0, "time": 15}, {"n": "Hide Pants", "s": "attire.hide.pants", "desc": "Leather pants with decent protection.", "craft": [{"n": "Leather", "s": "leather", "a": 40}, {"n": "Cloth", "s": "cloth", "a": 15}], "wb": 0, "time": 15}, {"n": "Hide Boots", "s": "attire.hide.boots", "desc": "Leather boots made from animal hide.", "craft": [{"n": "Leather", "s": "leather", "a": 30}, {"n": "Cloth", "s": "cloth", "a": 10}], "wb": 0, "time": 10}, {"n": "Bone Helmet", "s": "deer.skull.mask", "desc": "A helmet made from bone fragments. Decent early-game head protection.", "craft": [{"n": "Bone Fragments", "s": "bone.fragments", "a": 50}, {"n": "Cloth", "s": "cloth", "a": 10}], "wb": 0, "time": 15}, {"n": "Bone Armor", "s": "bone.armor.suit", "desc": "Full body armor made from bone fragments. Good early-game protection.", "craft": [{"n": "Bone Fragments", "s": "bone.fragments", "a": 100}, {"n": "Cloth", "s": "cloth", "a": 20}], "wb": 0, "time": 20}, {"n": "Riot Helmet", "s": "riot.helmet", "desc": "A helmet offering good projectile and melee protection.", "craft": [{"n": "Metal Fragments", "s": "metal.fragments", "a": 150}, {"n": "Sewing Kit", "s": "sewingkit", "a": 3}, {"n": "Tarp", "s": "tarp", "a": 1}], "wb": 2, "time": 30}, {"n": "Roadsign Vest", "s": "roadsign.jacket", "desc": "Armor crafted from road signs. Strong mid-tier chest protection.", "craft": [{"n": "Road Signs", "s": "roadsigns", "a": 3}, {"n": "Sewing Kit", "s": "sewingkit", "a": 3}], "wb": 2, "time": 30}, {"n": "Roadsign Kilt", "s": "roadsign.kilt", "desc": "Road sign leg armor. Solid mid-tier leg protection.", "craft": [{"n": "Road Signs", "s": "roadsigns", "a": 3}, {"n": "Sewing Kit", "s": "sewingkit", "a": 3}], "wb": 2, "time": 30}, {"n": "Roadsign Helmet", "s": "roadsign.gloves", "desc": "Roadsign gloves for hand protection.", "craft": [{"n": "Road Signs", "s": "roadsigns", "a": 2}, {"n": "Sewing Kit", "s": "sewingkit", "a": 2}], "wb": 2, "time": 20}, {"n": "Metal Chest Plate", "s": "metal.plate.torso", "desc": "The strongest craftable chest armor. High projectile resistance.", "craft": [{"n": "High Quality Metal", "s": "metal.refined", "a": 25}, {"n": "Sewing Kit", "s": "sewingkit", "a": 5}], "wb": 3, "time": 60}, {"n": "Metal Facemask", "s": "metal.facemask", "desc": "The strongest craftable head armor. Maximum head protection.", "craft": [{"n": "High Quality Metal", "s": "metal.refined", "a": 15}, {"n": "Sewing Kit", "s": "sewingkit", "a": 3}], "wb": 3, "time": 45}, {"n": "Coffee Can Helmet", "s": "coffeecan.helmet", "desc": "A makeshift helmet from a coffee can. Good mid-tier head protection.", "craft": [{"n": "Metal Fragments", "s": "metal.fragments", "a": 75}, {"n": "Cloth", "s": "cloth", "a": 15}, {"n": "Sewing Kit", "s": "sewingkit", "a": 1}], "wb": 1, "time": 20}, {"n": "Bucket Helmet", "s": "bucket.helmet", "desc": "A bucket used as a helmet. Budget head protection.", "craft": [{"n": "Metal Fragments", "s": "metal.fragments", "a": 50}, {"n": "Cloth", "s": "cloth", "a": 10}], "wb": 0, "time": 15}, {"n": "Snow Jacket", "s": "jacket.snow", "desc": "A warm winter jacket. Excellent cold protection.", "craft": [{"n": "Cloth", "s": "cloth", "a": 80}], "wb": 1, "time": 20}, {"n": "Wetsuit", "s": "diving.wetsuit", "desc": "A wetsuit for swimming. Provides cold protection in water.", "loot": "Found in sunken crates and fishing villages."}, {"n": "Diving Tank", "s": "diving.tank", "desc": "An air tank for extended underwater breathing.", "loot": "Found in sunken crates and fishing villages."}, {"n": "Diving Mask", "s": "diving.mask", "desc": "A diving mask for underwater visibility.", "loot": "Found in sunken crates and fishing villages."}, {"n": "Diving Fins", "s": "diving.fins", "desc": "Fins for faster swimming speed underwater.", "loot": "Found in sunken crates and fishing villages."}, {"n": "Hazmat Suit", "s": "hazmatsuit", "desc": "Full body protection against radiation, cold, and moderate projectile damage. Found in crates.", "loot": "Found in locked crates and military crates."}, {"n": "Heavy Plate Helmet", "s": "heavy.plate.helmet", "desc": "Extremely heavy armor with maximum protection but severe movement penalties.", "craft": [{"n": "High Quality Metal", "s": "metal.refined", "a": 15}, {"n": "Metal Fragments", "s": "metal.fragments", "a": 300}], "wb": 3, "time": 30}, {"n": "Heavy Plate Jacket", "s": "heavy.plate.jacket", "desc": "Maximum chest protection with severe movement speed reduction.", "craft": [{"n": "High Quality Metal", "s": "metal.refined", "a": 25}, {"n": "Metal Fragments", "s": "metal.fragments", "a": 500}], "wb": 3, "time": 45}, {"n": "Heavy Plate Pants", "s": "heavy.plate.pants", "desc": "Maximum leg armor with extreme weight penalty.", "craft": [{"n": "High Quality Metal", "s": "metal.refined", "a": 15}, {"n": "Metal Fragments", "s": "metal.fragments", "a": 300}], "wb": 3, "time": 30}, {"n": "Gloves", "s": "burlap.gloves", "desc": "Simple cloth gloves providing basic hand warmth.", "craft": [{"n": "Cloth", "s": "cloth", "a": 10}], "wb": 0, "time": 5}, {"n": "Bandana Mask", "s": "mask.bandana", "desc": "A cloth bandana covering the lower face. Minimal protection.", "craft": [{"n": "Cloth", "s": "cloth", "a": 5}], "wb": 0, "time": 5}, {"n": "Boonie Hat", "s": "hat.boonie", "desc": "A wide-brimmed hat for sun protection and a small amount of armor.", "craft": [{"n": "Cloth", "s": "cloth", "a": 15}], "wb": 0, "time": 10}, {"n": "Baseball Cap", "s": "hat.cap", "desc": "A casual cap with minimal protection.", "craft": [{"n": "Cloth", "s": "cloth", "a": 10}], "wb": 0, "time": 5}, {"n": "Miners Hat", "s": "hat.miner", "desc": "A hard hat with a built-in headlamp. Requires low grade fuel.", "craft": [{"n": "Low Grade Fuel", "s": "lowgradefuel", "a": 30}, {"n": "Cloth", "s": "cloth", "a": 15}, {"n": "Metal Fragments", "s": "metal.fragments", "a": 50}], "wb": 0, "time": 10}, {"n": "Candle Hat", "s": "hat.candle", "desc": "A hat with a lit candle providing light. Budget headlamp alternative.", "craft": [{"n": "Cloth", "s": "cloth", "a": 15}, {"n": "Animal Fat", "s": "fat.animal", "a": 15}], "wb": 0, "time": 10}, {"n": "Wolf Headdress", "s": "hat.wolf", "desc": "A headdress made from a wolf skull. Good protection with intimidating looks.", "craft": [{"n": "Bone Fragments", "s": "bone.fragments", "a": 20}, {"n": "Cloth", "s": "cloth", "a": 10}, {"n": "Wolf Skull", "s": "skull.wolf", "a": 1}], "wb": 0, "time": 15}];
+
+const grid = document.getElementById('itemGrid');
+const modal = document.getElementById('modal');
+
+function esc(s){const d=document.createElement('span');d.textContent=s||'';return d.innerHTML}
+
+function renderGrid(){
+  grid.innerHTML = ITEMS.map(w =>
+    '<div class="item-card" data-slug="'+w.s+'">' +
+    '<img src="'+IMG+'/'+w.s+'.png" onerror="this.style.opacity=\'0.3\'" loading="lazy">' +
+    '<div class="item-label">'+esc(w.n)+'</div></div>'
+  ).join('');
+}
+
+function openModal(slug){
+  const w = ITEMS.find(x=>x.s===slug);
+  if(!w) return;
+  const header = document.getElementById('modalHeader');
+  const body = document.getElementById('modalBody');
+  header.innerHTML =
+    '<img src="'+IMG+'/'+w.s+'.png" onerror="this.style.opacity=\'0.3\'">' +
+    '<div class="modal-header-text">' +
+    '<h2>'+esc(w.n)+'</h2>' +
+    '<div class="item-desc">'+esc(w.desc)+'</div>' +
+    '</div>';
+  let html = '';
+  if(w.stats && w.stats.length){
+    html += '<div class="modal-section-title">Stats</div><div class="stat-grid-modal">';
+    w.stats.forEach(s => html += '<div class="stat-item"><div class="stat-label">'+s.l+'</div><div class="stat-val">'+s.v+'</div></div>');
+    html += '</div>';
+  }
+  if(w.craft){
+    html += '<div class="modal-section-title">Crafting Cost</div>';
+    w.craft.forEach(c => {
+      html += '<div class="craft-row">' +
+        '<img src="'+IMG+'/'+c.s+'.png" onerror="this.style.opacity=\'0.3\'">' +
+        '<span class="craft-name">'+esc(c.n)+'</span>' +
+        '<span class="craft-amount">&times;'+c.a+'</span></div>';
+    });
+    if(w.time) html += '<div class="craft-time">⏱ Craft time: <em>'+w.time+'s</em></div>';
+    if(w.wb!==undefined && w.wb!==null) html += '<div class="workbench-badge">Workbench Level '+w.wb+'</div>';
+  } else {
+    html += '<div class="modal-section-title">Crafting</div>';
+    html += '<div style="color:var(--text-muted);font-size:13px;padding:8px 0;">'+esc(w.loot||'This item cannot be crafted. Found as loot.')+'</div>';
+  }
+  body.innerHTML = html;
+  modal.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModal(){modal.classList.remove('open');document.body.style.overflow='';}
+grid.addEventListener('click', e => {const c=e.target.closest('.item-card');if(c)openModal(c.dataset.slug);});
+modal.addEventListener('click', e => {if(e.target===modal)closeModal();});
+document.addEventListener('keydown', e => {if(e.key==='Escape')closeModal();});
+renderGrid();
 </script>
-</body></html>
+</body>
+</html>

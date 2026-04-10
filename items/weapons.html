@@ -4,274 +4,308 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Weapons &mdash; RustWiki</title>
-<meta name="description" content="Comprehensive Rust wiki with items, crafting, statistics, and servers.">
+<meta name="description" content="All weapons in Rust — damage stats, crafting costs, and detailed information.">
 <link rel="stylesheet" href="../css/style.css">
+<style>
+  .item-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:12px}
+  .item-card{background:var(--bg-card);border:1px solid var(--border);border-radius:8px;padding:16px 12px;text-align:center;cursor:pointer;transition:all .2s;text-decoration:none;color:inherit;display:flex;flex-direction:column;align-items:center;gap:8px}
+  .item-card:hover{border-color:var(--accent);background:var(--bg-card-hover);transform:translateY(-2px)}
+  .item-card img{width:80px;height:80px;object-fit:contain;image-rendering:pixelated;filter:drop-shadow(0 2px 6px rgba(0,0,0,.3))}
+  .item-card .item-label{font-family:var(--font-heading);font-size:13px;font-weight:600;color:var(--text-primary);line-height:1.2}
+
+  /* Subcategory filter */
+  .sub-filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px}
+  .sub-filter{font-family:var(--font-condensed);font-size:12px;font-weight:500;text-transform:uppercase;letter-spacing:1px;padding:6px 16px;border-radius:4px;border:1px solid var(--border);background:transparent;color:var(--text-secondary);cursor:pointer;transition:all .2s}
+  .sub-filter:hover{border-color:var(--accent);color:var(--accent)}
+  .sub-filter.active{background:var(--accent);border-color:var(--accent);color:#fff}
+
+  /* Modal */
+  .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.7);backdrop-filter:blur(4px);z-index:200;display:none;align-items:center;justify-content:center;padding:20px}
+  .modal-overlay.open{display:flex}
+  .modal{background:var(--bg-card);border:1px solid var(--border);border-radius:12px;max-width:600px;width:100%;max-height:90vh;overflow-y:auto;position:relative;animation:modalIn .25s ease}
+  @keyframes modalIn{from{opacity:0;transform:scale(.95)}to{opacity:1;transform:scale(1)}}
+  .modal-close{position:absolute;top:12px;right:14px;background:none;border:none;color:var(--text-muted);font-size:24px;cursor:pointer;z-index:1;line-height:1;padding:4px 8px;border-radius:4px;transition:all .15s}
+  .modal-close:hover{color:var(--accent);background:var(--bg-secondary)}
+  .modal-header{display:flex;align-items:center;gap:20px;padding:28px 28px 0;border-bottom:1px solid var(--border);padding-bottom:20px}
+  .modal-header img{width:100px;height:100px;object-fit:contain;filter:drop-shadow(0 4px 12px rgba(0,0,0,.4))}
+  .modal-header-text h2{font-family:var(--font-heading);font-size:22px;color:var(--text-primary);margin:0}
+  .modal-header-text .item-type{font-family:var(--font-condensed);font-size:12px;text-transform:uppercase;letter-spacing:1.5px;color:var(--accent);margin-top:4px}
+  .modal-header-text .item-desc{font-size:13px;color:var(--text-muted);margin-top:8px;line-height:1.5}
+  .modal-body{padding:20px 28px 28px}
+  .modal-section-title{font-family:var(--font-condensed);font-size:12px;text-transform:uppercase;letter-spacing:1.5px;color:var(--text-muted);margin-bottom:10px;margin-top:20px}
+  .modal-section-title:first-child{margin-top:0}
+  .craft-row{display:flex;align-items:center;gap:12px;padding:8px 12px;background:var(--bg-secondary);border-radius:6px;margin-bottom:6px}
+  .craft-row img{width:32px;height:32px;object-fit:contain}
+  .craft-row .craft-name{font-size:14px;color:var(--text-primary);flex:1}
+  .craft-row .craft-amount{font-family:var(--font-heading);font-weight:700;font-size:15px;color:var(--accent)}
+  .stat-grid-modal{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:8px}
+  .stat-item{background:var(--bg-secondary);border-radius:6px;padding:10px 12px;text-align:center}
+  .stat-item .stat-label{font-family:var(--font-condensed);font-size:11px;text-transform:uppercase;letter-spacing:1px;color:var(--text-muted)}
+  .stat-item .stat-val{font-family:var(--font-heading);font-weight:700;font-size:18px;color:var(--text-primary);margin-top:2px}
+  .craft-time{font-size:13px;color:var(--text-muted);margin-top:12px;display:flex;align-items:center;gap:6px}
+  .craft-time em{color:var(--accent);font-style:normal;font-weight:600}
+  .workbench-badge{display:inline-block;font-family:var(--font-condensed);font-size:11px;text-transform:uppercase;letter-spacing:1px;padding:3px 10px;border-radius:4px;background:var(--bg-secondary);border:1px solid var(--border);color:var(--text-secondary);margin-top:8px}
+
+  @media(max-width:600px){
+    .item-grid{grid-template-columns:repeat(auto-fill,minmax(100px,1fr))}
+    .item-card img{width:60px;height:60px}
+    .modal-header{flex-direction:column;text-align:center;gap:12px}
+    .stat-grid-modal{grid-template-columns:1fr 1fr}
+  }
+</style>
 </head>
 <body>
+
 <header class="top-bar">
   <a href="../index.html" class="logo"><div class="logo-icon">R</div>RUST<em>WIKI</em></a>
   <nav class="top-nav" id="nav">
     <a href="../index.html">Home</a>
     <a href="../items.html" class="active">Items</a>
-    
+    <a href="../skins.html">Skins</a>
     <a href="../servers.html">Servers</a>
   </nav>
   <button class="mobile-toggle" onclick="document.getElementById('nav').classList.toggle('open')">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
   </button>
-</header><div class="page">
+</header>
+
+<div class="page">
   <div class="breadcrumb">
     <a href="../index.html">Home</a><span class="sep">/</span>
     <a href="../items.html">Items</a><span class="sep">/</span>
     <span>Weapons</span>
   </div>
+
+  <div class="hero" style="padding:36px 24px 28px;">
+    <h1><img src="https://rustlabs.com/img/items180/rifle.ak.png" style="width:48px;height:48px;object-fit:contain;vertical-align:middle;margin-right:8px"> <em>Weapons</em></h1>
+    <p>All weapons in Rust — click any item for full details, crafting cost, and stats.</p>
+  </div>
+
   <div class="section">
-    <div class="section-header">
-      <h2 class="section-title">🔫 <em>Weapons</em></h2>
-      <span class="search-count" id="count">41 items</span>
+    <div class="sub-filters" id="subFilters">
+      <button class="sub-filter active" data-sub="all">All (41)</button>
+      <button class="sub-filter" data-sub="rifle">Rifles</button>
+      <button class="sub-filter" data-sub="smg">SMGs</button>
+      <button class="sub-filter" data-sub="pistol">Pistols</button>
+      <button class="sub-filter" data-sub="shotgun">Shotguns</button>
+      <button class="sub-filter" data-sub="melee">Melee</button>
+      <button class="sub-filter" data-sub="explosive">Explosives</button>
+      <button class="sub-filter" data-sub="bow">Bows</button>
     </div>
-    <p style="color:var(--text-secondary);margin-bottom:24px;max-width:600px;">Assault rifles, pistols, melee weapons, and explosive launchers.</p>
-    <div class="search-wrap" style="max-width:400px;margin:0 0 24px;">
-      <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-      <input type="text" placeholder="Filter weapons..." id="filterInput">
-    </div>
-    <div class="item-grid" id="itemGrid">
-      <div class="item-card" data-name="assault rifle">
-        <div class="item-img"><img src="https://rustlabs.com/img/items180/rifle.ak.png" alt="Assault Rifle" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='AS'"></div>
-        <div class="item-name">Assault Rifle</div>
-        <div class="item-meta">rifle.ak</div>
-      </div>
-      <div class="item-card" data-name="bolt action rifle">
-        <div class="item-img"><img src="https://rustlabs.com/img/items180/rifle.bolt.png" alt="Bolt Action Rifle" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='BO'"></div>
-        <div class="item-name">Bolt Action Rifle</div>
-        <div class="item-meta">rifle.bolt</div>
-      </div>
-      <div class="item-card" data-name="semi-automatic rifle">
-        <div class="item-img"><img src="https://rustlabs.com/img/items180/rifle.semiauto.png" alt="Semi-Automatic Rifle" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='SE'"></div>
-        <div class="item-name">Semi-Automatic Rifle</div>
-        <div class="item-meta">rifle.semiauto</div>
-      </div>
-      <div class="item-card" data-name="lr-300 assault rifle">
-        <div class="item-img"><img src="https://rustlabs.com/img/items180/rifle.lr300.png" alt="LR-300 Assault Rifle" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='LR'"></div>
-        <div class="item-name">LR-300 Assault Rifle</div>
-        <div class="item-meta">rifle.lr300</div>
-      </div>
-      <div class="item-card" data-name="l96 rifle">
-        <div class="item-img"><img src="https://rustlabs.com/img/items180/rifle.l96.png" alt="L96 Rifle" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='L9'"></div>
-        <div class="item-name">L96 Rifle</div>
-        <div class="item-meta">rifle.l96</div>
-      </div>
-      <div class="item-card" data-name="m249">
-        <div class="item-img"><img src="https://rustlabs.com/img/items180/lmg.m249.png" alt="M249" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='M2'"></div>
-        <div class="item-name">M249</div>
-        <div class="item-meta">lmg.m249</div>
-      </div>
-      <div class="item-card" data-name="m39 rifle">
-        <div class="item-img"><img src="https://rustlabs.com/img/items180/rifle.m39.png" alt="M39 Rifle" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='M3'"></div>
-        <div class="item-name">M39 Rifle</div>
-        <div class="item-meta">rifle.m39</div>
-      </div>
-      <div class="item-card" data-name="thompson">
-        <div class="item-img"><img src="https://rustlabs.com/img/items180/smg.thompson.png" alt="Thompson" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='TH'"></div>
-        <div class="item-name">Thompson</div>
-        <div class="item-meta">smg.thompson</div>
-      </div>
-      <div class="item-card" data-name="mp5a4">
-        <div class="item-img"><img src="https://rustlabs.com/img/items180/smg.mp5.png" alt="MP5A4" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='MP'"></div>
-        <div class="item-name">MP5A4</div>
-        <div class="item-meta">smg.mp5</div>
-      </div>
-      <div class="item-card" data-name="custom smg">
-        <div class="item-img"><img src="https://rustlabs.com/img/items180/smg.2.png" alt="Custom SMG" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='CU'"></div>
-        <div class="item-name">Custom SMG</div>
-        <div class="item-meta">smg.2</div>
-      </div>
-      <div class="item-card" data-name="semi-automatic pistol">
-        <div class="item-img"><img src="https://rustlabs.com/img/items180/pistol.semiauto.png" alt="Semi-Automatic Pistol" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='SE'"></div>
-        <div class="item-name">Semi-Automatic Pistol</div>
-        <div class="item-meta">pistol.semiauto</div>
-      </div>
-      <div class="item-card" data-name="python revolver">
-        <div class="item-img"><img src="https://rustlabs.com/img/items180/pistol.python.png" alt="Python Revolver" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='PY'"></div>
-        <div class="item-name">Python Revolver</div>
-        <div class="item-meta">pistol.python</div>
-      </div>
-      <div class="item-card" data-name="m92 pistol">
-        <div class="item-img"><img src="https://rustlabs.com/img/items180/pistol.m92.png" alt="M92 Pistol" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='M9'"></div>
-        <div class="item-name">M92 Pistol</div>
-        <div class="item-meta">pistol.m92</div>
-      </div>
-      <div class="item-card" data-name="revolver">
-        <div class="item-img"><img src="https://rustlabs.com/img/items180/pistol.revolver.png" alt="Revolver" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='RE'"></div>
-        <div class="item-name">Revolver</div>
-        <div class="item-meta">pistol.revolver</div>
-      </div>
-      <div class="item-card" data-name="eoka pistol">
-        <div class="item-img"><img src="https://rustlabs.com/img/items180/pistol.eoka.png" alt="Eoka Pistol" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='EO'"></div>
-        <div class="item-name">Eoka Pistol</div>
-        <div class="item-meta">pistol.eoka</div>
-      </div>
-      <div class="item-card" data-name="nailgun">
-        <div class="item-img"><img src="https://rustlabs.com/img/items180/pistol.nailgun.png" alt="Nailgun" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='NA'"></div>
-        <div class="item-name">Nailgun</div>
-        <div class="item-meta">pistol.nailgun</div>
-      </div>
-      <div class="item-card" data-name="pump shotgun">
-        <div class="item-img"><img src="https://rustlabs.com/img/items180/shotgun.pump.png" alt="Pump Shotgun" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='PU'"></div>
-        <div class="item-name">Pump Shotgun</div>
-        <div class="item-meta">shotgun.pump</div>
-      </div>
-      <div class="item-card" data-name="double barrel shotgun">
-        <div class="item-img"><img src="https://rustlabs.com/img/items180/shotgun.double.png" alt="Double Barrel Shotgun" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='DO'"></div>
-        <div class="item-name">Double Barrel Shotgun</div>
-        <div class="item-meta">shotgun.double</div>
-      </div>
-      <div class="item-card" data-name="spas-12 shotgun">
-        <div class="item-img"><img src="https://rustlabs.com/img/items180/shotgun.spas12.png" alt="Spas-12 Shotgun" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='SP'"></div>
-        <div class="item-name">Spas-12 Shotgun</div>
-        <div class="item-meta">shotgun.spas12</div>
-      </div>
-      <div class="item-card" data-name="waterpipe shotgun">
-        <div class="item-img"><img src="https://rustlabs.com/img/items180/shotgun.waterpipe.png" alt="Waterpipe Shotgun" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='WA'"></div>
-        <div class="item-name">Waterpipe Shotgun</div>
-        <div class="item-meta">shotgun.waterpipe</div>
-      </div>
-      <div class="item-card" data-name="crossbow">
-        <div class="item-img"><img src="https://rustlabs.com/img/items180/crossbow.png" alt="Crossbow" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='CR'"></div>
-        <div class="item-name">Crossbow</div>
-        <div class="item-meta">crossbow</div>
-      </div>
-      <div class="item-card" data-name="compound bow">
-        <div class="item-img"><img src="https://rustlabs.com/img/items180/bow.compound.png" alt="Compound Bow" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='CO'"></div>
-        <div class="item-name">Compound Bow</div>
-        <div class="item-meta">bow.compound</div>
-      </div>
-      <div class="item-card" data-name="hunting bow">
-        <div class="item-img"><img src="https://rustlabs.com/img/items180/bow.hunting.png" alt="Hunting Bow" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='HU'"></div>
-        <div class="item-name">Hunting Bow</div>
-        <div class="item-meta">bow.hunting</div>
-      </div>
-      <div class="item-card" data-name="longsword">
-        <div class="item-img"><img src="https://rustlabs.com/img/items180/longsword.png" alt="Longsword" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='LO'"></div>
-        <div class="item-name">Longsword</div>
-        <div class="item-meta">longsword</div>
-      </div>
-      <div class="item-card" data-name="salvaged sword">
-        <div class="item-img"><img src="https://rustlabs.com/img/items180/salvaged.sword.png" alt="Salvaged Sword" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='SA'"></div>
-        <div class="item-name">Salvaged Sword</div>
-        <div class="item-meta">salvaged.sword</div>
-      </div>
-      <div class="item-card" data-name="salvaged cleaver">
-        <div class="item-img"><img src="https://rustlabs.com/img/items180/salvaged.cleaver.png" alt="Salvaged Cleaver" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='SA'"></div>
-        <div class="item-name">Salvaged Cleaver</div>
-        <div class="item-meta">salvaged.cleaver</div>
-      </div>
-      <div class="item-card" data-name="mace">
-        <div class="item-img"><img src="https://rustlabs.com/img/items180/mace.png" alt="Mace" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='MA'"></div>
-        <div class="item-name">Mace</div>
-        <div class="item-meta">mace</div>
-      </div>
-      <div class="item-card" data-name="bone club">
-        <div class="item-img"><img src="https://rustlabs.com/img/items180/bone.club.png" alt="Bone Club" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='BO'"></div>
-        <div class="item-name">Bone Club</div>
-        <div class="item-meta">bone.club</div>
-      </div>
-      <div class="item-card" data-name="bone knife">
-        <div class="item-img"><img src="https://rustlabs.com/img/items180/knife.bone.png" alt="Bone Knife" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='BO'"></div>
-        <div class="item-name">Bone Knife</div>
-        <div class="item-meta">knife.bone</div>
-      </div>
-      <div class="item-card" data-name="combat knife">
-        <div class="item-img"><img src="https://rustlabs.com/img/items180/knife.combat.png" alt="Combat Knife" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='CO'"></div>
-        <div class="item-name">Combat Knife</div>
-        <div class="item-meta">knife.combat</div>
-      </div>
-      <div class="item-card" data-name="butcher knife">
-        <div class="item-img"><img src="https://rustlabs.com/img/items180/knife.butcher.png" alt="Butcher Knife" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='BU'"></div>
-        <div class="item-name">Butcher Knife</div>
-        <div class="item-meta">knife.butcher</div>
-      </div>
-      <div class="item-card" data-name="stone spear">
-        <div class="item-img"><img src="https://rustlabs.com/img/items180/spear.stone.png" alt="Stone Spear" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='ST'"></div>
-        <div class="item-name">Stone Spear</div>
-        <div class="item-meta">spear.stone</div>
-      </div>
-      <div class="item-card" data-name="wooden spear">
-        <div class="item-img"><img src="https://rustlabs.com/img/items180/spear.wooden.png" alt="Wooden Spear" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='WO'"></div>
-        <div class="item-name">Wooden Spear</div>
-        <div class="item-meta">spear.wooden</div>
-      </div>
-      <div class="item-card" data-name="flame thrower">
-        <div class="item-img"><img src="https://rustlabs.com/img/items180/flamethrower.png" alt="Flame Thrower" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='FL'"></div>
-        <div class="item-name">Flame Thrower</div>
-        <div class="item-meta">flamethrower</div>
-      </div>
-      <div class="item-card" data-name="rocket launcher">
-        <div class="item-img"><img src="https://rustlabs.com/img/items180/rocket.launcher.png" alt="Rocket Launcher" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='RO'"></div>
-        <div class="item-name">Rocket Launcher</div>
-        <div class="item-meta">rocket.launcher</div>
-      </div>
-      <div class="item-card" data-name="multiple grenade launcher">
-        <div class="item-img"><img src="https://rustlabs.com/img/items180/multiplegrenadelauncher.png" alt="Multiple Grenade Launcher" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='MU'"></div>
-        <div class="item-name">Multiple Grenade Launcher</div>
-        <div class="item-meta">multiplegrenadelauncher</div>
-      </div>
-      <div class="item-card" data-name="f1 grenade">
-        <div class="item-img"><img src="https://rustlabs.com/img/items180/grenade.f1.png" alt="F1 Grenade" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='F1'"></div>
-        <div class="item-name">F1 Grenade</div>
-        <div class="item-meta">grenade.f1</div>
-      </div>
-      <div class="item-card" data-name="beancan grenade">
-        <div class="item-img"><img src="https://rustlabs.com/img/items180/grenade.beancan.png" alt="Beancan Grenade" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='BE'"></div>
-        <div class="item-name">Beancan Grenade</div>
-        <div class="item-meta">grenade.beancan</div>
-      </div>
-      <div class="item-card" data-name="satchel charge">
-        <div class="item-img"><img src="https://rustlabs.com/img/items180/explosive.satchel.png" alt="Satchel Charge" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='SA'"></div>
-        <div class="item-name">Satchel Charge</div>
-        <div class="item-meta">explosive.satchel</div>
-      </div>
-      <div class="item-card" data-name="timed explosive charge">
-        <div class="item-img"><img src="https://rustlabs.com/img/items180/explosive.timed.png" alt="Timed Explosive Charge" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='TI'"></div>
-        <div class="item-name">Timed Explosive Charge</div>
-        <div class="item-meta">explosive.timed</div>
-      </div>
-      <div class="item-card" data-name="minigun">
-        <div class="item-img"><img src="https://rustlabs.com/img/items180/minigun.png" alt="Minigun" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='MI'"></div>
-        <div class="item-name">Minigun</div>
-        <div class="item-meta">minigun</div>
-      </div>
-    </div>
-    <div class="empty-state" id="emptyState" style="display:none;">
-      <div class="icon">🔍</div>
-      <p>No weapons match your search.</p>
-    </div>
+    <div class="item-grid" id="itemGrid"></div>
   </div>
 </div>
+
+<!-- Detail Modal -->
+<div class="modal-overlay" id="modal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal()">&times;</button>
+    <div class="modal-header" id="modalHeader"></div>
+    <div class="modal-body" id="modalBody"></div>
+  </div>
+</div>
+
 <footer class="site-footer">
   <div class="footer-inner">
     <div class="footer-copy">&copy; 2026 RustWiki &mdash; Not affiliated with Facepunch Studios</div>
     <div class="footer-links">
       <a href="../index.html">Home</a>
       <a href="../items.html">Items</a>
-      
+      <a href="../skins.html">Skins</a>
       <a href="../servers.html">Servers</a>
     </div>
   </div>
 </footer>
+
 <script>
-document.getElementById('filterInput').addEventListener('input', function() {
-  const q = this.value.toLowerCase();
-  const cards = document.querySelectorAll('.item-card');
-  let vis = 0;
-  cards.forEach(c => {
-    const match = c.dataset.name.includes(q);
-    c.style.display = match ? '' : 'none';
-    if(match) vis++;
-  });
-  document.getElementById('count').textContent = vis + ' items';
-  document.getElementById('emptyState').style.display = vis === 0 ? '' : 'none';
-  document.getElementById('itemGrid').style.display = vis === 0 ? 'none' : '';
+const IMG = 'https://rustlabs.com/img/items180';
+
+const WEAPONS = [
+  // ── Rifles ──
+  {n:'Assault Rifle',s:'rifle.ak',sub:'rifle',desc:'The AK-47 is the most versatile and widely used endgame rifle. High damage with moderate recoil.',dmg:40,rpm:450,range:'Long',
+   wb:3,time:60,craft:[{n:'High Quality Metal',s:'metal.refined',a:50},{n:'Wood',s:'wood',a:200},{n:'Metal Spring',s:'metalspring',a:4},{n:'Rifle Body',s:'riflebody',a:1}]},
+  {n:'Bolt Action Rifle',s:'rifle.bolt',sub:'rifle',desc:'A high-powered sniper rifle. Extremely high damage per shot with a slow fire rate.',dmg:80,rpm:30,range:'Very Long',
+   wb:3,time:60,craft:[{n:'High Quality Metal',s:'metal.refined',a:30},{n:'Metal Pipe',s:'metalpipe',a:1},{n:'Rifle Body',s:'riflebody',a:1}]},
+  {n:'LR-300',s:'rifle.lr300',sub:'rifle',desc:'A military-grade assault rifle found only in locked crates and helicopter drops. Cannot be crafted.',dmg:40,rpm:500,range:'Long',wb:null,time:null,craft:null},
+  {n:'L96 Rifle',s:'rifle.l96',sub:'rifle',desc:'A military-grade bolt-action sniper with a built-in scope. Found only in locked crates.',dmg:80,rpm:25,range:'Very Long',wb:null,time:null,craft:null},
+  {n:'M249',s:'lmg.m249',sub:'rifle',desc:'A military LMG with a 100-round magazine. Extremely rare, found only from the attack helicopter.',dmg:65,rpm:500,range:'Long',wb:null,time:null,craft:null},
+  {n:'Semi-Automatic Rifle',s:'rifle.semiauto',sub:'rifle',desc:'A reliable mid-tier rifle with decent damage and accuracy. Great for mid-range engagements.',dmg:40,rpm:343,range:'Long',
+   wb:2,time:30,craft:[{n:'High Quality Metal',s:'metal.refined',a:2},{n:'Metal Pipe',s:'metalpipe',a:1},{n:'Semi Automatic Body',s:'semibody',a:1},{n:'Metal Spring',s:'metalspring',a:1}]},
+  {n:'M39 Rifle',s:'rifle.m39',sub:'rifle',desc:'A military-grade semi-automatic marksman rifle. Higher damage per shot than the SAR.',dmg:50,rpm:200,range:'Long',wb:null,time:null,craft:null},
+  {n:'HMLMG',s:'hmlmg',sub:'rifle',desc:'A homemade LMG built from scrap. High capacity but heavy recoil.',dmg:35,rpm:500,range:'Med',
+   wb:2,time:45,craft:[{n:'Metal Fragments',s:'metal.fragments',a:500},{n:'High Quality Metal',s:'metal.refined',a:8},{n:'Metal Pipe',s:'metalpipe',a:3},{n:'Metal Spring',s:'metalspring',a:2},{n:'Rope',s:'rope',a:3}]},
+
+  // ── SMGs ──
+  {n:'Thompson',s:'smg.thompson',sub:'smg',desc:'A classic submachine gun with solid damage and controllable recoil at close-medium range.',dmg:37,rpm:462,range:'Med',
+   wb:2,time:30,craft:[{n:'High Quality Metal',s:'metal.refined',a:10},{n:'Metal Pipe',s:'metalpipe',a:1},{n:'SMG Body',s:'smgbody',a:1},{n:'Metal Spring',s:'metalspring',a:1}]},
+  {n:'Custom SMG',s:'smg.2',sub:'smg',desc:'A makeshift SMG with a high rate of fire. Cheap to craft but lower accuracy.',dmg:30,rpm:600,range:'Short',
+   wb:1,time:30,craft:[{n:'High Quality Metal',s:'metal.refined',a:2},{n:'Metal Pipe',s:'metalpipe',a:1},{n:'SMG Body',s:'smgbody',a:1},{n:'Metal Spring',s:'metalspring',a:1}]},
+  {n:'MP5A4',s:'smg.mp5',sub:'smg',desc:'A military SMG found only in locked crates. Excellent accuracy and rate of fire.',dmg:35,rpm:600,range:'Med',wb:null,time:null,craft:null},
+
+  // ── Pistols ──
+  {n:'Semi-Automatic Pistol',s:'pistol.semiauto',sub:'pistol',desc:'A reliable sidearm. Moderate damage with a decent fire rate.',dmg:40,rpm:400,range:'Med',
+   wb:1,time:20,craft:[{n:'High Quality Metal',s:'metal.refined',a:2},{n:'Metal Pipe',s:'metalpipe',a:1},{n:'Semi Automatic Body',s:'semibody',a:1}]},
+  {n:'Python Revolver',s:'pistol.python',sub:'pistol',desc:'A powerful six-shot revolver with high damage per shot. Effective at medium range.',dmg:55,rpm:400,range:'Med',
+   wb:2,time:20,craft:[{n:'High Quality Metal',s:'metal.refined',a:10},{n:'Metal Pipe',s:'metalpipe',a:1},{n:'Metal Spring',s:'metalspring',a:1}]},
+  {n:'Revolver',s:'pistol.revolver',sub:'pistol',desc:'A crude but reliable six-shot revolver. One of the earliest firearms available.',dmg:35,rpm:343,range:'Med',
+   wb:1,time:20,craft:[{n:'Metal Fragments',s:'metal.fragments',a:125},{n:'Metal Pipe',s:'metalpipe',a:1},{n:'Cloth',s:'cloth',a:25}]},
+  {n:'Eoka Pistol',s:'pistol.eoka',sub:'pistol',desc:'A primitive single-shot pistol. Unreliable but lethal up close. Your first firearm.',dmg:180,rpm:30,range:'Short',
+   wb:0,time:5,craft:[{n:'Wood',s:'wood',a:75},{n:'Metal Fragments',s:'metal.fragments',a:30}]},
+  {n:'Nailgun',s:'pistol.nailgun',sub:'pistol',desc:'Fires nails at high speed. Primarily a building tool but effective as a weapon in a pinch.',dmg:18,rpm:400,range:'Short',
+   wb:1,time:20,craft:[{n:'Metal Fragments',s:'metal.fragments',a:75},{n:'Metal Pipe',s:'metalpipe',a:1},{n:'Scrap',s:'scrap',a:15}]},
+  {n:'M92 Pistol',s:'pistol.m92',sub:'pistol',desc:'A military-grade 9mm pistol. High fire rate with a large magazine. Found in locked crates.',dmg:45,rpm:400,range:'Med',wb:null,time:null,craft:null},
+
+  // ── Shotguns ──
+  {n:'Pump Shotgun',s:'shotgun.pump',sub:'shotgun',desc:'A devastating close-range weapon. Fires buckshot or slugs.',dmg:180,rpm:60,range:'Short',
+   wb:2,time:30,craft:[{n:'High Quality Metal',s:'metal.refined',a:2},{n:'Metal Pipe',s:'metalpipe',a:2},{n:'Metal Spring',s:'metalspring',a:1}]},
+  {n:'Waterpipe Shotgun',s:'shotgun.waterpipe',sub:'shotgun',desc:'A crude single-shot shotgun made from a pipe. Devastating at point-blank range.',dmg:180,rpm:30,range:'Short',
+   wb:1,time:15,craft:[{n:'High Quality Metal',s:'metal.refined',a:1},{n:'Metal Pipe',s:'metalpipe',a:1}]},
+  {n:'Double Barrel Shotgun',s:'shotgun.double',sub:'shotgun',desc:'Fires two shots in quick succession before reloading. Lethal in close quarters.',dmg:180,rpm:120,range:'Short',
+   wb:1,time:15,craft:[{n:'High Quality Metal',s:'metal.refined',a:2},{n:'Metal Pipe',s:'metalpipe',a:2},{n:'Metal Spring',s:'metalspring',a:1}]},
+  {n:'Spas-12 Shotgun',s:'shotgun.spas12',sub:'shotgun',desc:'A military semi-auto shotgun found in locked crates. High fire rate for a shotgun.',dmg:117,rpm:120,range:'Short',wb:null,time:null,craft:null},
+
+  // ── Melee ──
+  {n:'Rock',s:'rock',sub:'melee',desc:'Your starting tool and weapon. Not great for fighting but it is what you spawn with.',dmg:15,rpm:null,range:'Melee',wb:null,time:null,craft:null},
+  {n:'Stone Spear',s:'spear.stone',sub:'melee',desc:'A basic melee weapon and throwable. Cheap to craft and effective early game.',dmg:25,rpm:null,range:'Melee',
+   wb:0,time:10,craft:[{n:'Wood',s:'wood',a:300},{n:'Stones',s:'stones',a:100}]},
+  {n:'Wooden Spear',s:'spear.wooden',sub:'melee',desc:'The most basic craftable weapon. Can be thrown for ranged damage.',dmg:20,rpm:null,range:'Melee',
+   wb:0,time:10,craft:[{n:'Wood',s:'wood',a:300}]},
+  {n:'Bone Knife',s:'knife.bone',sub:'melee',desc:'A sharp blade made from bone fragments. Fast attack speed and great for harvesting animals.',dmg:15,rpm:null,range:'Melee',
+   wb:0,time:10,craft:[{n:'Bone Fragments',s:'bone.fragments',a:30}]},
+  {n:'Machete',s:'machete',sub:'melee',desc:'A long blade weapon effective for close combat. Can be found in crates.',dmg:40,rpm:null,range:'Melee',wb:null,time:null,craft:null},
+  {n:'Longsword',s:'longsword',sub:'melee',desc:'A powerful two-handed sword. High damage but slow swing speed.',dmg:60,rpm:null,range:'Melee',
+   wb:1,time:30,craft:[{n:'High Quality Metal',s:'metal.refined',a:5},{n:'Metal Fragments',s:'metal.fragments',a:100},{n:'Wood',s:'wood',a:300}]},
+  {n:'Salvaged Sword',s:'salvaged.sword',sub:'melee',desc:'A sturdy sword crafted from salvaged materials. Good reach and damage.',dmg:50,rpm:null,range:'Melee',
+   wb:1,time:20,craft:[{n:'Metal Blade',s:'metalblade',a:1},{n:'Metal Pipe',s:'metalpipe',a:1}]},
+  {n:'Salvaged Cleaver',s:'salvaged.cleaver',sub:'melee',desc:'A makeshift cleaver. Fast swing speed with moderate damage.',dmg:40,rpm:null,range:'Melee',
+   wb:1,time:20,craft:[{n:'Metal Blade',s:'metalblade',a:1},{n:'Metal Pipe',s:'metalpipe',a:1}]},
+  {n:'Mace',s:'mace',sub:'melee',desc:'A heavy blunt weapon. Slow but hits hard.',dmg:50,rpm:null,range:'Melee',
+   wb:1,time:30,craft:[{n:'High Quality Metal',s:'metal.refined',a:3},{n:'Metal Fragments',s:'metal.fragments',a:75},{n:'Wood',s:'wood',a:200}]},
+  {n:'Combat Knife',s:'knife.combat',sub:'melee',desc:'A military-grade knife. Very fast attack speed and decent damage.',dmg:30,rpm:null,range:'Melee',wb:null,time:null,craft:null},
+
+  // ── Explosives ──
+  {n:'Rocket Launcher',s:'rocket.launcher',sub:'explosive',desc:'Fires rockets for massive area damage. Essential for raiding.',dmg:350,rpm:null,range:'Long',
+   wb:3,time:120,craft:[{n:'High Quality Metal',s:'metal.refined',a:40},{n:'Metal Pipe',s:'metalpipe',a:6}]},
+  {n:'Timed Explosive Charge',s:'explosive.timed',sub:'explosive',desc:'C4. A powerful explosive that sticks to surfaces. The premier raiding tool.',dmg:550,rpm:null,range:'Placed',
+   wb:3,time:60,craft:[{n:'Explosives',s:'explosives',a:20},{n:'Tech Trash',s:'techparts',a:2},{n:'Cloth',s:'cloth',a:5}]},
+  {n:'Satchel Charge',s:'explosive.satchel',sub:'explosive',desc:'A cheaper raiding explosive that may fail to detonate. Unreliable but accessible.',dmg:475,rpm:null,range:'Placed',
+   wb:1,time:20,craft:[{n:'Beancan Grenade',s:'grenade.beancan',a:4},{n:'Rope',s:'rope',a:1},{n:'Small Stash',s:'stash.small',a:1}]},
+  {n:'Beancan Grenade',s:'grenade.beancan',sub:'explosive',desc:'A makeshift grenade. May bounce unpredictably and has a chance to be a dud.',dmg:115,rpm:null,range:'Thrown',
+   wb:1,time:10,craft:[{n:'Gunpowder',s:'gunpowder',a:60},{n:'Metal Fragments',s:'metal.fragments',a:20}]},
+  {n:'F1 Grenade',s:'grenade.f1',sub:'explosive',desc:'A military fragmentation grenade. Reliable detonation with a lethal blast radius.',dmg:112,rpm:null,range:'Thrown',
+   wb:2,time:15,craft:[{n:'Gunpowder',s:'gunpowder',a:60},{n:'Metal Fragments',s:'metal.fragments',a:40}]},
+
+  // ── Bows ──
+  {n:'Hunting Bow',s:'bow.hunting',sub:'bow',desc:'A simple wooden bow. Your primary ranged weapon in early game.',dmg:50,rpm:null,range:'Med',
+   wb:0,time:10,craft:[{n:'Wood',s:'wood',a:200},{n:'Cloth',s:'cloth',a:50}]},
+  {n:'Compound Bow',s:'bow.compound',sub:'bow',desc:'An advanced bow with adjustable draw. Higher damage and velocity than the hunting bow.',dmg:100,rpm:null,range:'Long',
+   wb:2,time:20,craft:[{n:'High Quality Metal',s:'metal.refined',a:5},{n:'Metal Pipe',s:'metalpipe',a:1},{n:'Rope',s:'rope',a:2},{n:'Gears',s:'gears',a:1}]},
+  {n:'Crossbow',s:'crossbow',sub:'bow',desc:'A makeshift crossbow. Fires bolts with high accuracy. Good early-mid game ranged option.',dmg:60,rpm:null,range:'Med',
+   wb:1,time:15,craft:[{n:'Wood',s:'wood',a:200},{n:'Metal Fragments',s:'metal.fragments',a:75},{n:'Rope',s:'rope',a:2}]},
+  {n:'Nail Gun',s:'multiplegrenadelauncher',sub:'explosive',desc:'A grenade launcher that fires 40mm rounds. Devastating against groups and structures.',dmg:null,rpm:null,range:'Long',wb:null,time:null,craft:null},
+];
+
+// Remove the last bad entry and fix
+WEAPONS.pop();
+WEAPONS.push({n:'Multiple Grenade Launcher',s:'multiplegrenadelauncher',sub:'explosive',desc:'A grenade launcher that fires 40mm rounds. Devastating against groups and structures. Military only.',dmg:null,rpm:null,range:'Long',wb:null,time:null,craft:null});
+
+const grid = document.getElementById('itemGrid');
+const modal = document.getElementById('modal');
+let currentFilter = 'all';
+
+function esc(s){const d=document.createElement('span');d.textContent=s||'';return d.innerHTML}
+
+function renderGrid(){
+  const items = currentFilter==='all' ? WEAPONS : WEAPONS.filter(w=>w.sub===currentFilter);
+  grid.innerHTML = items.map(w =>
+    '<div class="item-card" data-slug="'+w.s+'">' +
+    '<img src="'+IMG+'/'+w.s+'.png" onerror="this.style.opacity=\'0.3\'" loading="lazy">' +
+    '<div class="item-label">'+esc(w.n)+'</div></div>'
+  ).join('');
+}
+
+function openModal(slug){
+  const w = WEAPONS.find(x=>x.s===slug);
+  if(!w) return;
+  const header = document.getElementById('modalHeader');
+  const body = document.getElementById('modalBody');
+
+  header.innerHTML =
+    '<img src="'+IMG+'/'+w.s+'.png" onerror="this.style.opacity=\'0.3\'">' +
+    '<div class="modal-header-text">' +
+    '<h2>'+esc(w.n)+'</h2>' +
+    '<div class="item-type">'+esc(w.sub)+'</div>' +
+    '<div class="item-desc">'+esc(w.desc)+'</div>' +
+    '</div>';
+
+  let html = '';
+
+  // Stats
+  const stats = [];
+  if(w.dmg) stats.push({l:'Damage',v:w.dmg});
+  if(w.rpm) stats.push({l:'RPM',v:w.rpm});
+  if(w.range) stats.push({l:'Range',v:w.range});
+
+  if(stats.length){
+    html += '<div class="modal-section-title">Stats</div>';
+    html += '<div class="stat-grid-modal">';
+    stats.forEach(s => html += '<div class="stat-item"><div class="stat-label">'+s.l+'</div><div class="stat-val">'+s.v+'</div></div>');
+    html += '</div>';
+  }
+
+  // Crafting
+  if(w.craft){
+    html += '<div class="modal-section-title">Crafting Cost</div>';
+    w.craft.forEach(c => {
+      html += '<div class="craft-row">' +
+        '<img src="'+IMG+'/'+c.s+'.png" onerror="this.style.opacity=\'0.3\'">' +
+        '<span class="craft-name">'+esc(c.n)+'</span>' +
+        '<span class="craft-amount">&times;'+c.a+'</span></div>';
+    });
+    if(w.time) html += '<div class="craft-time">⏱ Craft time: <em>'+w.time+'s</em></div>';
+    if(w.wb!==null) html += '<div class="workbench-badge">Workbench Level '+w.wb+'</div>';
+  } else {
+    html += '<div class="modal-section-title">Crafting</div>';
+    html += '<div style="color:var(--text-muted);font-size:13px;padding:8px 0;">This item cannot be crafted. Found in locked crates, military loot, or helicopter drops.</div>';
+  }
+
+  body.innerHTML = html;
+  modal.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModal(){
+  modal.classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+// Event delegation for item clicks
+grid.addEventListener('click', e => {
+  const card = e.target.closest('.item-card');
+  if(card) openModal(card.dataset.slug);
 });
+
+// Close modal on overlay click
+modal.addEventListener('click', e => {
+  if(e.target === modal) closeModal();
+});
+
+// Escape key
+document.addEventListener('keydown', e => {
+  if(e.key === 'Escape') closeModal();
+});
+
+// Sub-filters
+document.querySelectorAll('.sub-filter').forEach(btn => {
+  btn.addEventListener('click', function(){
+    document.querySelectorAll('.sub-filter').forEach(b=>b.classList.remove('active'));
+    this.classList.add('active');
+    currentFilter = this.dataset.sub;
+    renderGrid();
+  });
+});
+
+renderGrid();
 </script>
-</body></html>
+</body>
+</html>

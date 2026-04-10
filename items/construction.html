@@ -4,8 +4,46 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Construction &mdash; RustWiki</title>
-<meta name="description" content="Comprehensive Rust wiki with items, crafting, statistics, and servers.">
+<meta name="description" content="All construction in Rust — descriptions, crafting costs, and detailed information.">
 <link rel="stylesheet" href="../css/style.css">
+<style>
+  .item-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:12px}
+  .item-card{background:var(--bg-card);border:1px solid var(--border);border-radius:8px;padding:16px 12px;text-align:center;cursor:pointer;transition:all .2s;text-decoration:none;color:inherit;display:flex;flex-direction:column;align-items:center;gap:8px}
+  .item-card:hover{border-color:var(--accent);background:var(--bg-card-hover);transform:translateY(-2px)}
+  .item-card img{width:80px;height:80px;object-fit:contain;filter:drop-shadow(0 2px 6px rgba(0,0,0,.3))}
+  .item-card .item-label{font-family:var(--font-heading);font-size:13px;font-weight:600;color:var(--text-primary);line-height:1.2}
+  .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.7);backdrop-filter:blur(4px);z-index:200;display:none;align-items:center;justify-content:center;padding:20px}
+  .modal-overlay.open{display:flex}
+  .modal{background:var(--bg-card);border:1px solid var(--border);border-radius:12px;max-width:600px;width:100%;max-height:90vh;overflow-y:auto;position:relative;animation:modalIn .25s ease}
+  @keyframes modalIn{from{opacity:0;transform:scale(.95)}to{opacity:1;transform:scale(1)}}
+  .modal-close{position:absolute;top:12px;right:14px;background:none;border:none;color:var(--text-muted);font-size:24px;cursor:pointer;z-index:1;line-height:1;padding:4px 8px;border-radius:4px;transition:all .15s}
+  .modal-close:hover{color:var(--accent);background:var(--bg-secondary)}
+  .modal-header{display:flex;align-items:center;gap:20px;padding:28px 28px 0;border-bottom:1px solid var(--border);padding-bottom:20px}
+  .modal-header img{width:100px;height:100px;object-fit:contain;filter:drop-shadow(0 4px 12px rgba(0,0,0,.4))}
+  .modal-header-text h2{font-family:var(--font-heading);font-size:22px;color:var(--text-primary);margin:0}
+  .modal-header-text .item-type{font-family:var(--font-condensed);font-size:12px;text-transform:uppercase;letter-spacing:1.5px;color:var(--accent);margin-top:4px}
+  .modal-header-text .item-desc{font-size:13px;color:var(--text-muted);margin-top:8px;line-height:1.5}
+  .modal-body{padding:20px 28px 28px}
+  .modal-section-title{font-family:var(--font-condensed);font-size:12px;text-transform:uppercase;letter-spacing:1.5px;color:var(--text-muted);margin-bottom:10px;margin-top:20px}
+  .modal-section-title:first-child{margin-top:0}
+  .craft-row{display:flex;align-items:center;gap:12px;padding:8px 12px;background:var(--bg-secondary);border-radius:6px;margin-bottom:6px}
+  .craft-row img{width:32px;height:32px;object-fit:contain}
+  .craft-row .craft-name{font-size:14px;color:var(--text-primary);flex:1}
+  .craft-row .craft-amount{font-family:var(--font-heading);font-weight:700;font-size:15px;color:var(--accent)}
+  .stat-grid-modal{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:8px}
+  .stat-item{background:var(--bg-secondary);border-radius:6px;padding:10px 12px;text-align:center}
+  .stat-item .stat-label{font-family:var(--font-condensed);font-size:11px;text-transform:uppercase;letter-spacing:1px;color:var(--text-muted)}
+  .stat-item .stat-val{font-family:var(--font-heading);font-weight:700;font-size:18px;color:var(--text-primary);margin-top:2px}
+  .craft-time{font-size:13px;color:var(--text-muted);margin-top:12px;display:flex;align-items:center;gap:6px}
+  .craft-time em{color:var(--accent);font-style:normal;font-weight:600}
+  .workbench-badge{display:inline-block;font-family:var(--font-condensed);font-size:11px;text-transform:uppercase;letter-spacing:1px;padding:3px 10px;border-radius:4px;background:var(--bg-secondary);border:1px solid var(--border);color:var(--text-secondary);margin-top:8px}
+  @media(max-width:600px){
+    .item-grid{grid-template-columns:repeat(auto-fill,minmax(100px,1fr))}
+    .item-card img{width:60px;height:60px}
+    .modal-header{flex-direction:column;text-align:center;gap:12px}
+    .stat-grid-modal{grid-template-columns:1fr 1fr}
+  }
+</style>
 </head>
 <body>
 <header class="top-bar">
@@ -13,254 +51,32 @@
   <nav class="top-nav" id="nav">
     <a href="../index.html">Home</a>
     <a href="../items.html" class="active">Items</a>
-    
+    <a href="../skins.html">Skins</a>
     <a href="../servers.html">Servers</a>
   </nav>
   <button class="mobile-toggle" onclick="document.getElementById('nav').classList.toggle('open')">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
   </button>
-</header><div class="page">
+</header>
+<div class="page">
   <div class="breadcrumb">
     <a href="../index.html">Home</a><span class="sep">/</span>
     <a href="../items.html">Items</a><span class="sep">/</span>
     <span>Construction</span>
   </div>
+  <div class="hero" style="padding:36px 24px 28px;">
+    <h1><img src="https://rustlabs.com/img/items180/building.planner.png" style="width:48px;height:48px;object-fit:contain;vertical-align:middle;margin-right:8px"> <em>Construction</em></h1>
+    <p>All building and construction items in Rust — walls, doors, deployables, and defenses.</p>
+  </div>
   <div class="section">
-    <div class="section-header">
-      <h2 class="section-title">🏗️ <em>Construction</em></h2>
-      <span class="search-count" id="count">44 items</span>
-    </div>
-    <p style="color:var(--text-secondary);margin-bottom:24px;max-width:600px;">Building blocks, doors, walls, windows, and base components.</p>
-    <div class="search-wrap" style="max-width:400px;margin:0 0 24px;">
-      <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-      <input type="text" placeholder="Filter construction..." id="filterInput">
-    </div>
-    <div class="item-grid" id="itemGrid">
-      <div class="item-card" data-name="building plan">
-        <div class="item-img"><img src="https://rustlabs.com/img/items180/building.planner.png" alt="Building Plan" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='BU'"></div>
-        <div class="item-name">Building Plan</div>
-        <div class="item-meta">building.planner</div>
-      </div>
-      <div class="item-card" data-name="hammer">
-        <div class="item-img"><img src="https://rustlabs.com/img/items180/hammer.png" alt="Hammer" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='HA'"></div>
-        <div class="item-name">Hammer</div>
-        <div class="item-meta">hammer</div>
-      </div>
-      <div class="item-card" data-name="tool cupboard">
-        <div class="item-img"><img src="https://rustlabs.com/img/items180/cupboard.tool.png" alt="Tool Cupboard" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='TO'"></div>
-        <div class="item-name">Tool Cupboard</div>
-        <div class="item-meta">cupboard.tool</div>
-      </div>
-      <div class="item-card" data-name="wooden door">
-        <div class="item-img"><img src="https://rustlabs.com/img/items180/door.hinged.wood.png" alt="Wooden Door" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='WO'"></div>
-        <div class="item-name">Wooden Door</div>
-        <div class="item-meta">door.hinged.wood</div>
-      </div>
-      <div class="item-card" data-name="sheet metal door">
-        <div class="item-img"><img src="https://rustlabs.com/img/items180/door.hinged.metal.png" alt="Sheet Metal Door" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='SH'"></div>
-        <div class="item-name">Sheet Metal Door</div>
-        <div class="item-meta">door.hinged.metal</div>
-      </div>
-      <div class="item-card" data-name="armored door">
-        <div class="item-img"><img src="https://rustlabs.com/img/items180/door.hinged.toptier.png" alt="Armored Door" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='AR'"></div>
-        <div class="item-name">Armored Door</div>
-        <div class="item-meta">door.hinged.toptier</div>
-      </div>
-      <div class="item-card" data-name="garage door">
-        <div class="item-img"><img src="https://rustlabs.com/img/items180/wall.frame.garagedoor.png" alt="Garage Door" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='GA'"></div>
-        <div class="item-name">Garage Door</div>
-        <div class="item-meta">wall.frame.garagedoor</div>
-      </div>
-      <div class="item-card" data-name="ladder hatch">
-        <div class="item-img"><img src="https://rustlabs.com/img/items180/floor.ladder.hatch.png" alt="Ladder Hatch" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='LA'"></div>
-        <div class="item-name">Ladder Hatch</div>
-        <div class="item-meta">floor.ladder.hatch</div>
-      </div>
-      <div class="item-card" data-name="code lock">
-        <div class="item-img"><img src="https://rustlabs.com/img/items180/lock.code.png" alt="Code Lock" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='CO'"></div>
-        <div class="item-name">Code Lock</div>
-        <div class="item-meta">lock.code</div>
-      </div>
-      <div class="item-card" data-name="key lock">
-        <div class="item-img"><img src="https://rustlabs.com/img/items180/lock.key.png" alt="Key Lock" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='KE'"></div>
-        <div class="item-name">Key Lock</div>
-        <div class="item-meta">lock.key</div>
-      </div>
-      <div class="item-card" data-name="high external stone wall">
-        <div class="item-img"><img src="https://rustlabs.com/img/items180/wall.external.high.stone.png" alt="High External Stone Wall" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='HI'"></div>
-        <div class="item-name">High External Stone Wall</div>
-        <div class="item-meta">wall.external.high.stone</div>
-      </div>
-      <div class="item-card" data-name="high external wood wall">
-        <div class="item-img"><img src="https://rustlabs.com/img/items180/wall.external.high.png" alt="High External Wood Wall" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='HI'"></div>
-        <div class="item-name">High External Wood Wall</div>
-        <div class="item-meta">wall.external.high</div>
-      </div>
-      <div class="item-card" data-name="chainlink fence">
-        <div class="item-img"><img src="https://rustlabs.com/img/items180/wall.frame.fence.png" alt="Chainlink Fence" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='CH'"></div>
-        <div class="item-name">Chainlink Fence</div>
-        <div class="item-meta">wall.frame.fence</div>
-      </div>
-      <div class="item-card" data-name="chainlink fence gate">
-        <div class="item-img"><img src="https://rustlabs.com/img/items180/wall.frame.fence.gate.png" alt="Chainlink Fence Gate" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='CH'"></div>
-        <div class="item-name">Chainlink Fence Gate</div>
-        <div class="item-meta">wall.frame.fence.gate</div>
-      </div>
-      <div class="item-card" data-name="prison cell gate">
-        <div class="item-img"><img src="https://rustlabs.com/img/items180/wall.frame.cell.gate.png" alt="Prison Cell Gate" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='PR'"></div>
-        <div class="item-name">Prison Cell Gate</div>
-        <div class="item-meta">wall.frame.cell.gate</div>
-      </div>
-      <div class="item-card" data-name="prison cell wall">
-        <div class="item-img"><img src="https://rustlabs.com/img/items180/wall.frame.cell.png" alt="Prison Cell Wall" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='PR'"></div>
-        <div class="item-name">Prison Cell Wall</div>
-        <div class="item-meta">wall.frame.cell</div>
-      </div>
-      <div class="item-card" data-name="window bars">
-        <div class="item-img"><img src="https://rustlabs.com/img/items180/wall.window.bars.toptier.png" alt="Window Bars" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='WI'"></div>
-        <div class="item-name">Window Bars</div>
-        <div class="item-meta">wall.window.bars.toptier</div>
-      </div>
-      <div class="item-card" data-name="metal barricade">
-        <div class="item-img"><img src="https://rustlabs.com/img/items180/barricade.metal.png" alt="Metal Barricade" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='ME'"></div>
-        <div class="item-name">Metal Barricade</div>
-        <div class="item-meta">barricade.metal</div>
-      </div>
-      <div class="item-card" data-name="wooden barricade">
-        <div class="item-img"><img src="https://rustlabs.com/img/items180/barricade.wood.png" alt="Wooden Barricade" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='WO'"></div>
-        <div class="item-name">Wooden Barricade</div>
-        <div class="item-meta">barricade.wood</div>
-      </div>
-      <div class="item-card" data-name="sandbag barricade">
-        <div class="item-img"><img src="https://rustlabs.com/img/items180/barricade.sandbags.png" alt="Sandbag Barricade" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='SA'"></div>
-        <div class="item-name">Sandbag Barricade</div>
-        <div class="item-meta">barricade.sandbags</div>
-      </div>
-      <div class="item-card" data-name="stone barricade">
-        <div class="item-img"><img src="https://rustlabs.com/img/items180/barricade.stone.png" alt="Stone Barricade" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='ST'"></div>
-        <div class="item-name">Stone Barricade</div>
-        <div class="item-meta">barricade.stone</div>
-      </div>
-      <div class="item-card" data-name="sleeping bag">
-        <div class="item-img"><img src="https://rustlabs.com/img/items180/sleepingbag.png" alt="Sleeping Bag" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='SL'"></div>
-        <div class="item-name">Sleeping Bag</div>
-        <div class="item-meta">sleepingbag</div>
-      </div>
-      <div class="item-card" data-name="bed">
-        <div class="item-img"><img src="https://rustlabs.com/img/items180/bed.png" alt="Bed" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='BE'"></div>
-        <div class="item-name">Bed</div>
-        <div class="item-meta">bed</div>
-      </div>
-      <div class="item-card" data-name="campfire">
-        <div class="item-img"><img src="https://rustlabs.com/img/items180/campfire.png" alt="Campfire" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='CA'"></div>
-        <div class="item-name">Campfire</div>
-        <div class="item-meta">campfire</div>
-      </div>
-      <div class="item-card" data-name="large furnace">
-        <div class="item-img"><img src="https://rustlabs.com/img/items180/furnace.large.png" alt="Large Furnace" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='LA'"></div>
-        <div class="item-name">Large Furnace</div>
-        <div class="item-meta">furnace.large</div>
-      </div>
-      <div class="item-card" data-name="furnace">
-        <div class="item-img"><img src="https://rustlabs.com/img/items180/furnace.png" alt="Furnace" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='FU'"></div>
-        <div class="item-name">Furnace</div>
-        <div class="item-meta">furnace</div>
-      </div>
-      <div class="item-card" data-name="workbench level 1">
-        <div class="item-img"><img src="https://rustlabs.com/img/items180/workbench1.png" alt="Workbench Level 1" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='WO'"></div>
-        <div class="item-name">Workbench Level 1</div>
-        <div class="item-meta">workbench1</div>
-      </div>
-      <div class="item-card" data-name="workbench level 2">
-        <div class="item-img"><img src="https://rustlabs.com/img/items180/workbench2.png" alt="Workbench Level 2" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='WO'"></div>
-        <div class="item-name">Workbench Level 2</div>
-        <div class="item-meta">workbench2</div>
-      </div>
-      <div class="item-card" data-name="workbench level 3">
-        <div class="item-img"><img src="https://rustlabs.com/img/items180/workbench3.png" alt="Workbench Level 3" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='WO'"></div>
-        <div class="item-name">Workbench Level 3</div>
-        <div class="item-meta">workbench3</div>
-      </div>
-      <div class="item-card" data-name="research table">
-        <div class="item-img"><img src="https://rustlabs.com/img/items180/research.table.png" alt="Research Table" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='RE'"></div>
-        <div class="item-name">Research Table</div>
-        <div class="item-meta">research.table</div>
-      </div>
-      <div class="item-card" data-name="repair bench">
-        <div class="item-img"><img src="https://rustlabs.com/img/items180/box.repair.bench.png" alt="Repair Bench" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='RE'"></div>
-        <div class="item-name">Repair Bench</div>
-        <div class="item-meta">box.repair.bench</div>
-      </div>
-      <div class="item-card" data-name="small oil refinery">
-        <div class="item-img"><img src="https://rustlabs.com/img/items180/small.oil.refinery.png" alt="Small Oil Refinery" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='SM'"></div>
-        <div class="item-name">Small Oil Refinery</div>
-        <div class="item-meta">small.oil.refinery</div>
-      </div>
-      <div class="item-card" data-name="large wood box">
-        <div class="item-img"><img src="https://rustlabs.com/img/items180/box.wooden.large.png" alt="Large Wood Box" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='LA'"></div>
-        <div class="item-name">Large Wood Box</div>
-        <div class="item-meta">box.wooden.large</div>
-      </div>
-      <div class="item-card" data-name="wood storage box">
-        <div class="item-img"><img src="https://rustlabs.com/img/items180/box.wooden.png" alt="Wood Storage Box" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='WO'"></div>
-        <div class="item-name">Wood Storage Box</div>
-        <div class="item-meta">box.wooden</div>
-      </div>
-      <div class="item-card" data-name="locker">
-        <div class="item-img"><img src="https://rustlabs.com/img/items180/locker.png" alt="Locker" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='LO'"></div>
-        <div class="item-name">Locker</div>
-        <div class="item-meta">locker</div>
-      </div>
-      <div class="item-card" data-name="vending machine">
-        <div class="item-img"><img src="https://rustlabs.com/img/items180/vending.machine.png" alt="Vending Machine" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='VE'"></div>
-        <div class="item-name">Vending Machine</div>
-        <div class="item-meta">vending.machine</div>
-      </div>
-      <div class="item-card" data-name="drop box">
-        <div class="item-img"><img src="https://rustlabs.com/img/items180/dropbox.png" alt="Drop Box" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='DR'"></div>
-        <div class="item-name">Drop Box</div>
-        <div class="item-meta">dropbox</div>
-      </div>
-      <div class="item-card" data-name="mail box">
-        <div class="item-img"><img src="https://rustlabs.com/img/items180/mailbox.png" alt="Mail Box" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='MA'"></div>
-        <div class="item-name">Mail Box</div>
-        <div class="item-meta">mailbox</div>
-      </div>
-      <div class="item-card" data-name="shelves">
-        <div class="item-img"><img src="https://rustlabs.com/img/items180/shelves.png" alt="Shelves" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='SH'"></div>
-        <div class="item-name">Shelves</div>
-        <div class="item-meta">shelves</div>
-      </div>
-      <div class="item-card" data-name="fridge">
-        <div class="item-img"><img src="https://rustlabs.com/img/items180/fridge.png" alt="Fridge" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='FR'"></div>
-        <div class="item-name">Fridge</div>
-        <div class="item-meta">fridge</div>
-      </div>
-      <div class="item-card" data-name="water barrel">
-        <div class="item-img"><img src="https://rustlabs.com/img/items180/water.barrel.png" alt="Water Barrel" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='WA'"></div>
-        <div class="item-name">Water Barrel</div>
-        <div class="item-meta">water.barrel</div>
-      </div>
-      <div class="item-card" data-name="water purifier">
-        <div class="item-img"><img src="https://rustlabs.com/img/items180/water.purifier.png" alt="Water Purifier" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='WA'"></div>
-        <div class="item-name">Water Purifier</div>
-        <div class="item-meta">water.purifier</div>
-      </div>
-      <div class="item-card" data-name="small water catcher">
-        <div class="item-img"><img src="https://rustlabs.com/img/items180/water.catcher.small.png" alt="Small Water Catcher" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='SM'"></div>
-        <div class="item-name">Small Water Catcher</div>
-        <div class="item-meta">water.catcher.small</div>
-      </div>
-      <div class="item-card" data-name="large water catcher">
-        <div class="item-img"><img src="https://rustlabs.com/img/items180/water.catcher.large.png" alt="Large Water Catcher" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='LA'"></div>
-        <div class="item-name">Large Water Catcher</div>
-        <div class="item-meta">water.catcher.large</div>
-      </div>
-    </div>
-    <div class="empty-state" id="emptyState" style="display:none;">
-      <div class="icon">🔍</div>
-      <p>No construction match your search.</p>
-    </div>
+    <div class="item-grid" id="itemGrid"></div>
+  </div>
+</div>
+<div class="modal-overlay" id="modal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal()">&times;</button>
+    <div class="modal-header" id="modalHeader"></div>
+    <div class="modal-body" id="modalBody"></div>
   </div>
 </div>
 <footer class="site-footer">
@@ -269,24 +85,69 @@
     <div class="footer-links">
       <a href="../index.html">Home</a>
       <a href="../items.html">Items</a>
-      
+      <a href="../skins.html">Skins</a>
       <a href="../servers.html">Servers</a>
     </div>
   </div>
 </footer>
 <script>
-document.getElementById('filterInput').addEventListener('input', function() {
-  const q = this.value.toLowerCase();
-  const cards = document.querySelectorAll('.item-card');
-  let vis = 0;
-  cards.forEach(c => {
-    const match = c.dataset.name.includes(q);
-    c.style.display = match ? '' : 'none';
-    if(match) vis++;
-  });
-  document.getElementById('count').textContent = vis + ' items';
-  document.getElementById('emptyState').style.display = vis === 0 ? '' : 'none';
-  document.getElementById('itemGrid').style.display = vis === 0 ? 'none' : '';
-});
+const IMG = 'https://rustlabs.com/img/items180';
+const ITEMS = [{"n": "Building Plan", "s": "building.planner", "desc": "Used to place building foundations, walls, floors, stairs, and roofs. The most essential construction tool.", "craft": [{"n": "Wood", "s": "wood", "a": 20}], "wb": 0, "time": 5}, {"n": "Hammer", "s": "hammer", "desc": "Used to upgrade, repair, rotate, and demolish building blocks. Essential for base building.", "craft": [{"n": "Wood", "s": "wood", "a": 100}], "wb": 0, "time": 5}, {"n": "Wooden Door", "s": "door.hinged.wood", "desc": "A basic wooden door. Provides minimal security but easy to craft early game.", "craft": [{"n": "Wood", "s": "wood", "a": 300}], "wb": 0, "time": 10}, {"n": "Sheet Metal Door", "s": "door.hinged.metal", "desc": "A sturdy metal door. The standard door for base security.", "craft": [{"n": "Metal Fragments", "s": "metal.fragments", "a": 150}], "wb": 1, "time": 20}, {"n": "Armored Door", "s": "door.hinged.toptier", "desc": "The strongest single door. Extremely expensive to raid through.", "craft": [{"n": "High Quality Metal", "s": "metal.refined", "a": 20}, {"n": "Gears", "s": "gears", "a": 5}], "wb": 3, "time": 30}, {"n": "Garage Door", "s": "wall.frame.garagedoor", "desc": "A large door that fits in a wall frame. Popular for airlocks and main entrances.", "craft": [{"n": "High Quality Metal", "s": "metal.refined", "a": 2}, {"n": "Gears", "s": "gears", "a": 2}, {"n": "Metal Fragments", "s": "metal.fragments", "a": 300}], "wb": 1, "time": 30}, {"n": "Sheet Metal Double Door", "s": "door.double.hinged.metal", "desc": "A double-wide sheet metal door for larger openings.", "craft": [{"n": "Metal Fragments", "s": "metal.fragments", "a": 300}], "wb": 1, "time": 20}, {"n": "Wooden Double Door", "s": "door.double.hinged.wood", "desc": "A double-wide wooden door. Cheap but weak.", "craft": [{"n": "Wood", "s": "wood", "a": 600}], "wb": 0, "time": 10}, {"n": "Armored Double Door", "s": "door.double.hinged.toptier", "desc": "The strongest double door available.", "craft": [{"n": "High Quality Metal", "s": "metal.refined", "a": 40}, {"n": "Gears", "s": "gears", "a": 10}], "wb": 3, "time": 30}, {"n": "High External Stone Wall", "s": "wall.external.high.stone", "desc": "A tall stone wall for compound defense. Cannot be boosted over easily.", "craft": [{"n": "Stones", "s": "stones", "a": 1500}], "wb": 1, "time": 30}, {"n": "High External Wood Wall", "s": "wall.external.high", "desc": "A tall wooden wall for compound perimeters. Weaker than stone.", "craft": [{"n": "Wood", "s": "wood", "a": 1500}], "wb": 1, "time": 30}, {"n": "High External Stone Gate", "s": "gates.external.high.stone", "desc": "A large stone gate for compound vehicle access.", "craft": [{"n": "Stones", "s": "stones", "a": 3000}, {"n": "Gears", "s": "gears", "a": 2}], "wb": 1, "time": 30}, {"n": "High External Wood Gate", "s": "gates.external.high.wood", "desc": "A large wooden gate for compound access. Cheaper but less durable.", "craft": [{"n": "Wood", "s": "wood", "a": 3000}, {"n": "Gears", "s": "gears", "a": 2}], "wb": 1, "time": 30}, {"n": "Code Lock", "s": "lock.code", "desc": "An electronic lock requiring a 4-digit code. Standard security for doors.", "craft": [{"n": "Metal Fragments", "s": "metal.fragments", "a": 100}], "wb": 1, "time": 20}, {"n": "Key Lock", "s": "lock.key", "desc": "A basic lock requiring a physical key. Less convenient than a code lock.", "craft": [{"n": "Wood", "s": "wood", "a": 100}], "wb": 0, "time": 10}, {"n": "Tool Cupboard", "s": "cupboard.tool", "desc": "Establishes building privilege in a radius. Required to build and prevent decay.", "craft": [{"n": "Wood", "s": "wood", "a": 1000}], "wb": 0, "time": 30}, {"n": "Large Wood Box", "s": "box.wooden.large", "desc": "A large storage container. Holds 30 item stacks.", "craft": [{"n": "Wood", "s": "wood", "a": 250}, {"n": "Metal Fragments", "s": "metal.fragments", "a": 50}], "wb": 0, "time": 30}, {"n": "Wood Storage Box", "s": "box.wooden", "desc": "A small storage container. Holds 12 item stacks.", "craft": [{"n": "Wood", "s": "wood", "a": 100}], "wb": 0, "time": 10}, {"n": "Sleeping Bag", "s": "sleepingbag", "desc": "A respawn point. Can be placed indoors or outdoors with a cooldown timer.", "craft": [{"n": "Cloth", "s": "cloth", "a": 30}], "wb": 0, "time": 10}, {"n": "Bed", "s": "bed", "desc": "A respawn point with no cooldown. Must be placed indoors on a foundation.", "craft": [{"n": "Wood", "s": "wood", "a": 100}, {"n": "Cloth", "s": "cloth", "a": 40}, {"n": "Metal Fragments", "s": "metal.fragments", "a": 100}], "wb": 1, "time": 20}, {"n": "Furnace", "s": "furnace", "desc": "Smelts metal ore, sulfur ore, and high quality metal ore using wood as fuel.", "craft": [{"n": "Stones", "s": "stones", "a": 200}, {"n": "Wood", "s": "wood", "a": 100}, {"n": "Low Grade Fuel", "s": "lowgradefuel", "a": 50}], "wb": 0, "time": 30}, {"n": "Large Furnace", "s": "furnace.large", "desc": "A much larger furnace that smelts multiple stacks simultaneously.", "craft": [{"n": "Stones", "s": "stones", "a": 500}, {"n": "Wood", "s": "wood", "a": 200}, {"n": "Low Grade Fuel", "s": "lowgradefuel", "a": 100}], "wb": 0, "time": 60}, {"n": "Workbench Level 1", "s": "workbench1", "desc": "Tier 1 workbench. Unlocks basic crafting recipes.", "craft": [{"n": "Wood", "s": "wood", "a": 500}, {"n": "Metal Fragments", "s": "metal.fragments", "a": 100}, {"n": "Scrap", "s": "scrap", "a": 50}], "wb": 0, "time": 60}, {"n": "Workbench Level 2", "s": "workbench2", "desc": "Tier 2 workbench. Unlocks intermediate crafting recipes.", "craft": [{"n": "Metal Fragments", "s": "metal.fragments", "a": 500}, {"n": "High Quality Metal", "s": "metal.refined", "a": 20}, {"n": "Scrap", "s": "scrap", "a": 500}], "wb": 0, "time": 120}, {"n": "Workbench Level 3", "s": "workbench3", "desc": "Tier 3 workbench. Unlocks all advanced crafting recipes.", "craft": [{"n": "Metal Fragments", "s": "metal.fragments", "a": 1000}, {"n": "High Quality Metal", "s": "metal.refined", "a": 100}, {"n": "Scrap", "s": "scrap", "a": 1250}], "wb": 0, "time": 180}, {"n": "Repair Bench", "s": "box.repair.bench", "desc": "Used to repair damaged items and craft certain components.", "craft": [{"n": "Wood", "s": "wood", "a": 200}, {"n": "Metal Fragments", "s": "metal.fragments", "a": 75}], "wb": 0, "time": 30}, {"n": "Research Table", "s": "research.table", "desc": "Researches items to learn their crafting blueprint using scrap.", "craft": [{"n": "Metal Fragments", "s": "metal.fragments", "a": 200}, {"n": "Scrap", "s": "scrap", "a": 200}], "wb": 0, "time": 60}, {"n": "Small Stash", "s": "stash.small", "desc": "A hidden stash that can be buried underground. Hard to find.", "craft": [{"n": "Cloth", "s": "cloth", "a": 10}], "wb": 0, "time": 5}, {"n": "Ladder", "s": "ladder.wooden.wall", "desc": "A wooden ladder that can be placed on walls. Used for raiding or building.", "craft": [{"n": "Wood", "s": "wood", "a": 300}], "wb": 1, "time": 30}, {"n": "Barricade (Metal)", "s": "barricade.metal", "desc": "A metal barricade that damages and slows players who touch it.", "craft": [{"n": "Metal Fragments", "s": "metal.fragments", "a": 250}], "wb": 1, "time": 30}, {"n": "Barricade (Wood)", "s": "barricade.wood", "desc": "A wooden barrier providing basic cover. Burns easily.", "craft": [{"n": "Wood", "s": "wood", "a": 250}], "wb": 0, "time": 15}, {"n": "Sandbag Barricade", "s": "barricade.sandbags", "desc": "A low sandbag wall providing cover in firefights.", "craft": [{"n": "Cloth", "s": "cloth", "a": 100}, {"n": "Sewing Kit", "s": "sewingkit", "a": 3}], "wb": 0, "time": 15}, {"n": "Wooden Window Bars", "s": "wall.window.bars.wood", "desc": "Wooden bars placed in window frames for basic security.", "craft": [{"n": "Wood", "s": "wood", "a": 200}], "wb": 0, "time": 15}, {"n": "Metal Window Bars", "s": "wall.window.bars.metal", "desc": "Metal bars placed in window frames. Much stronger than wooden.", "craft": [{"n": "Metal Fragments", "s": "metal.fragments", "a": 300}], "wb": 1, "time": 20}, {"n": "Reinforced Glass Window", "s": "wall.window.glass.reinforced", "desc": "A reinforced glass window for visibility with protection.", "craft": [{"n": "High Quality Metal", "s": "metal.refined", "a": 2}, {"n": "Metal Fragments", "s": "metal.fragments", "a": 250}], "wb": 2, "time": 30}, {"n": "Ceiling Light", "s": "ceilinglight", "desc": "An electric ceiling light. Requires power to operate.", "craft": [{"n": "Metal Fragments", "s": "metal.fragments", "a": 50}, {"n": "Low Grade Fuel", "s": "lowgradefuel", "a": 15}], "wb": 1, "time": 15}, {"n": "Lantern", "s": "lantern", "desc": "A portable light source that burns low grade fuel.", "craft": [{"n": "Metal Fragments", "s": "metal.fragments", "a": 25}, {"n": "Low Grade Fuel", "s": "lowgradefuel", "a": 10}], "wb": 0, "time": 10}, {"n": "Camp Fire", "s": "campfire", "desc": "A basic fire for cooking food and providing warmth and light.", "craft": [{"n": "Wood", "s": "wood", "a": 100}], "wb": 0, "time": 5}, {"n": "Large Planter Box", "s": "planter.large", "desc": "A large planter for growing crops indoors or outdoors.", "craft": [{"n": "Wood", "s": "wood", "a": 150}, {"n": "Cloth", "s": "cloth", "a": 20}], "wb": 0, "time": 15}, {"n": "Small Planter Box", "s": "planter.small", "desc": "A small planter for growing crops.", "craft": [{"n": "Wood", "s": "wood", "a": 100}, {"n": "Cloth", "s": "cloth", "a": 10}], "wb": 0, "time": 10}, {"n": "Dropbox", "s": "dropbox", "desc": "A one-way deposit box. Items can be put in but only authorized users can remove them.", "craft": [{"n": "Metal Fragments", "s": "metal.fragments", "a": 100}, {"n": "Gears", "s": "gears", "a": 1}], "wb": 1, "time": 15}, {"n": "Vending Machine", "s": "vending.machine", "desc": "An automated shop. Players can buy and sell items unattended.", "craft": [{"n": "Metal Fragments", "s": "metal.fragments", "a": 200}, {"n": "Gears", "s": "gears", "a": 2}], "wb": 1, "time": 30}, {"n": "Shotgun Trap", "s": "guntrap", "desc": "An automated trap that fires shotgun shells at unauthorized players.", "craft": [{"n": "Wood", "s": "wood", "a": 250}, {"n": "Metal Fragments", "s": "metal.fragments", "a": 125}], "wb": 1, "time": 30}, {"n": "Locker", "s": "locker", "desc": "Stores up to 4 outfits for quick loadout swapping.", "craft": [{"n": "Metal Fragments", "s": "metal.fragments", "a": 250}, {"n": "Wood", "s": "wood", "a": 200}], "wb": 1, "time": 30}];
+
+const grid = document.getElementById('itemGrid');
+const modal = document.getElementById('modal');
+
+function esc(s){const d=document.createElement('span');d.textContent=s||'';return d.innerHTML}
+
+function renderGrid(){
+  grid.innerHTML = ITEMS.map(w =>
+    '<div class="item-card" data-slug="'+w.s+'">' +
+    '<img src="'+IMG+'/'+w.s+'.png" onerror="this.style.opacity=\'0.3\'" loading="lazy">' +
+    '<div class="item-label">'+esc(w.n)+'</div></div>'
+  ).join('');
+}
+
+function openModal(slug){
+  const w = ITEMS.find(x=>x.s===slug);
+  if(!w) return;
+  const header = document.getElementById('modalHeader');
+  const body = document.getElementById('modalBody');
+  header.innerHTML =
+    '<img src="'+IMG+'/'+w.s+'.png" onerror="this.style.opacity=\'0.3\'">' +
+    '<div class="modal-header-text">' +
+    '<h2>'+esc(w.n)+'</h2>' +
+    '<div class="item-desc">'+esc(w.desc)+'</div>' +
+    '</div>';
+  let html = '';
+  if(w.stats && w.stats.length){
+    html += '<div class="modal-section-title">Stats</div><div class="stat-grid-modal">';
+    w.stats.forEach(s => html += '<div class="stat-item"><div class="stat-label">'+s.l+'</div><div class="stat-val">'+s.v+'</div></div>');
+    html += '</div>';
+  }
+  if(w.craft){
+    html += '<div class="modal-section-title">Crafting Cost</div>';
+    w.craft.forEach(c => {
+      html += '<div class="craft-row">' +
+        '<img src="'+IMG+'/'+c.s+'.png" onerror="this.style.opacity=\'0.3\'">' +
+        '<span class="craft-name">'+esc(c.n)+'</span>' +
+        '<span class="craft-amount">&times;'+c.a+'</span></div>';
+    });
+    if(w.time) html += '<div class="craft-time">⏱ Craft time: <em>'+w.time+'s</em></div>';
+    if(w.wb!==undefined && w.wb!==null) html += '<div class="workbench-badge">Workbench Level '+w.wb+'</div>';
+  } else {
+    html += '<div class="modal-section-title">Crafting</div>';
+    html += '<div style="color:var(--text-muted);font-size:13px;padding:8px 0;">'+esc(w.loot||'This item cannot be crafted. Found as loot.')+'</div>';
+  }
+  body.innerHTML = html;
+  modal.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModal(){modal.classList.remove('open');document.body.style.overflow='';}
+grid.addEventListener('click', e => {const c=e.target.closest('.item-card');if(c)openModal(c.dataset.slug);});
+modal.addEventListener('click', e => {if(e.target===modal)closeModal();});
+document.addEventListener('keydown', e => {if(e.key==='Escape')closeModal();});
+renderGrid();
 </script>
-</body></html>
+</body>
+</html>
